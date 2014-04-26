@@ -1,0 +1,151 @@
+{
+ "metadata": {
+  "name": "NS Verbotliste"
+ },
+ "nbformat": 3,
+ "nbformat_minor": 0,
+ "worksheets": [
+  {
+   "cells": [
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "import json\nimport requests\nimport pandas as pd",
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 35
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "bannedURL = 'http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/verbannte-buecher.json'\n#dataSet = requests.get(bannedURL)\n#dataSet.headers['content-type']",
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 37
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "#dataSet = dataSet.json()",
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 23
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "#= DataFrame(dataSet)\n#for i in range(len(dataSet)): dataSet[i]['authorFirstname'])",
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "ename": "SyntaxError",
+       "evalue": "invalid syntax (<ipython-input-36-f64ecd5d710b>, line 1)",
+       "output_type": "pyerr",
+       "traceback": [
+        "\u001b[0;36m  File \u001b[0;32m\"<ipython-input-36-f64ecd5d710b>\"\u001b[0;36m, line \u001b[0;32m1\u001b[0m\n\u001b[0;31m    = DataFrame(dataSet)\u001b[0m\n\u001b[0m    ^\u001b[0m\n\u001b[0;31mSyntaxError\u001b[0m\u001b[0;31m:\u001b[0m invalid syntax\n"
+       ]
+      }
+     ],
+     "prompt_number": 36
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "booksData = pd.read_json(bannedURL)",
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 39
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "type(booksData)",
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "metadata": {},
+       "output_type": "pyout",
+       "prompt_number": 41,
+       "text": "pandas.core.frame.DataFrame"
+      }
+     ],
+     "prompt_number": 41
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "booksData.head()",
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "html": "<div style=\"max-height:1000px;max-width:1500px;overflow:auto;\">\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>additionalInfos</th>\n      <th>authorFirstname</th>\n      <th>authorLastname</th>\n      <th>correctionsAfter1938</th>\n      <th>firstEditionPublicationPlace</th>\n      <th>firstEditionPublicationYear</th>\n      <th>firstEditionPublisher</th>\n      <th>ocrResult</th>\n      <th>pageNumberInOCRDocument</th>\n      <th>secondEditionPublicationPlace</th>\n      <th>secondEditionPublicationYear</th>\n      <th>secondEditionPublisher</th>\n      <th>ssFlag</th>\n      <th>title</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>                                                  </td>\n      <td>             </td>\n      <td>                                                </td>\n      <td> None</td>\n      <td>   Paris</td>\n      <td>    1925</td>\n      <td>      Kuriosa-Verl.</td>\n      <td> Erinnerungen der Miss Barbara. Paris: Kuriosa-...</td>\n      <td>  33</td>\n      <td>   Paris</td>\n      <td>    1925</td>\n      <td>      Kuriosa-Verl.</td>\n      <td>  True</td>\n      <td>                     Erinnerungen der Miss Barbara</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>                                                  </td>\n      <td>        Ignaz</td>\n      <td>                                           Zadek</td>\n      <td> None</td>\n      <td>  Berlin</td>\n      <td>    1917</td>\n      <td>           Vorw\u00e4rts</td>\n      <td> Zadek, Ignaz: Frauenleiden. Berlin: Vorw\u00e4rts 1...</td>\n      <td> 166</td>\n      <td>  Berlin</td>\n      <td>    1917</td>\n      <td>           Vorw\u00e4rts</td>\n      <td> False</td>\n      <td>                                      Frauenleiden</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>                                                  </td>\n      <td> Hubert Ernst</td>\n      <td>                                         Gilbert</td>\n      <td> None</td>\n      <td>  Berlin</td>\n      <td>    1930</td>\n      <td>          Dom-Verl.</td>\n      <td> Gilbert, Hubert Ernst: Larissa. Berlin: Dom-Ve...</td>\n      <td>  46</td>\n      <td>  Berlin</td>\n      <td>    1930</td>\n      <td>          Dom-Verl.</td>\n      <td> False</td>\n      <td>                                           Larissa</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td> Jahresliste 1939 des sch\u00e4dlichen und unerw\u00fcnsc...</td>\n      <td>             </td>\n      <td> Hrsg. unter der Red. v. G. Friedrich u. F. Lang</td>\n      <td>     </td>\n      <td>   Paris</td>\n      <td>    1938</td>\n      <td> \u00c9ditions Prom\u00e9th\u00e9e</td>\n      <td> Vom Reichstagsbrand zur Entfachung des Weltkri...</td>\n      <td>  11</td>\n      <td>   Paris</td>\n      <td>    1938</td>\n      <td> \u00c9ditions Prom\u00e9th\u00e9e</td>\n      <td>  True</td>\n      <td> Vom Reichstagsbrand zur Entfachung des Weltkri...</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>                                                  </td>\n      <td>         Egon</td>\n      <td>                                     Riedinender</td>\n      <td> None</td>\n      <td> M\u00fcnchen</td>\n      <td> 1927/31</td>\n      <td>               Beck</td>\n      <td> Riedinender, Egon: Kulturgeschichte der Neuzei...</td>\n      <td>  41</td>\n      <td> M\u00fcnchen</td>\n      <td> 1927/31</td>\n      <td>               Beck</td>\n      <td> False</td>\n      <td>                      Kulturgeschichte der Neuzeit</td>\n    </tr>\n  </tbody>\n</table>\n<p>5 rows \u00d7 14 columns</p>\n</div>",
+       "metadata": {},
+       "output_type": "pyout",
+       "prompt_number": 42,
+       "text": "                                     additionalInfos authorFirstname  \\\n0                                                                      \n1                                                              Ignaz   \n2                                                       Hubert Ernst   \n3  Jahresliste 1939 des sch\u00e4dlichen und unerw\u00fcnsc...                   \n4                                                               Egon   \n\n                                    authorLastname correctionsAfter1938  \\\n0                                                                  None   \n1                                            Zadek                 None   \n2                                          Gilbert                 None   \n3  Hrsg. unter der Red. v. G. Friedrich u. F. Lang                        \n4                                      Riedinender                 None   \n\n  firstEditionPublicationPlace firstEditionPublicationYear  \\\n0                        Paris                        1925   \n1                       Berlin                        1917   \n2                       Berlin                        1930   \n3                        Paris                        1938   \n4                      M\u00fcnchen                     1927/31   \n\n  firstEditionPublisher                                          ocrResult  \\\n0         Kuriosa-Verl.  Erinnerungen der Miss Barbara. Paris: Kuriosa-...   \n1              Vorw\u00e4rts  Zadek, Ignaz: Frauenleiden. Berlin: Vorw\u00e4rts 1...   \n2             Dom-Verl.  Gilbert, Hubert Ernst: Larissa. Berlin: Dom-Ve...   \n3    \u00c9ditions Prom\u00e9th\u00e9e  Vom Reichstagsbrand zur Entfachung des Weltkri...   \n4                  Beck  Riedinender, Egon: Kulturgeschichte der Neuzei...   \n\n   pageNumberInOCRDocument secondEditionPublicationPlace  \\\n0                       33                         Paris   \n1                      166                        Berlin   \n2                       46                        Berlin   \n3                       11                         Paris   \n4                       41                       M\u00fcnchen   \n\n  secondEditionPublicationYear secondEditionPublisher ssFlag  \\\n0                         1925          Kuriosa-Verl.   True   \n1                         1917               Vorw\u00e4rts  False   \n2                         1930              Dom-Verl.  False   \n3                         1938     \u00c9ditions Prom\u00e9th\u00e9e   True   \n4                      1927/31                   Beck  False   \n\n                                               title  \n0                      Erinnerungen der Miss Barbara  \n1                                       Frauenleiden  \n2                                            Larissa  \n3  Vom Reichstagsbrand zur Entfachung des Weltkri...  \n4                       Kulturgeschichte der Neuzeit  \n\n[5 rows x 14 columns]"
+      }
+     ],
+     "prompt_number": 42
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "# skip Hrsg. unter der Red. v. G. Friedrich u. F. Lang\nbooksData[['authorFirstname', 'authorLastname']].head()",
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "html": "<div style=\"max-height:1000px;max-width:1500px;overflow:auto;\">\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>authorFirstname</th>\n      <th>authorLastname</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>             </td>\n      <td>                                                </td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>        Ignaz</td>\n      <td>                                           Zadek</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td> Hubert Ernst</td>\n      <td>                                         Gilbert</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>             </td>\n      <td> Hrsg. unter der Red. v. G. Friedrich u. F. Lang</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>         Egon</td>\n      <td>                                     Riedinender</td>\n    </tr>\n  </tbody>\n</table>\n<p>5 rows \u00d7 2 columns</p>\n</div>",
+       "metadata": {},
+       "output_type": "pyout",
+       "prompt_number": 45,
+       "text": "  authorFirstname                                   authorLastname\n0                                                                 \n1           Ignaz                                            Zadek\n2    Hubert Ernst                                          Gilbert\n3                  Hrsg. unter der Red. v. G. Friedrich u. F. Lang\n4            Egon                                      Riedinender\n\n[5 rows x 2 columns]"
+      }
+     ],
+     "prompt_number": 45
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "booksData[['authorFirstname', 'authorLastname']]\nbooksData.authorLastname.str.contains(\"Hrsg. unter der Red\")",
+     "language": "python",
+     "metadata": {},
+     "outputs": [
+      {
+       "metadata": {},
+       "output_type": "pyout",
+       "prompt_number": 54,
+       "text": "0     False\n1     False\n2     False\n3      True\n4     False\n5     False\n6     False\n7     False\n8     False\n9     False\n10    False\n11    False\n12    False\n13    False\n14    False\n...\n5870    False\n5871    False\n5872    False\n5873    False\n5874    False\n5875    False\n5876    False\n5877    False\n5878    False\n5879    False\n5880    False\n5881    False\n5882    False\n5883    False\n5884    False\nName: authorLastname, Length: 5885, dtype: bool"
+      }
+     ],
+     "prompt_number": 54
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "booksData.to_csv(\"/Users/jlewis/Desktop/booksdata.csv\", sep=\";\")",
+     "language": "python",
+     "metadata": {},
+     "outputs": [],
+     "prompt_number": 59
+    },
+    {
+     "cell_type": "code",
+     "collapsed": false,
+     "input": "",
+     "language": "python",
+     "metadata": {},
+     "outputs": []
+    }
+   ],
+   "metadata": {}
+  }
+ ]
+}
