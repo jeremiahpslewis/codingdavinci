@@ -2,8 +2,10 @@ codingdavinci
 =============
 
 ## API ##
-    - http://api.lobid.org/person?name=wolf+victoria
-    http://lobid.org/resource?q=Ignaz+Zadek+1907+frauenleiden&type=http://purl.org/dc/terms/BibliographicResource
+- Person nach Name:
+	- Bsp: http://api.lobid.org/person?name=wolf+victoria
+- Publikation nach Titelstichwort und Autor
+	- Bsp: http://lobid.org/resource?q=Ignaz+Zadek+1907+frauenleiden&type=http://purl.org/dc/terms/BibliographicResource
 
 ## Tabellenschema ##
 
