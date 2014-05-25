@@ -9,6 +9,7 @@ codingdavinci
 
 - Eingefügte Daten nach GND:
  	- http://hub.culturegraph.org/entityfacts/{GND Nummer}
+ 
 ## Tabellenschema ##
 
     Person
