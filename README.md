@@ -8,7 +8,7 @@ codingdavinci
 	- Bsp: http://lobid.org/resource?q=Ignaz+Zadek+1907+frauenleiden&type=http://purl.org/dc/terms/BibliographicResource
 
 - Eingefügte Daten nach GND:
- 	- http://hub.culturegraph.org/entityfacts/{GND Nummer}
+ 	- http://hub.culturegraph.org/entityfacts/{GND_Nummer}
  
 ## Tabellenschema ##
 
