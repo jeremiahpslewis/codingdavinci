@@ -9,7 +9,7 @@ codingdavinci
 
 - Eingefügte Daten nach GND:
  	- http://hub.culturegraph.org/entityfacts/{GND_Nummer}
- 
+
 ## Tabellenschema ##
 ### List ###
 Data from http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/verbannte-buecher.json
@@ -18,14 +18,14 @@ Data from http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/verbannte-bue
 - entry (the original entry for reference)
 
 The following fields are taken verbatim from the original list
-    
+
 - title
 - ssFlag
 - ...
 
 Enhanced with additional information
 - completeWork (1: Gesamtwerk, 2: Teile des Gesamtwerkes)
-    
+
 and temporary properties until Publication.gnd and Person.gnd are set properly
 
 - titleGnd VARCHAR(511) NULL,
@@ -36,11 +36,13 @@ and temporary properties until Publication.gnd and Person.gnd are set properly
 Data about the publications, property-names from the GND-Linked Data Representation and Bibo-properties (https://bibotools.googlecode.com/svn/bibo-ontology/trunk/doc/classes/Document___-538479979.html)
 
 - title
-- place
+- otherTitleInformation (Untertitel)
+- placeOfPublication
 - publisher
 - publisherId
 - publicationStatement # Place : Publisher
-- numPages (see http://metadataregistry.org/schemaprop/show/id/1995.html, <isbd:P1053>16 S.</isbd:P1053>)
+- extent (see http://metadataregistry.org/schemaprop/show/id/1995.html, <isbd:P1053>16 S.</isbd:P1053>)
+- isPartOf (e.g. Arbeiter-Gesundheits-Bibliothek)
 - bibliographicCitation (e.g. Arbeiter-Gesundheits-Bibliothek ; H. 11)
 - issued
 - parentId (to related different editions of a Publication, e.g. re-editions or translations of the original work on the List)
@@ -73,4 +75,3 @@ Norm-data identifiers
 - variantNames ()
 - places
 - gnd
-
