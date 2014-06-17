@@ -1,0 +1,63 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <h1>{{ entry.__get('title') }}</h1>
+    <dl>
+        <dt>Titel:</dt>
+        <dd>{{ entry.__get('title') }}
+    {% if entry.__get('otherTitleInformation') is not empty %}
+        : {{ entry.__get('otherTitleInformation') }}
+    {% endif %}
+        </dd>
+    {% if entry.__get('personRefs')|length > 0 %}
+        <dt>Personen:</dt>
+        <dd>
+        {% for personRef in entry.__get('personRefs') %}
+            <a href="{{ path('person-detail', {'id': personRef.__get('person').__get('id') }) }}">
+                {{ personRef.__get('person').__get('surname') }}, {{ personRef.__get('person').__get('forename') }}
+                {% if personRef.__get('person').__get('surname') is empty and personRef.__get('person').__get('forename') is empty %}
+                    - {{ personRef.__get('person').__get('gnd') }}
+                {% endif %}
+            </a><br />
+        {% endfor %}
+        </dd>
+    {% endif %}
+    {% if entry.__get('placeOfPublication') is not empty or entry.__get('publisher') is not empty %}
+        <dt>Verleger:</dt>
+        <dd>{{ entry.__get('placeOfPublication') }} : {{ entry.__get('publisher') }}</dd>
+    {% endif %}
+    {% if entry.__get('issued') is not empty %}
+        <dt>Jahr:</dt>
+        <dd>{{ entry.__get('issued') }}</dd>
+    {% endif %}
+    {% if entry.__get('extent') is not empty %}
+        <dt>Umfang:</dt>
+        <dd>{{ entry.__get('extent') }}</dd>
+    {% endif %}
+    {% if entry.__get('bibliographicCitation') is not empty %}
+        <dt>geh&ouml;rt zu:</dt>
+        <dd>{{ entry.__get('bibliographicCitation') }}</dd>
+    {% endif %}
+    </dl>
+
+    {% if list is not null %}
+    <h2>
+        <a href="{{ path('list-detail', {'row': list.__get('row')}) }}">Listeneintrag</a>
+    </h2>
+    <p><a href="{{ path('list-detail', {'row': list.__get('row')}) }}">{{ helper.list_short(list) }}</a></p>
+    {% endif %}
+
+    {% if entry.__get('gnd') is not empty or entry.__get('oclc') is not empty %}
+    <h2>Externe Angebote</h2>
+    <ul class="listing">
+    {% if entry.__get('gnd') is not empty %}
+        <li><a href="{{ entry.__get('gnd') }}" target="_blank">Katalogeintrag Deutsche Nationalbibliothek</a></li>
+    {% endif %}
+    {% if entry.__get('oclc') is not empty %}
+        <li><a href="http://www.worldcat.org/oclc/{{ entry.__get('oclc') }}" target="_blank">OCLC Worldcat (Bibliotheken weltweit)</a></li>
+        <li><a href="http://books.google.de/books?vid=OCLC{{ entry.__get('oclc') }}" target="_blank">Google Books</a></li>
+    {% endif %}
+    </ul>
+    {% endif %}
+
+{% endblock %}

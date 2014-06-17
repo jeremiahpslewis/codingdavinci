@@ -1,0 +1,45 @@
+{% macro list_short(entry) %}
+    {% if entry.__get('authorFirstname') is not empty or entry.__get('authorLastname') is not empty %}
+       {{ entry.__get('authorFirstname') }} {{ entry.__get('authorLastname') }}:
+    {% endif %}
+
+    <i>{{ entry.__get('title') }}</i>.
+    {% if entry.__get('firstEditionPublicationPlace') is not empty
+       or entry.__get('firstEditionPublisher') is not empty
+       or entry.__get('firstEditionPublicationYear') is not empty
+    %}
+        {% if entry.__get('firstEditionPublicationPlace') is not empty %}
+            {{ entry.__get('firstEditionPublicationPlace') }} :
+        {% endif %}
+        {{ entry.__get('firstEditionPublisher') }} {{ entry.__get('firstEditionPublicationYear') }}.
+   {% endif %}
+{% endmacro %}
+
+{% macro person_short(entry) %}
+    {% if entry.__get('forename') is not empty or entry.__get('forename') is not empty %}
+       {{ entry.__get('forename') }}
+    {% endif %}
+    {% if entry.__get('surname') is not empty or entry.__get('surname') is not empty %}
+       {{ entry.__get('surname') }}
+    {% endif %}
+{% endmacro %}
+
+{% macro publication_short(entry) %}
+    <a href="{{ path('publication-detail', { 'id': entry.__get('id') }) }}">
+        <i>{{ entry.__get('title') }}</i>.
+        {{ entry.__get('publicationStatement')|removeat }}</a>
+
+    {% if entry.__get('personRefs')|length > 0 %}
+        /
+
+        {% for personRef in entry.__get('personRefs') %}
+            <a href="{{ path('person-detail', {'id': personRef.__get('person').__get('id') }) }}">
+                {{ personRef.__get('person').__get('surname') }}, {{ personRef.__get('person').__get('forename') }}
+                {% if personRef.__get('person').__get('surname') is empty and personRef.__get('person').__get('forename') is empty %}
+                    - {{ personRef.__get('person').__get('gnd') }}
+                {% endif %}
+            </a>{% if not loop.last %}; {% endif %}
+        {% endfor %}
+
+    {% endif %}
+{% endmacro %}

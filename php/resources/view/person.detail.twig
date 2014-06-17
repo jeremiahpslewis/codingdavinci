@@ -1,0 +1,69 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/seealso.js"></script>
+    <script>
+          var service = new SeeAlsoCollection();
+          service.services = {
+            'pndaks' : new SeeAlsoService('http://beacon.findbuch.de/seealso/pnd-aks/')
+           };
+           service.views = { 'seealso-ul' : new SeeAlsoUL({
+                                                            linkTarget: '_blank',
+                                                            maxItems: 100 }) };
+           service.replaceTagsOnLoad();
+    </script>
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ entry.__get('forename') }} {{ entry.__get('surname') }}</h1>
+
+    {% set entityfacts = entry.__get('entityfacts') %}
+    {% if entityfacts is not empty %}
+        {% if entityfacts.person.depiction is defined %}
+            <div style="float:right; margin-left: 20px; margin-bottom: 20px; max-width: 300px; font-size: smaller;">
+                <a href="{{ entityfacts.person.depiction.url }}" target="_blank">
+                    <img src="{{ entityfacts.person.depiction.image }}" style="max-width: 300px; margin-bottom: 5px;" />
+                </a><br />
+                Quelle:  <a href="{{ entityfacts.person.depiction.url }}" target="_blank">Wikimedia</a><br />
+                Informationen zum Lizenzstatus dieser Abbildung können durch Anklicken der Abbildung abgerufen werden.
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <dl>
+    {% if entry.__get('placeOfBirth') is not empty or entry.__get('dateOfBirth') is not empty %}
+        <dt>Geboren:</dt>
+        <dd>{{ entry.__get('placeOfBirth') }} {{ entry.__get('dateOfBirth')|dateincomplete }}</dd>
+    {% endif %}
+    {% if entry.__get('placeOfDeath') is not empty or entry.__get('dateOfDeath') is not empty %}
+        <dt>Gestorben:</dt>
+        <dd>{{ entry.__get('placeOfDeath') }} {{ entry.__get('dateOfDeath')|dateincomplete }}</dd>
+    {% endif %}
+    </dl>
+
+    <p>{{ entry.__get('biographicalOrHistoricalInformation') }}</p>
+
+    {% if list is not null %}
+    <h2>
+        <a href="{{ path('list-detail', {'row': list.__get('row')}) }}">Listeneintrag</a>
+    </h2>
+    <p><a href="{{ path('list-detail', {'row': list.__get('row')}) }}">{{ helper.list_short(list) }}</a></p>
+    {% endif %}
+
+    {% if entry.__get('publicationRefs')|length > 0 %}
+        <h2 style="clear: left">Zugehörige Publikation{% if entry.__get('publicationRefs')|length > 1 %}en{% endif %}</h2>
+        <ul class="listing">
+        {% for publicationRef in entry.__get('publicationRefs') %}
+            <li{% if publicationRef.__get('publication').__get('completeWorks') %} class="minus"{% endif %}>{{  helper.publication_short(publicationRef.__get('publication')) }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if gnd is defined %}
+    <h2>Externe Angebote</h2>
+    Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a>
+    <div title="{{ gnd }}" class="pndaks seealso-ul"></div>
+    {% endif %}
+
+{% endblock %}

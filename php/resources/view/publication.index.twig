@@ -1,0 +1,18 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+<div class="search-widget">
+    {{ searchwidget(searchwidget) }}
+</div>
+
+<ul class="listing">
+    {% for entry in entries %}
+        <li{% if entry.__get('completeWorks') %} class="minus"{% endif %}>
+            {{  helper.publication_short(entry) }}
+        </li>
+    {% endfor %}
+</ul>
+
+{{ pagerfanta(pager) }}
+{% endblock %}

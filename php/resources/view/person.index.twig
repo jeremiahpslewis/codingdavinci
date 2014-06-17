@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block head %}
+    <script>
+    $( document ).ready(function() {
+        $('#search').autocomplete({
+            source: function(request, response) {
+					$.getJSON("{{ app.request.getBaseURL() }}/../api.php/v1/persons", {
+						q: request.term
+					}, function(data) {
+						// data is an array of objects and must be transformed for autocomplete to use
+						var array = $.map(data, function(p) {
+							return {
+								label: p.forename + ' ' + p.surname,
+								value: p.forename + ' ' + p.surname
+							};
+						});
+						response(array);
+					});
+				},
+            minChars: 2
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="search-widget">
+    {{ searchwidget(searchwidget) }}
+</div>
+
+<ul class="listing">
+    {% for entry in entries %}
+    <li{% if entry.__get('completeWorks') != 0 %} class="complete"{% endif %}>
+        <a href="{{ path('person-detail', {'id': entry.__get('id')}) }}">
+            {{ entry.__get('surname') }}, {{ entry.__get('forename') }}
+            {% if entry.__get('surname') is empty and entry.__get('forename') is empty %}
+            {{ entry.__get('gnd') }}
+            {% endif %}
+            {% if entry.__get('dateOfBirth') is not empty or entry.__get('dateOfDeath') is not empty %}
+                ({{ entry.__get('dateOfBirth')|dateincomplete }} - {{ entry.__get('dateOfDeath')|dateincomplete  }})
+            {% endif %}
+        </a>
+    </li>
+
+    {% endfor %}
+</ul>
+
+{% if pager.haveToPaginate %}
+  {{ pagerfanta(pager) }}
+{% endif %}
+
+{% endblock %}
