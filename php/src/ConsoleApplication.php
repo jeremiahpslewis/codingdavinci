@@ -860,7 +860,7 @@ class PopulateCommand extends BaseCommand
             ->addArgument(
                 'action',
                 InputArgument::OPTIONAL,
-                'table that you want to populate (publication / person / person-detail)'
+                'table that you want to populate (publication / publication-person / person / person-detail)'
             )
             ->setDescription('Populate database tables');
     }
@@ -1131,6 +1131,35 @@ class PopulateCommand extends BaseCommand
                     }
 
                 }
+            }
+        }
+        else if ('publication-person' == $action) {
+            // find missing publications
+            $qb = $entityManager->createQueryBuilder();
+            $qb->select('PP')
+                ->from('Entities\PublicationPerson', 'PP')
+                ->where('PP.publicationOrd IS NULL OR PP.publicationOrd=0')
+                // ->setMaxResults(10)
+                ;
+            $batch_size = 100;
+            $persist_count = 0;
+            $query = $qb->getQuery();
+            $results = $query->getResult();
+            foreach ($results as $publicationRef) {
+                $issued = $publicationRef->publication->issued;
+                if (isset($issued) && preg_match('/^(\d{4})/', $issued, $matches)) {
+                    $publicationRef->publicationOrd = $matches[1];
+                    $this->em->persist($publicationRef);
+                    ++$persist_count;
+                }
+                if ($persist_count >= $batch_size) {
+                    $this->em->flush();
+                    $persist_count = 0;
+                }
+            }
+            if ($persist_count >= 0) {
+                $this->em->flush();
+                $persist_count = 0;
             }
         }
         else {

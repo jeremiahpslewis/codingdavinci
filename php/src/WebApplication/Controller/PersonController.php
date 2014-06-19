@@ -30,9 +30,9 @@ class PersonController
         }
 
         $searchwidget->addFilter('person', array('all' => 'Alle Personen',
-                                               'completeWorks' => 'Gesamtwerk verboten',
-                                               'today' => 'Heute Geburts- oder Todestag',
-                                               ));
+                                                 'completeWorks' => 'Gesamtwerk verboten',
+                                                 'today' => 'Heute Geburts- oder Todestag',
+                                                 ));
         $filters = $searchwidget->getActiveFilters();
 
         // build order
@@ -129,9 +129,6 @@ class PersonController
         if (!empty($row)) {
             $list = $em->getRepository('Entities\BannedList')->findOneByRow($row);
         }
-
-        // find related publications
-        // $list = $em->getRepository('Entities\Publication')->findByListRow($entity->row);
 
         $render_params = array('pageTitle' => 'Person',
                                'entry' => $entity,
