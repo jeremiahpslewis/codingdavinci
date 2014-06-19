@@ -40,6 +40,19 @@ abstract class BaseCommand extends Command
         $this->container = $container;
     }
 
+    protected function normalizeUnicode($value) {
+        if (!class_exists('Normalizer')) {
+            return $value;
+        }
+        if (!Normalizer::isNormalized($value)) {
+            $normalized = Normalizer::normalize($value);
+            if (false !== $normalized) {
+                $value = $normalized;
+            }
+        }
+        return $value;
+    }
+
     protected function readCsv($fname, $separator = ',') {
         $entries = array();
 
@@ -967,7 +980,8 @@ class PopulateCommand extends BaseCommand
             $qb = $entityManager->createQueryBuilder();
             $qb->select(array('P'))
                 ->from('Entities\Person', 'P')
-                ->where('P.entityfacts IS NOT NULL AND (P.preferredName IS NULL OR P.gndPlaceOfBirth IS NULL)')
+                ->where('P.entityfacts IS NOT NULL'
+                        . (!$update ? ' AND (P.preferredName IS NULL OR P.gndPlaceOfBirth IS NULL)' : ''))
                 // ->setMaxResults(4)
                 ;
 
@@ -1004,7 +1018,7 @@ class PopulateCommand extends BaseCommand
                             $value = $entityfacts['person'][$key];
                         }
 
-                        $person->$target = $value;
+                        $person->$target = $this->normalizeUnicode($value); // entityfacts uses combining characters
                     }
 
                 }
