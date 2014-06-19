@@ -1162,6 +1162,67 @@ class PopulateCommand extends BaseCommand
                 $persist_count = 0;
             }
         }
+        else if ($action == 'publication-detail') {
+            $update = true; // todo: get from option
+            // find Publication without author / editor
+            $qb = $entityManager->createQueryBuilder();
+            $qb->select(array('P'))
+                ->from('Entities\Publication', 'P')
+                ->where('P.author IS NULL AND P.editor IS NULL')
+                // ->setMaxResults(100)
+                ;
+
+            $query = $qb->getQuery();
+            $results = $query->getResult();
+            $batch_size = 100;
+            $persist_count = 0;
+            foreach ($results as $publication) {
+                if (!isset($publication) || 0 == count($publication->personRefs)) {
+                    continue;
+                }
+                $authors = $editors = array();
+                foreach ($publication->personRefs as $personRef) {
+                    $person = $personRef->person;
+                    $name_parts = array();
+                    foreach (array('surname', 'forename') as $key) {
+                        $value = $person->$key;
+                        if (!empty($value)) {
+                            $name_parts[] = $value;
+                        }
+                    }
+                    if (count($name_parts) > 0) {
+                        $fullname = implode(', ', $name_parts);
+                        if ('aut' == $personRef->role) {
+                            $authors[] = $fullname;
+                        }
+                        else if ('edt' == $personRef->role) {
+                            $editors[] = $fullname;
+                        }
+                    }
+                    $persist = false;
+                    if (count($authors) > 0) {
+                        $persist = true;
+                        $publication->author = implode('; ', $authors);
+                    }
+                    if (count($editors) > 0) {
+                        $persist = true;
+                        $publication->editor = implode('; ', $editors);
+                    }
+                    if ($persist) {
+                        $this->em->persist($publication);
+                        ++$persist_count;
+                    }
+                    if ($persist_count >= $batch_size) {
+                        $this->em->flush();
+                        $persist_count = 0;
+                    }
+                }
+            }
+            if ($persist_count >= 0) {
+                $this->em->flush();
+                $persist_count = 0;
+            }
+        }
         else {
             // find missing publications
             $qb = $entityManager->createQueryBuilder();

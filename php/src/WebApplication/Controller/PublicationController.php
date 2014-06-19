@@ -26,7 +26,7 @@ class PublicationController
 
         if (!empty($search)) {
           $fulltext_condition = \MysqlFulltextSimpleParser::parseFulltextBoolean($search, TRUE);
-          $dql_where[] = "MATCH (P.title, P.publicationStatement) AGAINST ('" . $fulltext_condition . "' BOOLEAN) = TRUE";
+          $dql_where[] = "MATCH (P.author, P.editor, P.title, P.publicationStatement) AGAINST ('" . $fulltext_condition . "' BOOLEAN) = TRUE";
         }
 
         $searchwidget->addFilter('completeWorks', array('all' => 'Alle Titel',
@@ -35,17 +35,20 @@ class PublicationController
         $filters = $searchwidget->getActiveFilters();
 
         // build order
+        $searchwidget->addSortBy('authorEditor', array('label' => 'Verfasser / Herausgeber'));
         $searchwidget->addSortBy('title', array('label' => 'Titel'));
         $searchwidget->addSortBy('issued', array('label' => 'Publikationsjahr'));
         $sort_by = $searchwidget->getCurrentSortBy();
-        $orders = array('titleSort' => 'ASC', 'P.issued' => 'ASC');
+        $orders = array('authorEditorSort' => 'ASC', 'titleSort' => 'ASC', 'P.issued' => 'ASC');
         if (false !== $sort_by) {
             $orders = array($sort_by[0] . 'Sort' => $sort_by[1]) + $orders;
         }
         // var_dump($orders);
 
         // Select your items.
-        $dql = "SELECT P, IFNULL(P.issued, '9999') HIDDEN issuedSort, IFNULL(P.title, 'ZZ') HIDDEN titleSort FROM Entities\Publication P";
+        $dql = "SELECT P, IFNULL(P.author, IFNULL(P.editor, 'ZZ')) HIDDEN authorEditorSort"
+             . ", IFNULL(P.issued, '9999') HIDDEN issuedSort, IFNULL(P.title, 'ZZ') HIDDEN titleSort"
+             . " FROM Entities\Publication P";
 
         if (array_key_exists('completeWorks', $filters)
             && ('list' == $filters['completeWorks'])) {

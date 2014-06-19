@@ -60,5 +60,5 @@ class PublicationPerson extends Base
      * @ORM\Column(name="publication_ord", type="integer", nullable=false)
      */
     protected $publicationOrd = 0;
-    
+
 }
