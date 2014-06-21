@@ -18,6 +18,8 @@ CREATE TABLE Person (
   place_of_birth VARCHAR(255) NULL,             #
   place_of_death VARCHAR(255) NULL,             #
 
+  list_row INT NULL,                            #
+  complete_works INT NOT NULL DEFAULT 0,        #
 
   gnd           VARCHAR(255) NULL,               #
   viaf          VARCHAR(255) NULL,               #
@@ -34,6 +36,9 @@ CREATE TABLE Publication (
   id            INT AUTO_INCREMENT PRIMARY KEY, # unique id
   status        INT NOT NULL DEFAULT 0,         # -1: removed
 
+  author VARCHAR(511) NULL,
+  editor VARCHAR(511) NULL,
+  
   title VARCHAR(511) NULL,
   other_title_information VARCHAR(511) NULL,
   place_of_publication  VARCHAR(1023) NULL,
@@ -43,12 +48,40 @@ CREATE TABLE Publication (
   is_part_of VARCHAR(1023) NULL,
   bibliographic_citation VARCHAR(1023) NULL,
 
-  extent VARCHAR(255) NULL,             #
-  issued VARCHAR(255) NULL,             #
+  extent VARCHAR(255) NULL,                     #
+  issued VARCHAR(255) NULL,                     #
 
+  list_row INT NULL,                            #
+  complete_works INT NOT NULL DEFAULT 0,        #
 
-  gnd           VARCHAR(255) NULL,               #
-  oclc          VARCHAR(255) NULL,               #
+  gnd           VARCHAR(255) NULL,              #
+  oclc          VARCHAR(255) NULL,              #
+  culturegraph  VARCHAR(255) NULL,              #
+
+  created_at    DATETIME,                       # when it was created
+  created_by    INT NULL,                       # ref to Logins.id: who created the entry
+  changed_at    DATETIME NULL,                  # when it was changed
+  changed_by    INT NULL                        #
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+CREATE TABLE Place (
+  id            INT AUTO_INCREMENT PRIMARY KEY, # unique id
+  status        INT NOT NULL DEFAULT 0,         # -1: removed
+
+  name VARCHAR(511) NULL,
+  variant_names  VARCHAR(1023) NULL,
+
+  country_code  CHAR(2) NULL,
+  latitude      DOUBLE NULL,
+  longitude     DOUBLE NULL,
+
+  gnd           VARCHAR(255) NULL,              #
+
+  geonames      VARCHAR(255) NULL,
+  geonames_parent_adm1 VARCHAR(255) NULL,
+  geonames_parent_adm2 VARCHAR(255) NULL,
+  geonames_parent_adm3 VARCHAR(255) NULL,
+  geonames_parent_adm4 VARCHAR(255) NULL,
 
   created_at    DATETIME,                       # when it was created
   created_by    INT NULL,                       # ref to Logins.id: who created the entry
