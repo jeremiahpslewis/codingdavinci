@@ -1,0 +1,9 @@
+
+@font-face {
+	font-family: 'Archive';
+	src: url('Archive.eot?') format('eot'), 
+	     url('Archive.otf')  format('opentype'),
+	     url('Archive.woff') format('woff'), 
+	     url('Archive.ttf')  format('truetype'),
+	     url('Archive.svg#Archive') format('svg');
+}

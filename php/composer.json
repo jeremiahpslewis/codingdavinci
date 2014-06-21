@@ -1,0 +1,35 @@
+{
+    "require": {
+        "psr/log": "~1.0",
+        "monolog/monolog": "~1.10",
+
+        "symfony/yaml": "2.5.*",
+        "symfony/config": "2.5.*",
+        "symfony/dependency-injection": "2.5.*",
+
+        "doctrine/orm": "2.4.2",
+        "beberlei/DoctrineExtensions": "*@stable",
+        "gedmo/doctrine-extensions": "*@stable",
+        "mapado/mysql-doctrine-functions": "*",
+
+        "symfony/console": "2.5.*",
+
+        "silex/silex": "1.2.*",
+        "dflydev/doctrine-orm-service-provider": "v1.0.3",
+        "symfony/yaml": "2.5.*",
+        "igorw/config-service-provider": "~1.2",
+        "twig/twig": ">=1.8,<2.0-dev",
+        "symfony/twig-bridge": "2.5.*",
+        "pagerfanta/pagerfanta": "dev-master",
+        "franmomu/silex-pagerfanta-provider": "dev-master",
+
+        "easyrdf/easyrdf": "~0.8"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+
+    }
+}

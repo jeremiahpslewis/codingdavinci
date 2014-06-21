@@ -1,0 +1,91 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        {% if pageTitle is defined %}
+            {{ pageTitle }}
+        {% else %}
+            Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren
+        {% endif %}
+        | VERBRANNTE und VERBANNTE
+    </title>
+    <link rel="stylesheet" href="{{ app.request.basepath }}/css/foundation.css" />
+    <link rel="stylesheet" href="{{ app.request.basepath }}/css/fonts/archive.css" />
+    <link href='http://fonts.googleapis.com/css?family=Cousine:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+
+    <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
+    <script src="{{ app.request.basepath }}/js/vendor/modernizr.js"></script>
+    <script src="{{ app.request.basepath }}/js/vendor/jquery.js"></script>
+
+    <link rel="stylesheet/less" type="text/css" href="{{ app.request.basepath }}/css/site.less" />
+    <script src="{{ app.request.basepath }}/js/less-1.7.0.min.js"></script>
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    <header class="row full-width" style="position: fixed; z-index: 100; top: 0px; min-height: 140px;">
+      <div class="large-12 columns">
+        <h1 id="title"><a href="{{ path('home') }}">VERBRANNTE und VERBANNTE</a></h1>
+        <div style="font-size: small; font-family: 'Cousine', 'Courier', monospace; margin-bottom: 1em;">Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren.
+        </div>
+      </div>
+    <nav id="menu" class="row full-width">
+      <ul>
+          <li class = "cat1">
+              <a href="{{ path('geschichten') }}">Geschichten</a>
+              <ul>
+                  <li><a href="{{ path('geschichten') }}#kolb">Annette&nbsp;Kolb</a></li>
+                  <li><a href="{{ path('geschichten') }}#kaestner">Erich&nbsp;Kästner</a></li>
+                  <!--<li><a href="#timeline">Achim&nbsp;Thiess</a></li>-->
+              </ul>
+          </li>
+          <li class = "cat2">
+              <a href="#Analysen">Analysen</a>
+              <ul>
+                  <li><a href="#visualization">Visualisierung</a></li>
+                  <li><a href="#Orte">Orte</a></li>
+              </ul>
+          </li>
+          <li class = "cat3">
+              <a href="{{ path('person') }}">Daten</a>
+              <ul>
+                  <li><a href="{{ path('person') }}">Personen</a></li>
+                  <li><a href="{{ path('publication') }}">Publikationen</a></li>
+                  <li><a href="{{ path('list') }}">Liste</a></li>
+              </ul>
+          </li>
+          <li class = "cat4">
+              <a href="#Hintergrund">Hintergrund</a>
+              <ul>
+                  <li><a href="#COD1NGDAV1NC1"><span>}COD1NG DA V1NC1{</span></a></li>
+                  <li><a href="#history">Historie</a></li>
+                  <li><a href="#credits">Credits/Kontakt</a></li>
+              </ul>
+          </li>
+      </ul>
+    </nav>
+    </header>
+
+    <div id="main" class="row page-{{ current_route}}">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="row full-width">
+      <div class="large-12 columns">
+        Ein Projekt im Rahmen von {<a class="codingdavinci" href="http://codingdavinci.de/" target="_blank">COD1NG DA V1NC1</a>}. Die Liste beruht auf dem Datensatz <a href="http://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher" target="_blank">Liste der verbannten Bücher</a> vom 06.06.2013,
+        Lizenz: <a href="http://creativecommons.org/licenses/by/3.0/de/">CC-BY</a>, Veröffentlichende Stelle: <a href="http://daten.berlin.de/datensaetze?field_publisher_tid=250">BerlinOnline Stadtportal GmbH &amp; Co KG</a>, vgl. auch <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/" target="_blank">www.berlin.de/rubrik/hauptstadt/verbannte_buecher/</a>.
+      </div>
+    </footer>
+    <script src="{{ app.request.basepath }}/js/foundation.min.js"></script>
+    <script src="{{ app.request.basepath }}/js/jquery-ui-1.10.3.custom.min.js"></script>
+
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>

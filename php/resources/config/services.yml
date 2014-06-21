@@ -1,0 +1,11 @@
+imports:
+    - { resource: local.yml }
+    
+parameters:        
+        
+services:
+    doctrine:
+        class: Doctrine\ORM\EntityManager
+        factory_class:  ConsoleApplication
+        factory_method: setupDoctrine
+        arguments: [%dbal%]

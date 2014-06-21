@@ -1,0 +1,10 @@
+parameters:
+    dbal:
+        driver: pdo_mysql
+        dbname: cdv-nsverbotsliste 
+        user:      root
+        password:  ""
+        charset:   UTF8
+        driverOptions:
+            1002: "SET NAMES utf8"
+        # memory:    true
