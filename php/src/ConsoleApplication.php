@@ -507,7 +507,7 @@ class FetchCommand extends BaseCommand
                 'type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'specify entityfacts, dnb or oclc',
+                'specify entityfacts, dnb, wikidata or oclc',
                 null
                 )
             ->setDescription('Fetch external data');
@@ -746,7 +746,7 @@ class FetchCommand extends BaseCommand
         }
     }
 
-    private function fetchPersonData($type) {
+    private function fetchPersonData($type, $update = false) {
         // find missing
         $qb = $this->em->createQueryBuilder();
         $qb->select(array('P'))
@@ -754,17 +754,59 @@ class FetchCommand extends BaseCommand
         if ('dnb' == $type) {
             $qb->where('P.forename IS NULL AND P.surname IS NULL AND P.gnd IS NOT NULL');
         }
+        else if ('wikidata' == $type) {
+            $qb->where("P.gnd IS NOT NULL AND (P.gndPlaceOfBirth IS NULL OR P.gndPlaceOfDeath IS NULL)");
+            $qb->orderby('P.gnd');
+        }
         else {
             $qb->where('P.entityfacts IS NULL AND P.gnd IS NOT NULL');
         }
-        // $qb->setMaxResults(1);
+        // $qb->setMaxResults(15);
 
         $query = $qb->getQuery();
         $results = $query->getResult();
         foreach ($results as $person) {
             if (preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)/', $person->gnd, $matches)) {
                 $gnd_id = $matches[1];
-                if ('dnb' == $type) {
+                if ('wikidata' == $type) {
+                    $wikidata = Helper\Wikidata::fetchByGnd($gnd_id);
+        			if (!empty($wikidata)) {
+                        var_dump($gnd_id);
+                        $persist = false;
+                        foreach (array('dateOfBirth', 'dateOfDeath',
+                                       'placeOfBirth', 'placeOfDeath',
+                                       'gndPlaceOfBirth', 'gndPlaceOfDeath') as $key)
+                        {
+                            $target = $key;
+                            $value = $person->$target;
+                            if (($update || empty($value) || preg_match('/\-00$/', $value))
+                                && (!empty($wikidata->$key)))
+                            {
+                                $value_new = $wikidata->$key;
+                                if (in_array($key, array('gndPlaceOfBirth', 'gndPlaceOfDeath'))) {
+                                    if (!$update) {
+                                        // make sure place-values match
+                                        $place_key = lcfirst(preg_replace('/^gnd/', '', $key));
+                                        if ($person->{$place_key} != $wikidata->{$place_key}) {
+                                            var_dump($person->{$place_key} . ' != ' . $wikidata->{$place_key});
+                                            continue;
+                                        }
+                                    }
+                                    $value_new = 'http://d-nb.info/gnd/' . $value_new;
+                                }
+                                $persist = true;
+                                $person->$target = $value_new;
+                                // var_dump($key . '->'.  $value_new . ' (' . $value . ')');
+                            }
+                        }
+                        if ($persist) {
+                            $this->em->persist($person);
+                            $this->em->flush();
+                        }
+                    }
+
+                }
+                else if ('dnb' == $type) {
                     var_dump($person->gnd);
                     $persist = false;
                     $url = sprintf('http://d-nb.info/%s',
@@ -804,7 +846,6 @@ class FetchCommand extends BaseCommand
                         $this->em->flush();
                     }
 
-
                 }
                 else {
                     $url = sprintf('http://hub.culturegraph.org/entityfacts/%s',
@@ -837,7 +878,11 @@ class FetchCommand extends BaseCommand
         $this->em = $entityManager = $this->getEntityManager();
 
         $action = $input->getArgument('action');
-        if ($action == 'publication') {
+        if ($action == 'test') {
+            $wikidata = Helper\Wikidata::fetchByGnd('139134980');
+            var_dump($wikidata);
+        }
+        else if ($action == 'publication') {
             $type = $input->getOption('type');
             if (empty($type)) {
                 $type = 'dnb';
