@@ -1,0 +1,176 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script type="text/javascript">
+	var chart, chart2;
+
+	$(document).ready(function() {
+		chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container',
+                defaultSeriesType: 'column',
+                margin: [ 25, 25, 120, 40]
+            },
+            title: {
+                text: 'Sterbeorte'
+            },
+			subtitle: {
+				text: {{subtitle|raw}}
+			},
+            xAxis: {
+                categories: {{categories|raw}},
+                labels: {
+                    rotation: -90,
+                    align: 'right',
+                    style: {
+                        font: 'normal 11px Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    min: 0,
+                    // max: 25,
+                    title: {
+                       text: ''
+                    }
+                },
+                {
+                    title: {
+                        text: 'Anzahl Personen'
+                    },
+                    opposite: true,
+                    min: 0
+                    // , max: 25000
+                }
+            ],
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+				// enabled: false,
+                formatter: function() {
+                   return '<b>' + this.x + '</b>: '
+                        + this.series.name + ' '
+                        + Highcharts.numberFormat(this.y, 0);
+                }
+             },
+			plotOptions: {
+                series: {
+                   stacking: 'normal',
+                               borderWidth: 0,
+                               groupPadding: 0,
+                               pointPadding: 0
+                }
+            },
+            series: [
+                {
+                    yAxis: 0,
+                        name: 'Nach 1945',
+                        data: {{ death45_ }}
+                },
+                {
+                    yAxis: 0,
+                    name: '33-45',
+                    data: {{ death33_45 }}
+                },
+                {
+                    yAxis: 0,
+                    name: 'Vor 1933',
+                    data: {{ death_33 }}
+                },
+                {
+                    yAxis: 0,
+                    name: 'Ohne Datum',
+                    data: {{ death_rest }},
+                    color: '#e6550d'
+                },
+			]
+   });
+
+	chart2 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container2',
+                defaultSeriesType: 'column',
+                margin: [ 25, 25, 120, 40]
+            },
+            title: {
+                text: 'Geburtsorte'
+            },
+			subtitle: {
+				text: {{subtitle|raw}}
+			},
+            xAxis: {
+                categories: {{categories|raw}},
+                labels: {
+                    rotation: -90,
+                    align: 'right',
+                    style: {
+                        font: 'normal 11px Verdana, sans-serif'
+                    }
+                }
+            },
+            yAxis: [
+                {
+                    min: 0,
+                    // max: 25,
+                    title: {
+                       text: ''
+                    }
+                },
+                {
+                    title: {
+                        text: 'Anzahl Personen'
+                    },
+                    opposite: true,
+                    min: 0
+                    // , max: 25000
+                }
+            ],
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+				// enabled: false,
+                formatter: function() {
+                   return '<b>' + this.x + '</b>: '
+                        + this.series.name + ' '
+                        + Highcharts.numberFormat(this.y, 0);
+                }
+             },
+			plotOptions: {
+                series: {
+                   stacking: 'normal',
+                               borderWidth: 0,
+                               groupPadding: 0,
+                               pointPadding: 0
+                }
+            },
+            series: [
+                {
+                    yAxis: 0,
+                    name: 'Nach 1890',
+                    data: {{ birth1890_ }}
+                },
+                {
+                    yAxis: 0,
+                    name: 'Vor 1890',
+                    data: {{ birth_1890 }}
+                },
+                {
+                    yAxis: 0,
+                    name: 'Ohne Datum',
+                    data: {{ birth_rest }},
+                    color: '#e6550d'
+                },
+			]
+   });
+});
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+    <div id="container2" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+{% endblock %}

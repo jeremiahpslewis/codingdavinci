@@ -56,6 +56,10 @@ class RouteLoader
                                                'wordCountAction'))
             ->bind('analyse-worte');
 
+        $this->app->get('/analyse-orte', array($this->app['statistics.controller'],
+                                               'placeCountAction'))
+            ->bind('analyse-orte');
+
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
             ->bind('list');
         $this->app->post('/', array($this->app['list.controller'], 'indexAction'));

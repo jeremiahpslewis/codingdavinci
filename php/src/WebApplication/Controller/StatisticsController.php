@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class StatisticsController
 {
-    private function addWordCount (&$words, $text, $stemmer = NULL) {
+    private function addWordCount (&$words, $text, $stemmer = NULL, $split = TRUE) {
       // see http://stackoverflow.com/questions/790596/split-a-text-into-single-words
-        $tokens = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/u', $text, -1, PREG_SPLIT_NO_EMPTY);
+        $tokens = $split ? preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/u', $text, -1, PREG_SPLIT_NO_EMPTY) : array($text);
 
         foreach ($tokens as $match) {
             $match = mb_strtolower($match, 'UTF-8');
@@ -154,7 +154,7 @@ class StatisticsController
                            'gesammelte' => true, 'werke' => true,
                            'schriften' => true, 'ausgewählte' => true,
                            'the' => true, 'and' => true,
-                           'van',
+                           'van' => true,
                            );
 
         $words = file($app['base_path'] . '/resources/data/stopwords_de.txt',
@@ -167,7 +167,6 @@ class StatisticsController
         $querystr = "SELECT issued, " . implode(', ', $fields) . " FROM Publication"
                   . " WHERE Publication.status >= 0"
             ;
-        $collections_by_type = array();
         $stmt = $dbconn->query($querystr);
 
         $stemmer = new TrivialStemmer();
@@ -253,6 +252,117 @@ class StatisticsController
 
     }
 
+    public function placeCountAction(Request $request, BaseApplication $app)
+    {
+        // display the most often death-places
+        $em = $app['doctrine'];
+        $dbconn = $em->getConnection();
+
+        // preset custom stopwords
+        $stopwords = array(
+                           );
+
+        $words = array();
+        foreach ($words as $word) {
+            $stopwords[$word] = true;
+        }
+
+        $keys = array('birth', 'death');
+        $words = array('total' => array());
+        foreach ($keys as $key) {
+            $fields = array('place_of_' . $key);
+            $querystr = "SELECT YEAR(date_of_" . $key . ") AS issued, "
+                      . implode(', ', $fields) . " FROM Person"
+                      . " WHERE Person.status >= 0"
+                ;
+            $stmt = $dbconn->query($querystr);
+
+            $stemmer = new TrivialStemmer();
+
+            $group_by_date = true;
+            while ($row = $stmt->fetch()) {
+                foreach ($fields as $field) {
+                    if (!empty($row[$field])) {
+                        $this->addWordCount($words['total'], $row[$field], $stemmer, false);
+                        if ($group_by_date) {
+                            $cat = $key . '_rest';
+                            if (isset($row['issued'])) {
+                                if ('birth' == $key) {
+                                    if ($row['issued'] < 1890)
+                                        $cat = $key . '_1890';
+                                    else if ($row['issued'] >= 1890)
+                                        $cat = $key . '1890_';
+                                }
+                                else {
+                                    if ($row['issued'] < 1933)
+                                        $cat = $key . '_33';
+                                    else if ($row['issued'] >= 1933 && $row['issued'] <= 1945)
+                                        $cat = $key . '33_45';
+                                    else if ($row['issued'] > 1945)
+                                        $cat = $key . '45_';
+                                }
+                            }
+                            $this->addWordCount($words[$cat], $row[$field], $stemmer, false);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        arsort($words['total']);
+        $types = array_keys($words);
+
+        $categories = $total = array();
+        foreach ($words['total'] as $word => $count) {
+            if (count($categories) > 60) {
+                // 60 places
+                break;
+            }
+            if (isset($stopwords[$word]) && $word) {
+                continue;
+            }
+            if (mb_strlen($word, 'UTF-8') <= 2) {
+                // skip short works
+                continue;
+            }
+            $categories[] = $word;
+            $total['total'][] = $count;
+            if ($group_by_date) {
+                foreach ($types as $type) {
+                    if ('total' == $type) {
+                        continue;
+                    }
+                    if (!isset($total[$type])) {
+                        $total[$type] = array();
+                    }
+                    $total[$type][] = isset($words[$type][$word]) ? $words[$type][$word] : 0;
+                }
+            }
+        }
+        $subtitle = $group_by_date ? 'nach Epochen' : '';
+
+        $render_values = array('subtitle' => json_encode($subtitle),
+                               'categories' => json_encode($categories),
+                               );
+        if ($group_by_date) {
+            foreach ($types as $type) {
+                if ('total' == $type) {
+                    continue;
+                }
+                $render_values[$type] =
+                    json_encode(array_values($total[$type]));
+            }
+        }
+        else {
+            $render_values['word_total'] = json_encode(array_values($total['total']));
+        }
+
+        return $app['twig']->render('statistics.placecount.twig',
+                                    $render_values
+                                    );
+
+    }
 }
 
 class TrivialStemmer

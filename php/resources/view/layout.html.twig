@@ -28,48 +28,48 @@
     {% endblock %}
 </head>
 <body>
-    <header class="row full-width" style="position: fixed; z-index: 100; top: 0px; min-height: 140px;">
-      <div class="large-12 columns">
-        <h1 id="title"><a href="{{ path('home') }}">VERBRANNTE und VERBANNTE</a></h1>
-        <div style="font-size: small; font-family: 'Cousine', 'Courier', monospace; margin-bottom: 1em;">Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren.
+    <header id="banner" class="row full-width">
+        <div class="large-12 columns">
+            <h1 id="title"><a href="{{ path('home') }}">VERBRANNTE und VERBANNTE</a></h1>
+            <div style="font-size: small; font-family: 'Cousine', 'Courier', monospace; margin-bottom: 1em;">Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren.
+            </div>
         </div>
-      </div>
-    <nav id="menu" class="row full-width">
-      <ul>
-          <li class = "cat1">
-              <a href="{{ path('geschichten') }}">Geschichten</a>
-              <ul>
-                  <li><a href="{{ path('geschichten') }}#kolb">Annette&nbsp;Kolb</a></li>
-                  <li><a href="{{ path('geschichten') }}#kaestner">Erich&nbsp;Kästner</a></li>
-                  <!--<li><a href="#timeline">Achim&nbsp;Thiess</a></li>-->
-              </ul>
-          </li>
-          <li class = "cat2">
-              <a href="{{ path('analyse') }}">Analysen</a>
-              <ul>
-                  <li><a href="{{ path('analyse') }}#Statistik">Statistik</a></li>
-                  <li><a href="{{ path('analyse') }}#Visualisierung">Visualisierung</a></li>
-                  <li><a href="{{ path('analyse') }}#Orte">Orte</a></li>
-              </ul>
-          </li>
-          <li class = "cat3">
-              <a href="{{ path('person') }}">Daten</a>
-              <ul>
-                  <li><a href="{{ path('person') }}">Personen</a></li>
-                  <li><a href="{{ path('publication') }}">Publikationen</a></li>
-                  <li><a href="{{ path('list') }}">Liste</a></li>
-              </ul>
-          </li>
-          <li class = "cat4">
-              <a href="#Hintergrund">Hintergrund</a>
-              <ul>
-                  <li><a href="#COD1NGDAV1NC1"><span>}COD1NG DA V1NC1{</span></a></li>
-                  <li><a href="#history">Historie</a></li>
-                  <li><a href="#credits">Credits/Kontakt</a></li>
-              </ul>
-          </li>
-      </ul>
-    </nav>
+        <nav id="menu" class="row full-width">
+            <ul>
+                <li class = "cat1">
+                    <a href="{{ path('geschichten') }}">Geschichten</a>
+                    <ul>
+                        <li><a href="{{ path('geschichten') }}#kolb">Annette&nbsp;Kolb</a></li>
+                        <li><a href="{{ path('geschichten') }}#kaestner">Erich&nbsp;Kästner</a></li>
+                        <!--<li><a href="#timeline">Achim&nbsp;Thiess</a></li>-->
+                    </ul>
+                </li>
+                <li class = "cat2">
+                    <a href="{{ path('analyse') }}">Analysen</a>
+                    <ul>
+                        <li><a href="{{ path('analyse') }}#Statistik">Statistik</a></li>
+                        <li><a href="{{ path('analyse') }}#Visualisierung">Visualisierung</a></li>
+                        <li><a href="{{ path('analyse') }}#Orte">Orte</a></li>
+                    </ul>
+                </li>
+                <li class = "cat3">
+                    <a href="{{ path('person') }}">Daten</a>
+                    <ul>
+                        <li><a href="{{ path('person') }}">Personen</a></li>
+                        <li><a href="{{ path('publication') }}">Publikationen</a></li>
+                        <li><a href="{{ path('list') }}">Liste</a></li>
+                    </ul>
+                </li>
+                <li class = "cat4">
+                    <a href="#Hintergrund">Hintergrund</a>
+                    <ul>
+                        <li><a href="#COD1NGDAV1NC1"><span>}COD1NG DA V1NC1{</span></a></li>
+                        <li><a href="#history">Historie</a></li>
+                        <li><a href="#credits">Credits/Kontakt</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </header>
 
     <div id="main" class="row page-{{ current_route}}">
@@ -87,7 +87,7 @@
     <script src="{{ app.request.basepath }}/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     <script>
-      $(document).foundation();
+        $(document).foundation();
     </script>
   </body>
 </html>
