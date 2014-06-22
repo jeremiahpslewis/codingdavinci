@@ -15,15 +15,15 @@
 {% endblock %}
 
 {% block content %}
-
-    <h1>{{ entry.__get('forename') }} {{ entry.__get('surname') }}</h1>
+    <div itemscope itemtype="http://schema.org/Person">
+    <h1 itemprop="name">{{ entry.__get('forename') }} {{ entry.__get('surname') }}</h1>
 
     {% set entityfacts = entry.__get('entityfacts') %}
     {% if entityfacts is not empty %}
         {% if entityfacts.person.depiction is defined %}
             <div style="float:right; margin-left: 20px; margin-bottom: 20px; max-width: 300px; font-size: smaller;">
                 <a href="{{ entityfacts.person.depiction.url }}" target="_blank">
-                    <img src="{{ entityfacts.person.depiction.image }}" style="max-width: 300px; margin-bottom: 5px;" />
+                    <img src="{{ entityfacts.person.depiction.image }}" itemprop="image" style="max-width: 300px; margin-bottom: 5px;" />
                 </a><br />
                 Quelle:  <a href="{{ entityfacts.person.depiction.url }}" target="_blank">Wikimedia</a><br />
                 Informationen zum Lizenzstatus dieser Abbildung können durch Anklicken der Abbildung abgerufen werden.
@@ -42,7 +42,8 @@
     {% endif %}
     </dl>
 
-    <p>{{ entry.__get('biographicalOrHistoricalInformation') }}</p>
+    <p itemprop="description">{{ entry.__get('biographicalOrHistoricalInformation') }}</p>
+    </div>
 
     {% if list is not null %}
     <h2>

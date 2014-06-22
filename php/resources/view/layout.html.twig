@@ -18,7 +18,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
     <script src="{{ app.request.basepath }}/js/vendor/modernizr.js"></script>
-    <script src="{{ app.request.basepath }}/js/vendor/jquery.js"></script>
+    <!--<script src="{{ app.request.basepath }}/js/vendor/jquery.js"></script>-->
+    <script src="{{ app.request.basepath }}/js/jquery-1.7.min.js"></script>
 
     <link rel="stylesheet/less" type="text/css" href="{{ app.request.basepath }}/css/site.less" />
     <script src="{{ app.request.basepath }}/js/less-1.7.0.min.js"></script>
@@ -44,10 +45,11 @@
               </ul>
           </li>
           <li class = "cat2">
-              <a href="#Analysen">Analysen</a>
+              <a href="{{ path('analyse') }}">Analysen</a>
               <ul>
-                  <li><a href="#visualization">Visualisierung</a></li>
-                  <li><a href="#Orte">Orte</a></li>
+                  <li><a href="{{ path('analyse') }}#Statistik">Statistik</a></li>
+                  <li><a href="{{ path('analyse') }}#Visualisierung">Visualisierung</a></li>
+                  <li><a href="{{ path('analyse') }}#Orte">Orte</a></li>
               </ul>
           </li>
           <li class = "cat3">

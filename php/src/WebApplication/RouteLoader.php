@@ -20,6 +20,10 @@ class RouteLoader
             return new Controller\StaticController();
         });
 
+        $this->app['statistics.controller'] = $this->app->share(function () {
+            return new Controller\StatisticsController();
+        });
+
         $this->app['list.controller'] = $this->app->share(function () {
             return new Controller\ListController();
         });
@@ -41,6 +45,13 @@ class RouteLoader
         $this->app->get('/geschichten', array($this->app['static.controller'], 'geschichtenAction'))
             ->bind('geschichten');
 
+        $this->app->get('/analyse', array($this->app['statistics.controller'], 'introAction'))
+            ->bind('analyse');
+
+        $this->app->get('/analyse-geburtsjahr', array($this->app['statistics.controller'],
+                                                      'birthYearAction'))
+            ->bind('analyse-geburtsjahr');
+
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
             ->bind('list');
         $this->app->post('/', array($this->app['list.controller'], 'indexAction'));
@@ -56,6 +67,10 @@ class RouteLoader
         $this->app->get('/person/{id}',
                         array($this->app['person.controller'], 'detailAction'))
             ->bind('person-detail');
+        /* $this->app->get('/person/{id}/edit',
+                        array($this->app['person.controller'], 'editAction'))
+            ->bind('person-edit'); */
+
 
         $this->app->get('/publication', array($this->app['publication.controller'], 'indexAction'))
             ->bind('publication');
