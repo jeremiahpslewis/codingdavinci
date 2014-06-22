@@ -10,11 +10,10 @@
                 chart: {
                     renderTo: 'container',
                     defaultSeriesType: 'column'
-                    /*,
-                    margin: [ 50, 50, 100, 80] */
+                    /*, margin: [ 50, 50, 100, 80] */
                 },
                 title: {
-                    text: 'Geburtsjahr / Publikationsjahr'
+                    text: 'Geburts- und Todesjahr / Publikationsjahr'
                 },
                 subtitle: {
                     text: {{ subtitle|raw }}
@@ -31,19 +30,19 @@
                 },
                 yAxis: [
                     {
-                        min: 0,
-                        // max: 25,
-                        title: {
-                            text: 'Anzahl Personen'
-                        }
-                    },
-                    {
                         title: {
                             text: 'Anzahl Werke'
                         },
                         min: 0,
                         // max: 600
                         opposite: true
+                    },
+                    {
+                        min: 0,
+                        // max: 25,
+                        title: {
+                            text: 'Anzahl Personen'
+                        }
                     }
                 ],
                 legend: {
@@ -66,11 +65,15 @@
                 series: [
                     {
                         yAxis: 0,
-                        name: 'A',
-                        data: {{Person_A}},
-                        color: '#e6550d'
-                    }
-                    {#,
+                        name: 'Gesamtwerk',
+                        data: {{works_extended}}
+                    },
+                    {
+                        yAxis: 0,
+                        name: 'Individuelle Werke',
+                        data: {{works_base}}
+                    },
+                    {#
 
                     {
                         yAxis: 0,
@@ -82,16 +85,28 @@
                         yAxis: 0,
                         name: 'M',
                         data: {{Person_M}}
-                    } #},
+                    }, #}
                     {
                         type: 'line',
-                        dashStyle: 'shortdot',
+                        dashStyle: 'solid', // 'shortdot',
                         marker: {
                             enabled: false
                         },
                         yAxis: 1,
-                        name: 'Werke',
-                        data: {{works}}
+                        name: 'Geburtsjahr',
+                        data: {{ person_birth }},
+                        color: '#e6550d'
+                    },
+                    {
+                        type: 'line',
+                        dashStyle: 'solid',
+                        marker: {
+                            enabled: false
+                        },
+                        yAxis: 1,
+                        name: 'Todesjahr',
+                        data: {{ person_death }},
+                        color: '#303030'
                     }
                 ]
        });
@@ -103,6 +118,6 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Autorinnen und Autoren nach Geburtsjahr, Werke nach Publikationsjahr</h2>
+    <h2>Geburtsjahr / Todesjahr der Autor/innen<br />Werke nach Publikationsjahr (explizit verbotene Werke / als Teil des Gesamtwerks)</h2>
     <div id="container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
 {% endblock %}

@@ -6,7 +6,7 @@ class WebApplication extends BaseApplication
     protected $application;
 
     public function __construct() {
-        $container = $this->setupContainer();
+        $this->container = $container = $this->setupContainer();
 
         $this->application = $app = new \Silex\Application();
         $app['debug'] = true;
@@ -56,18 +56,11 @@ class WebApplication extends BaseApplication
 
         $app['doctrine'] = $container->get('doctrine');
 
+        $app['base_path'] = $this->getBasePath();
+
         //load routes into $app
         $routeLoader = new WebApplication\RouteLoader($app);
         $routeLoader->bindRoutesToControllers();
-
-        $app->get('/list', array($this, 'listIndexAction'));
-        $app->get('/', array($this, 'listIndexAction'));
-    }
-
-    public function listIndexAction () {
-        $output = 'TODO: build the list';
-
-        return $output;
     }
 
     public function run() {

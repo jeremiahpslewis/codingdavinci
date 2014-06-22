@@ -48,9 +48,13 @@ class RouteLoader
         $this->app->get('/analyse', array($this->app['statistics.controller'], 'introAction'))
             ->bind('analyse');
 
-        $this->app->get('/analyse-geburtsjahr', array($this->app['statistics.controller'],
-                                                      'birthYearAction'))
-            ->bind('analyse-geburtsjahr');
+        $this->app->get('/analyse-jahr', array($this->app['statistics.controller'],
+                                               'yearAction'))
+            ->bind('analyse-jahr');
+
+        $this->app->get('/analyse-worte', array($this->app['statistics.controller'],
+                                               'wordCountAction'))
+            ->bind('analyse-worte');
 
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
             ->bind('list');

@@ -120,7 +120,7 @@ class PersonController
         $entity = $em->getRepository('Entities\Person')->findOneById($id);
 
         if (!isset($entity)) {
-            $app->abort(404, "Publication $id does not exist.");
+            $app->abort(404, "Person $id does not exist.");
         }
 
         // find related list entry
@@ -141,4 +141,18 @@ class PersonController
         return $app['twig']->render('person.detail.twig', $render_params);
     }
 
+    public function editAction(Request $request, BaseApplication $app)
+    {
+        $em = $app['doctrine'];
+
+        $id = $request->get('id');
+
+        $entity = $em->getRepository('Entities\Person')->findOneById($id);
+
+        if (!isset($entity)) {
+            $app->abort(404, "Person $id does not exist.");
+        }
+
+        return 'TODO: edit' . $id;
+    }
 }

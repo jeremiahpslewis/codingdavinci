@@ -82,10 +82,6 @@ abstract class BaseCommand extends Command
         return $this->container->get('doctrine');
     }
 
-    protected function getBasePath() {
-        return $this->container->getParameter('base_path');
-    }
-
     protected function getLogger($output) {
         try {
             return $this->container->get('logger');

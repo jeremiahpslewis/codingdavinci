@@ -16,12 +16,16 @@
 
         "silex/silex": "1.2.*",
         "dflydev/doctrine-orm-service-provider": "v1.0.3",
-        "symfony/yaml": "2.5.*",
         "igorw/config-service-provider": "~1.2",
         "twig/twig": ">=1.8,<2.0-dev",
         "symfony/twig-bridge": "2.5.*",
         "pagerfanta/pagerfanta": "dev-master",
         "franmomu/silex-pagerfanta-provider": "dev-master",
+
+        "symfony/form": "2.5.*",
+        "symfony/security": "2.5.*",
+        "symfony/validator": "2.5.*",
+        "symfony/translation": "2.5.*",
 
         "easyrdf/easyrdf": "~0.8"
     },
