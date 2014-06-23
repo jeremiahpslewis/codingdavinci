@@ -268,7 +268,7 @@ class StatisticsController
         }
 
         $keys = array('birth', 'death');
-        $words = array('total' => array());
+        $words = array('total' => array(), 'birth_rest' => array(), 'death_rest' => array());
         foreach ($keys as $key) {
             $fields = array('place_of_' . $key);
             $querystr = "SELECT YEAR(date_of_" . $key . ") AS issued, "

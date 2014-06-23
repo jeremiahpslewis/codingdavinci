@@ -83,11 +83,28 @@
         Lizenz: <a href="http://creativecommons.org/licenses/by/3.0/de/">CC-BY</a>, Veröffentlichende Stelle: <a href="http://daten.berlin.de/datensaetze?field_publisher_tid=250">BerlinOnline Stadtportal GmbH &amp; Co KG</a>, vgl. auch <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/" target="_blank">www.berlin.de/rubrik/hauptstadt/verbannte_buecher/</a>.
       </div>
     </footer>
+    <a class="scrollup" href="#">Go to Top</a>
     <script src="{{ app.request.basepath }}/js/foundation.min.js"></script>
     <script src="{{ app.request.basepath }}/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     <script>
         $(document).foundation();
+
+        // scroll-to-top button show and hide
+        jQuery(document).ready(function(){
+            jQuery(window).scroll(function(){
+                if (jQuery(this).scrollTop() > 100) {
+                    jQuery('.scrollup').fadeIn();
+                } else {
+                    jQuery('.scrollup').fadeOut();
+                }
+            });
+            // scroll-to-top animate
+            jQuery('.scrollup').click(function(){
+                jQuery("html, body").animate({ scrollTop: 0 }, 600);
+                return false;
+            });
+        });
     </script>
   </body>
 </html>
