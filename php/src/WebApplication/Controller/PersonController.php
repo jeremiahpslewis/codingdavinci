@@ -166,7 +166,7 @@ class PersonController
                         $app['url_generator']->generate('person', array(), true))
               . "\n";
         $ret .= '#NAME: Verbrannte und Verbannte' . "\n";
-        $ret .= '#MESSAGE: Eintrag im der Liste der im Nationalsozialismus verbotenen Publikationen und Autoren' . "\n";
+        $ret .= '#MESSAGE: Eintrag in der Liste der im Nationalsozialismus verbotenen Publikationen und Autoren' . "\n";
 
         $dql = "SELECT DISTINCT P.id, P.gnd FROM Entities\Person P WHERE P.status >= 0 AND P.gnd IS NOT NULL ORDER BY P.gnd";
         $query = $em->createQuery($dql);
