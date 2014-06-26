@@ -1,0 +1,52 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block content %}
+    <h1><a href="{{ path('list-detail', {'row': entry.__get('row')}) }}">Listeneintrag {{ entry.__get('row') }}</a></h1>
+
+    <form class="edit" action="#" method="post">
+    {{ form_widget(form) }}
+
+    <input type="submit" name="submit" value="Speichern" />
+    </form>
+
+    <dl>
+    {% if entry.__get('ocrResult') is not empty %}
+        <dt>OCR Result:</dt>
+        <dd>{{ entry.__get('ocrResult') }}</dd>
+    {% endif %}
+    {% if entry.__get('authorLastname') is not empty %}
+        <dt>Nachname:</dt>
+        <dd>{{ entry.__get('authorLastname') }}</dd>
+    {% endif %}
+    {% if entry.__get('authorFirstname') is not empty %}
+        <dt>Vorname:</dt>
+        <dd>{{ entry.__get('authorFirstname') }}</dd>
+    {% endif %}
+        <dt>Titel:</dt>
+        <dd>{{ entry.__get('title') }}</dd>
+    {% if entry.__get('firstEditionPublicationPlace') is not empty %}
+        <dt>Ort:</dt>
+        <dd>{{ entry.__get('firstEditionPublicationPlace') }}</dd>
+    {% endif %}
+    {% if entry.__get('firstEditionPublisher') is not empty %}
+        <dt>Verlag:</dt>
+        <dd>{{ entry.__get('firstEditionPublisher') }}</dd>
+    {% endif %}
+    {% if entry.__get('firstEditionPublicationYear') is not empty %}
+        <dt>Jahr:</dt>
+        <dd>{{ entry.__get('firstEditionPublicationYear') }}</dd>
+    {% endif %}
+    </dl>
+    <p>
+    {% if entry.__get('additionalInfos') is not empty %}
+        {{ entry.__get('additionalInfos') }}<br />
+    {% else %}
+        Dieser Eintrag findet sich in der Liste des schädlichen und unerwünschten Schrifttums, Stand vom 31. Dezember 1938.<br />
+    {% endif %}
+        Seite {{ entry.__get('pageNumberInOCRDocument') }}.
+    {% if entry.__get('ssFlag') %}
+        <br />Zusätzliches Verbot des Reichsführers SS: Auf Grund der "Verordnung des Reichspräsidenten zum Schutze von Volk und Staat vom 28. Februar 1933" hat der Reichsführer SS und Chef der Deutschen Polizei im Reichsministerium des Innern gegen bestimmte Schriften zusätzliches ein allgemeines Verbot ausgesprochen. Die Titel dieser Schriften sind im Reichsanzeiger veröffentlicht worden und in der vorliegenden Liste durch ein + kenntlich gemacht.
+        {% endif %}
+    </p>
+
+{% endblock %}
