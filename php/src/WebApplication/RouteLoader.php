@@ -60,14 +60,22 @@ class RouteLoader
                                                'placeCountAction'))
             ->bind('analyse-orte');
 
+        // list
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
             ->bind('list');
-        $this->app->post('/', array($this->app['list.controller'], 'indexAction'));
+        $this->app->post('/list', array($this->app['list.controller'], 'indexAction'));
 
         $this->app->get('/list/{row}', array($this->app['list.controller'], 'detailAction'))
             ->assert('row', '\d+')
             ->bind('list-detail');
 
+        $this->app->get('/list/{row}/edit',
+                        array($this->app['list.controller'], 'editAction'))
+            ->bind('list-edit');
+        $this->app->post('/list/{row}/edit',
+                         array($this->app['list.controller'], 'editAction'));
+
+        // person
         $this->app->get('/person', array($this->app['person.controller'], 'indexAction'))
             ->bind('person');
         $this->app->post('/person', array($this->app['person.controller'], 'indexAction'));
@@ -75,11 +83,9 @@ class RouteLoader
         $this->app->get('/person/{id}',
                         array($this->app['person.controller'], 'detailAction'))
             ->bind('person-detail');
-        /* $this->app->get('/person/{id}/edit',
-                        array($this->app['person.controller'], 'editAction'))
-            ->bind('person-edit'); */
 
 
+        // publication
         $this->app->get('/publication', array($this->app['publication.controller'], 'indexAction'))
             ->bind('publication');
         $this->app->post('/publication', array($this->app['publication.controller'], 'indexAction'));

@@ -1,10 +1,17 @@
 parameters:
     dbal:
         driver: pdo_mysql
-        dbname: cdv-nsverbotsliste 
+        dbname: cdv-nsverbotsliste
         user:      root
         password:  ""
         charset:   UTF8
         driverOptions:
             1002: "SET NAMES utf8"
         # memory:    true
+
+    users:
+        # to generated an encoded password, run something like
+        # $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
+        # die($encoder->encodePassword('foo', ''));
+        admin:
+            [ ROLE_ADMIN, "5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==" ]

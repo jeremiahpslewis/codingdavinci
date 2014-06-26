@@ -141,6 +141,7 @@ class PersonController
         return $app['twig']->render('person.detail.twig', $render_params);
     }
 
+    /*
     public function editAction(Request $request, BaseApplication $app)
     {
         $em = $app['doctrine'];
@@ -155,4 +156,5 @@ class PersonController
 
         return 'TODO: edit' . $id;
     }
+    */
 }

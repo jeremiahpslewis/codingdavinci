@@ -3,6 +3,7 @@
         "psr/log": "~1.0",
         "monolog/monolog": "~1.10",
 
+        "symfony/icu": "~1.0-RC",
         "symfony/yaml": "2.5.*",
         "symfony/config": "2.5.*",
         "symfony/dependency-injection": "2.5.*",
@@ -34,6 +35,5 @@
         "psr-0": {
             "": "src/"
         }
-
     }
 }
