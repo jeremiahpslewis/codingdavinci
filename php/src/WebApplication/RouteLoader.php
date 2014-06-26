@@ -79,11 +79,20 @@ class RouteLoader
         $this->app->get('/person', array($this->app['person.controller'], 'indexAction'))
             ->bind('person');
         $this->app->post('/person', array($this->app['person.controller'], 'indexAction'));
+        $this->app->get('/person/beacon', array($this->app['person.controller'], 'gndBeaconAction'));
 
         $this->app->get('/person/{id}',
                         array($this->app['person.controller'], 'detailAction'))
             ->bind('person-detail');
+        $this->app->get('/person/gnd/{gnd}',
+                        array($this->app['person.controller'], 'detailAction'))
+            ->bind('person-detail-gnd');
 
+        $this->app->get('/person/{id}/edit',
+                        array($this->app['person.controller'], 'editAction'))
+            ->bind('person-edit');
+        $this->app->post('/person/{id}/edit',
+                         array($this->app['person.controller'], 'editAction'));
 
         // publication
         $this->app->get('/publication', array($this->app['publication.controller'], 'indexAction'))

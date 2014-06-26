@@ -1,0 +1,47 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/seealso.js"></script>
+    <script>
+          var service = new SeeAlsoCollection();
+          service.services = {
+            'pndaks' : new SeeAlsoService('http://beacon.findbuch.de/seealso/pnd-aks/')
+           };
+           service.views = { 'seealso-ul' : new SeeAlsoUL({
+                                                            linkTarget: '_blank',
+                                                            maxItems: 100 }) };
+           service.replaceTagsOnLoad();
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div itemscope itemtype="http://schema.org/Person">
+    <h1 itemprop="name"><a href="{{ path('person-detail', {'id': entry.__get('id')}) }}">{{ entry.__get('forename') }} {{ entry.__get('surname') }}</a></h1>
+    <form class="edit" action="#" method="post">
+    {{ form_widget(form) }}
+
+    <input type="submit" name="submit" value="Speichern" />
+    </form>
+
+
+    <dl>
+    {% if entry.__get('placeOfBirth') is not empty or entry.__get('dateOfBirth') is not empty %}
+        <dt>Geboren:</dt>
+        <dd>{{ entry.__get('placeOfBirth') }} {{ entry.__get('dateOfBirth')|dateincomplete }}</dd>
+    {% endif %}
+    {% if entry.__get('placeOfDeath') is not empty or entry.__get('dateOfDeath') is not empty %}
+        <dt>Gestorben:</dt>
+        <dd>{{ entry.__get('placeOfDeath') }} {{ entry.__get('dateOfDeath')|dateincomplete }}</dd>
+    {% endif %}
+    </dl>
+
+    <p itemprop="description">{{ entry.__get('biographicalOrHistoricalInformation') }}</p>
+    </div>
+
+    {% if gnd is defined %}
+    <h2>Externe Angebote</h2>
+    Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a>
+    <div title="{{ gnd }}" class="pndaks seealso-ul"></div>
+    {% endif %}
+
+{% endblock %}
