@@ -101,5 +101,9 @@ class RouteLoader
         $this->app->get('/publication/{id}',
                         array($this->app['publication.controller'], 'detailAction'))
             ->bind('publication-detail');
+
+        // about
+        $this->app->get('/about', array($this->app['static.controller'], 'aboutAction'))
+            ->bind('about');
     }
 }

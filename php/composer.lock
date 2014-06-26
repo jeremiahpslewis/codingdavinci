@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b02c0c504d47a92f5775278b59d9bbeb",
+    "hash": "dff416d92ad379590c101f2a0f7e0646",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -705,6 +705,45 @@
                 "sparql"
             ],
             "time": "2013-12-30 22:31:37"
+        },
+        {
+            "name": "erusev/parsedown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "e33ac1c56ea591f21b9cf2fa74356ef708d4e130"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/e33ac1c56ea591f21b9cf2fa74356ef708d4e130",
+                "reference": "e33ac1c56ea591f21b9cf2fa74356ef708d4e130",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2014-06-18 09:27:25"
         },
         {
             "name": "franmomu/silex-pagerfanta-provider",
@@ -2472,7 +2511,8 @@
         "beberlei/doctrineextensions": 0,
         "gedmo/doctrine-extensions": 0,
         "pagerfanta/pagerfanta": 20,
-        "franmomu/silex-pagerfanta-provider": 20
+        "franmomu/silex-pagerfanta-provider": 20,
+        "erusev/parsedown": 20
     },
     "platform": [
 

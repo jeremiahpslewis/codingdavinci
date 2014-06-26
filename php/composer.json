@@ -3,7 +3,7 @@
         "psr/log": "~1.0",
         "monolog/monolog": "~1.10",
 
-        "symfony/icu": "~1.0-RC",
+        "symfony/icu": "1.1.*",
         "symfony/yaml": "2.5.*",
         "symfony/config": "2.5.*",
         "symfony/dependency-injection": "2.5.*",
@@ -28,6 +28,7 @@
         "symfony/validator": "2.5.*",
         "symfony/translation": "2.5.*",
 
+        "erusev/parsedown": "dev-master",
         "easyrdf/easyrdf": "~0.8"
     },
 
