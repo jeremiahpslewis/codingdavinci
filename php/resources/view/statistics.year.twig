@@ -66,12 +66,14 @@
                     {
                         yAxis: 0,
                         name: 'Gesamtwerk',
-                        data: {{works_extended}}
+                        data: {{works_extended}},
+                        stack: 'works'
                     },
                     {
                         yAxis: 0,
                         name: 'Individuelle Werke',
-                        data: {{works_base}}
+                        data: {{works_base}},
+                        stack: 'works'
                     },
                     {#
 
@@ -95,6 +97,7 @@
                         yAxis: 1,
                         name: 'Geburtsjahr',
                         data: {{ person_birth }},
+                        stack: 'birth',
                         color: '#e6550d'
                     },
                     {
@@ -106,6 +109,7 @@
                         yAxis: 1,
                         name: 'Todesjahr',
                         data: {{ person_death }},
+                        stack: 'death',
                         color: '#303030'
                     }
                 ]
