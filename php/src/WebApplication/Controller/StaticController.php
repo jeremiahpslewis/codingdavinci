@@ -48,7 +48,7 @@ EOT;
     {
         $markdown = <<<EOT
 ## <a name="COD1NGDAV1NC1"></a>}COD1NG DA V1NC1{
-Diese Web-Site ist im Rahmen von [{COD1NG DA V1NC1}](http://codingdavinci.de/), dem ersten "Kultur-Hackathon" in Berlin zwischen dem 26./27. April und 5./6. Juli 2014 entstanden.
+Diese Web-Site ist im Rahmen von [{COD1NG DA V1NC1}](http://codingdavinci.de/), dem ersten "Kultur-Hackathon" in Berlin, zwischen dem 26./27. April und 5./6. Juli 2014 entstanden.
 
 ## <a name="project"></a>Beschreibung und Ziel des Projekts
 * Als Datengrundlage dient die vom Land Berlin veröffentlichte Liste der verbannten Bücher. Diese zwischen 1938 und 1941 von der „Reichsschriftkammer“ erstellten Verbotslisten umfassen knapp 5'000 unerwünschte Einzelpublikationen sowie fast 1'000 Autorinnen und Autoren sowie eine Reihe von Verlagen, deren Gesamtwerk im „Dritten Reich“ verboten wurde.
@@ -76,6 +76,10 @@ Der Code dieser Web-Site sowie der Import-Tools ist auf Github verfügbar
 Im Rahmen von haben weitere Teams mit diesem Datensatz gearbeitet
 * [@LebendigeListe](http://lebendigeliste.de/)
 * [App "Verbotene Autoren"](http://cdvinci.hackdash.org/projects/53a703ff9bfef6693e000007)
+
+Weitere Informationen zur Liste verbotener Publikationen und Autoren während der Zeit des Nationalsozialismus
+* Harald Lordick: [Datenbank der in der NS-Zeit verbannten und verbotenen Autoren und Bücher](http://djgd.hypotheses.org/296)
+* [Wikipedia-Eintrag "Liste verbotener Autoren während der Zeit des Nationalsozialismus"](https://de.wikipedia.org/wiki/Liste_verbotener_Autoren_w%C3%A4hrend_der_Zeit_des_Nationalsozialismus)
 
 ## <a name="team"></a>Namen aller Teammitglieder
 * Daniel Burckhardt ([github](https://github.com/burki))
