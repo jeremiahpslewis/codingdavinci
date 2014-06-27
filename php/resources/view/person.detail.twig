@@ -1,16 +1,18 @@
 {% import 'helper.twig' as helper %}
 {% extends 'layout.html.twig' %}
 {% block head %}
-    <script src="{{ app.request.basepath }}/js/seealso.js"></script>
+<script src="{{ app.request.basepath }}/js/seealso.js"></script>
     <script>
-          var service = new SeeAlsoCollection();
-          service.services = {
-            'pndaks' : new SeeAlsoService('http://beacon.findbuch.de/seealso/pnd-aks/')
-           };
-           service.views = { 'seealso-ul' : new SeeAlsoUL({
-                                                            linkTarget: '_blank',
-                                                            maxItems: 100 }) };
-           service.replaceTagsOnLoad();
+        var service = new SeeAlsoCollection();
+        service.services = {
+            'pndaks' : new SeeAlsoService('http://beacon.findbuch.de/seealso/pnd-aks/-verbrannte')
+        };
+        service.views = {
+            'seealso-ul' : new SeeAlsoUL({
+                                linkTarget: '_blank',
+                                maxItems: 100 })
+        };
+        service.replaceTagsOnLoad();
     </script>
 {% endblock %}
 
