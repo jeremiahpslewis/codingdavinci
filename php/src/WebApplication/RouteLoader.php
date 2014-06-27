@@ -59,6 +59,10 @@ class RouteLoader
         $this->app->get('/analyse-orte', array($this->app['statistics.controller'],
                                                'placeCountAction'))
             ->bind('analyse-orte');
+        $this->app->get('/analyse-publikationsorte',
+                        array($this->app['static.controller'],
+                              'tableauOrtAction'))
+            ->bind('analyse-publikationsorte');
 
         // list
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
