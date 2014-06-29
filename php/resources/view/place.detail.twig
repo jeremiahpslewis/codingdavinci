@@ -1,0 +1,50 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ app.request.basepath }}/js/leaflet/leaflet.css" />
+    <script src="{{ app.request.basepath }}/js/leaflet/leaflet.js"></script>
+    <script src="{{ app.request.basepath }}/js/leaflet/L.Geodesic.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div itemscope itemtype="http://schema.org/Place">
+    <h1 itemprop="name">{{ entry.__get('name') }}</h1>
+    <p>{{ entry.__get('country').__get('germanName') }}</p>
+    </div>
+
+    {% if placesOfBirth|length > 0 %}
+        <h2 style="clear: left">Geburtsort von</h2>
+        <ul class="listing">
+        {% for person in placesOfBirth %}
+            <li>{{  helper.person_linked(person) }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if placesOfDeath|length > 0 %}
+        <h2 style="clear: left">Sterbeort von</h2>
+        <ul class="listing">
+        {% for person in placesOfDeath %}
+            <li>{{  helper.person_linked(person) }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if map is defined %}
+        {{ map|raw }}
+    {% endif %}
+
+    {% if gnd is defined or entry.__get('geonames') is not empty%}
+    <h2>Externe Angebote</h2>
+    <ul>
+    {% if gnd is defined %}
+    <li>Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a></li>
+    {% endif %}
+    {% if entry.__get('geonames') is not empty%}
+    <li>Landkarte: <a href="{{ entry.__get('geonames') }}" target="_blank">GeoNames</a></li>
+    {% endif %}
+    </ul>
+    {% endif %}
+
+{% endblock %}

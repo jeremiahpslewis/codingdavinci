@@ -1,0 +1,21 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <div itemscope itemtype="http://schema.org/Place">
+    <h1 itemprop="name"><a href="{{ path('place-detail', {'id': entry.__get('id')}) }}">{{ entry.__get('name') }}</a></h1>
+
+    <form class="edit" action="#" method="post">
+    {{ form_widget(form) }}
+
+    <input type="submit" name="submit" value="Speichern" />
+    </form>
+    </div>
+
+    {% if gnd is defined %}
+    <h2>Externe Angebote</h2>
+    Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a>
+    <div title="{{ gnd }}" class="pndaks seealso-ul"></div>
+    {% endif %}
+
+{% endblock %}

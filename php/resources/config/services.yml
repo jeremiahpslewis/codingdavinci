@@ -9,3 +9,10 @@ services:
         factory_class:  ConsoleApplication
         factory_method: setupDoctrine
         arguments: [%dbal%]
+        
+    http-client:
+        class: GuzzleHttp\Client
+                    
+    name-service:
+        class: Service\NameService
+        arguments: [ @gender-provider ]

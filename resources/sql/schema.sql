@@ -38,7 +38,7 @@ CREATE TABLE Publication (
 
   author VARCHAR(511) NULL,
   editor VARCHAR(511) NULL,
-  
+
   title VARCHAR(511) NULL,
   other_title_information VARCHAR(511) NULL,
   place_of_publication  VARCHAR(1023) NULL,
@@ -63,6 +63,27 @@ CREATE TABLE Publication (
   changed_at    DATETIME NULL,                  # when it was changed
   changed_by    INT NULL                        #
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+CREATE TABLE Country (
+  id            INT AUTO_INCREMENT PRIMARY KEY, # unique id
+  status        INT NOT NULL DEFAULT 0,         # -1: removed
+
+  name VARCHAR(511) NULL,
+  name_de  VARCHAR(511) NULL,
+
+  iso2          CHAR(2) NULL,
+  iso3          CHAR(3) NULL,
+
+  gnd           VARCHAR(255) NULL,              #
+
+  geonames      VARCHAR(255) NULL,
+
+  created_at    DATETIME,                       # when it was created
+  created_by    INT NULL,                       # ref to Logins.id: who created the entry
+  changed_at    DATETIME NULL,                  # when it was changed
+  changed_by    INT NULL                        #
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 
 CREATE TABLE Place (
   id            INT AUTO_INCREMENT PRIMARY KEY, # unique id

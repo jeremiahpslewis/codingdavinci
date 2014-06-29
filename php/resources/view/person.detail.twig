@@ -36,11 +36,19 @@
     <dl>
     {% if entry.__get('placeOfBirth') is not empty or entry.__get('dateOfBirth') is not empty %}
         <dt>Geboren:</dt>
-        <dd>{{ entry.__get('placeOfBirth') }} {{ entry.__get('dateOfBirth')|dateincomplete }}</dd>
+        <dd>
+            {% if placeOfBirth is not null %}<a href="{{ path('place-detail', {'id': placeOfBirth.__get('id')}) }}">{% endif %}
+            {{ entry.__get('placeOfBirth') }}{% if placeOfBirth is not null %}</a>{% endif %}
+            {{ entry.__get('dateOfBirth')|dateincomplete }}
+        </dd>
     {% endif %}
     {% if entry.__get('placeOfDeath') is not empty or entry.__get('dateOfDeath') is not empty %}
         <dt>Gestorben:</dt>
-        <dd>{{ entry.__get('placeOfDeath') }} {{ entry.__get('dateOfDeath')|dateincomplete }}</dd>
+        <dd>
+            {% if placeOfDeath is not null %}<a href="{{ path('place-detail', {'id': placeOfDeath.__get('id')}) }}">{% endif %}
+            {{ entry.__get('placeOfDeath') }}{% if placeOfDeath is not null %}</a>{% endif %}
+            {{ entry.__get('dateOfDeath')|dateincomplete }}
+        </dd>
     {% endif %}
     </dl>
 

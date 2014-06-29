@@ -147,10 +147,24 @@ class PersonController
             $list = $em->getRepository('Entities\BannedList')->findOneByRow($row);
         }
 
+        // find related places
+        $gndPlaceOfBirth = $entity->gndPlaceOfBirth;
+        $placeOfBirth = !empty($gndPlaceOfBirth)
+            ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfBirth)
+            : null;
+            
+        $gndPlaceOfDeath = $entity->gndPlaceOfDeath;
+        $placeOfDeath = !empty($gndPlaceOfDeath)
+            ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfDeath)
+            : null;
+
         $render_params = array('pageTitle' => 'Person',
                                'entry' => $entity,
+                               'placeOfBirth' => $placeOfBirth,
+                               'placeOfDeath' => $placeOfDeath,
                                'list' => $list,
                                );
+
         if (preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)/', $entity->gnd, $matches)) {
             $render_params['gnd'] = $matches[1];
         }

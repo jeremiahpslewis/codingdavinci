@@ -35,6 +35,10 @@ class RouteLoader
         $this->app['publication.controller'] = $this->app->share(function () {
             return new Controller\PublicationController();
         });
+
+        $this->app['place.controller'] = $this->app->share(function () {
+            return new Controller\PlaceController();
+        });
     }
 
     public function bindRoutesToControllers()
@@ -105,6 +109,23 @@ class RouteLoader
         $this->app->get('/publication/{id}',
                         array($this->app['publication.controller'], 'detailAction'))
             ->bind('publication-detail');
+
+
+        // place
+        $this->app->get('/place', array($this->app['place.controller'], 'indexAction'))
+            ->bind('place');
+        $this->app->post('/place', array($this->app['place.controller'], 'indexAction'));
+        // $this->app->get('/person/beacon', array($this->app['person.controller'], 'gndBeaconAction'));
+
+        $this->app->get('/place/{id}', array($this->app['place.controller'], 'detailAction'))
+            ->assert('id', '\d+')
+            ->bind('place-detail');
+
+        $this->app->get('/place/{id}/edit',
+                        array($this->app['place.controller'], 'editAction'))
+            ->bind('list-edit');
+        $this->app->post('/place/{id}/edit',
+                         array($this->app['place.controller'], 'editAction'));
 
         // about
         $this->app->get('/about', array($this->app['static.controller'], 'aboutAction'))

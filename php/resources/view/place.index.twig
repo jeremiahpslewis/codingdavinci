@@ -1,0 +1,50 @@
+{% extends 'layout.html.twig' %}
+
+{% block head %}
+    <script>
+    $( document ).ready(function() {
+        $('#search').autocomplete({
+            source: function(request, response) {
+					$.getJSON("{{ app.request.getBaseURL() }}/../api.php/v1/places", {
+						q: request.term
+					}, function(data) {
+						// data is an array of objects and must be transformed for autocomplete to use
+						var array = $.map(data, function(p) {
+							return {
+								label: p.name + ' (' + p.iso2 + ')',
+								value: p.name
+							};
+						});
+						response(array);
+					});
+				},
+            minChars: 2
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="search-widget">
+    {{ searchwidget(searchwidget) }}
+</div>
+
+<ul class="listing">
+    {% for entry in entries %}
+    <li>
+        <a href="{{ path('place-detail', {'id': entry.__get('id')}) }}">
+            {{ entry.__get('name') }}
+            {% if entry.__get('country') is not empty  %}
+                ({{ entry.__get('country').__get('iso2') }})
+            {% endif %}
+        </a>
+    </li>
+
+    {% endfor %}
+</ul>
+
+{% if pager.haveToPaginate %}
+  {{ pagerfanta(pager) }}
+{% endif %}
+
+{% endblock %}

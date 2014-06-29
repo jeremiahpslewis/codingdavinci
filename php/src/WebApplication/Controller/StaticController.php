@@ -24,13 +24,13 @@ class StaticController
     {
         $content = <<<EOT
 <!-- Beginn der storymap -->
-    <a name="kolb" class="anchor-offset"></a>
-    <iframe src='http://cdn.knightlab.com/libs/storymapjs/latest/embed/?url=https://www.googledrive.com/host/0B98wXqM9dji8UzQ1cjlZcFI4bUE/published.json&lang=de&height=600' width='100%' height='600' frameborder='0'></iframe>
+    <h2 id="kolb" class="anchor-offset">Annette Kolb</h2>
+    <iframe src='http://cdn.knightlab.com/libs/storymapjs/latest/embed/?url=https://www.googledrive.com/host/0B98wXqM9dji8UzQ1cjlZcFI4bUE/published.json&lang=de&height=600' width='100%' height='600' frameborder='0' style="margin-bottom: 100px"></iframe>
 
 <!-- Ende der Storymap -->
 
 <!-- Beginn der Timeline: Erich Kästner -->
-    <a name="kaestner" class="anchor-offset"></a>
+    <h2 id="kaestner" class="anchor-offset">Erich Kästner</h2>
     <iframe src='http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=0AiSeZXd_qNJ4dHUxRFFsZy1lemFYelpFLTBQQWFUNnc&font=PT&maptype=toner&lang=de&height=650' width='100%' height='650' frameborder='0'></iframe>
 
 

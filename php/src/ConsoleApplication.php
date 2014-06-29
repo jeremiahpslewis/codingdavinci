@@ -53,6 +53,10 @@ abstract class BaseCommand extends Command
         return $value;
     }
 
+    protected function getBasePath() {
+        return $this->container->getParameter('base_path');
+    }
+
     protected function readCsv($fname, $separator = ',') {
         $entries = array();
 
@@ -80,6 +84,10 @@ abstract class BaseCommand extends Command
 
     protected function getEntityManager() {
         return $this->container->get('doctrine');
+    }
+
+    protected function getNameService() {
+        return $this->container->get('name-service');
     }
 
     protected function getLogger($output) {
@@ -201,7 +209,7 @@ class ImportCommand extends BaseCommand
             ->addArgument(
                 'action',
                 InputArgument::OPTIONAL,
-                'table that you want to import (list / publication / publicationperson)'
+                'table that you want to import (list / publication / publicationperson / publicationplace / place / country)'
             )
             ->addOption(
                 'type',
@@ -263,10 +271,15 @@ class ImportCommand extends BaseCommand
 
     private function insertUpdatePublicationEntry(&$publication_entry,
                                                   $update_existing = true, $create_missing = false) {
-        if (empty($publication_entry['titleGND'])) {
-            return false;
+        if (array_key_exists('id', $publication_entry)) {
+            $entity = $this->em->getRepository('Entities\Publication')->findOneById($publication_entry['id']);
         }
-        $entity = $this->em->getRepository('Entities\Publication')->findOneByGnd($publication_entry['titleGND']);
+        else {
+            if (empty($publication_entry['titleGND'])) {
+                return false;
+            }
+            $entity = $this->em->getRepository('Entities\Publication')->findOneByGnd($publication_entry['titleGND']);
+        }
 
         $created = false;
         if (!isset($entity)) {
@@ -286,7 +299,8 @@ class ImportCommand extends BaseCommand
 
         if ($update_existing || $created) {
             foreach (array('title',
-                           'culturegraph', 'issued', 'completeWorks'
+                           'culturegraph', 'issued', 'completeWorks',
+                           'geonamesPlaceOfPublication',
                            ) as $key)
             {
                 if (array_key_exists($key, $publication_entry)) {
@@ -302,7 +316,6 @@ class ImportCommand extends BaseCommand
         if (!empty($publication_entry['contributorGND'])) {
             $this->insertUpdatePersonRefs($entity, preg_split('/\s*\;\s*/', $publication_entry['contributorGND']), 'edt');
         }
-
         $this->em->persist($entity);
         $this->em->flush();
 
@@ -395,6 +408,43 @@ class ImportCommand extends BaseCommand
         return true;
     }
 
+    private function insertUpdateCountry(&$country, $update_existing = true) {
+        if (empty($country['iso-2'])) {
+            return false;
+        }
+
+        $entity = $this->em->getRepository('Entities\Country')->findOneByIso2($country['iso-2']);
+
+        if (isset($entity) && !$update_existing) {
+            return true; // already done
+        }
+
+        if (!isset($entity)) {
+            // preset new entity
+            $entity = new Entities\Country();
+            $entity->iso2 = $country['iso-2'];
+        }
+
+        foreach (array('name' => 'name',
+                       'iso-2' => 'iso2', 'iso-3' => 'iso3',
+                       'name_de' => 'germanName',
+                       ) as $src => $target)
+        {
+            if (array_key_exists($src, $country)) {
+                $value = $country[$src];
+                if ('' === $value) {
+                    $value = null;
+                }
+                $entity->{$target} = $value;
+            }
+        }
+
+        $this->em->persist($entity);
+        $this->em->flush();
+
+        return true;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -442,6 +492,63 @@ class ImportCommand extends BaseCommand
             }
             foreach ($publication_persons as $publication_entry) {
                 $this->insertUpdatePublicationEntry($publication_entry, $update_existing);
+            }
+        }
+        else if ($action == 'publicationplace') {
+            $places_map = array();
+            switch ($type) {
+                case 'tab':
+                    $file = $this->getBasePath() . '/resources/data/publications_place_geonames.tsv';
+                    $places_geonames = $this->readCsv($file, "\t");
+                    foreach ($places_geonames as $entry) {
+                       $places_map[$entry['place']] = $entry;
+                    }
+                    $file = $this->getBasePath() . '/resources/data/publications_place_normalized.tsv';
+                    $publications = $this->readCsv($file, "\t");
+                    break;
+                default:
+                    die('Currently not handling type ' . $type);
+            }
+            foreach ($publications as $publication) {
+                $place_normalized = $publication['place_normalized'];
+                if (!empty($place_normalized) && isset($places_map[$place_normalized])) {
+                    $geonames_id = $places_map[$place_normalized]['geonames_id'];
+                    $publication_entry = array('id' => $publication['id'],
+                                               // 'placeOfPublication' => $publication['place_of_publication'],
+                                               'geonamesPlaceOfPublication' => 'http://sws.geonames.org/' . $geonames_id . '/');
+                    $this->insertUpdatePublicationEntry($publication_entry, $update_existing);
+                }
+            }
+        }
+        else if ($action == 'place') {
+            switch ($type) {
+                case 'tab':
+                    $file = $this->getBasePath() . '/resources/data/places_geonames.tsv';
+                    $places_geonames = $this->readCsv($file, "\t");
+                    break;
+                default:
+                    die('Currently not handling type ' . $type);
+            }
+            foreach ($places_geonames as $place) {
+                $dql = 'UPDATE Entities\Place p SET p.geonames = :geonames WHERE p.name = :name AND p.countryCode = :countryCode AND p.geonames IS NULL';
+                $parameters = array('name' => $place['place'],
+                                    'countryCode' => $place['country_code'],
+                                    'geonames' => 'http://sws.geonames.org/' . $place['geonames_id'] . '/');
+                $query = $this->em->createQuery($dql)->setParameters($parameters);
+                $query->execute();
+            }
+        }
+        else if ($action == 'country') {
+            switch ($type) {
+                case 'csv':
+                    $file = $this->getBasePath() . '/resources/data/2014-06-28.dump.countrylist.net.csv';
+                    $countries = $this->readCsv($file, ";");
+                    break;
+                default:
+                    die('Currently not handling type ' . $type);
+            }
+            foreach ($countries as $country) {
+                $this->insertUpdateCountry($country, $update_existing);
             }
         }
         else if ($action == 'person') {
@@ -497,13 +604,13 @@ class FetchCommand extends BaseCommand
             ->addArgument(
                 'action',
                 InputArgument::OPTIONAL,
-                'table that you want to fetch (person / publication)'
+                'table that you want to fetch (person / person-gender / publication / place)'
             )
             ->addOption(
                 'type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'specify entityfacts, dnb, wikidata or oclc',
+                'specify entityfacts, dnb, wikidata, oclc or geonames',
                 null
                 )
             ->setDescription('Fetch external data');
@@ -647,32 +754,81 @@ class FetchCommand extends BaseCommand
         }
     }
 
-    private function fetchPlaceData($type) {
+    /**
+     * easyrdf-Helper Stuff
+     */
+    protected function setValuesFromResource (&$values, $resource, $propertyMap, $prefix = '') {
+        foreach ($propertyMap as $src => $target) {
+            if (is_int($src)) {
+                // numerical indexed
+                $key = $target;
+            }
+            else {
+                $key = $src;
+            }
+
+            if (!empty($prefix) && !preg_match('/\:/', $key)) {
+                $key = $prefix . ':' . $key;
+            }
+
+            $count = $resource->countValues($key);
+            if ($count > 1) {
+                $collect = array();
+                $properties = $resource->all($key);
+                foreach ($properties as $property) {
+                    $value = $property->getValue();
+                    if (!empty($value)) {
+                        $collect[] = $value;
+                    }
+                }
+                $values[$target] = $collect;
+
+            }
+            else if ($count == 1) {
+                $property = $resource->get($key);
+
+                if (isset($property) && !($property instanceof \EasyRdf_Resource)) {
+                    $value = $property->getValue();
+                    if (!empty($value)) {
+                        $values[$target] = $value;
+                    }
+                }
+            }
+        }
+    }
+
+    private function fetchPlaceData($type, $update=false) {
         // find missing
-        $qb = $this->em->createQueryBuilder();
-        $qb->select(array('P'))
-            ->from('Entities\Place', 'P');
+        $dql = "SELECT P, C FROM Entities\Place P LEFT JOIN P.country C";
+
         if ('dnb' == $type) {
-            $qb->where('P.gnd IS NOT NULL AND (P.geonames IS NULL OR P.latitude IS NULL)');
+            $dql .= ' WHERE P.gnd IS NOT NULL';
+            $dql .= ' AND P.country IS NULL AND P.name IS NULL';
         }
         else {
-            $qb->where('P.geonames IS NOT NULL');
+            $dql .= ' WHERE P.geonames IS NOT NULL';
+            $dql .= ' AND P.name IS NULL OR P.latitude IS NULL';
         }
-        // $qb->setMaxResults(1);
-
-        $query = $qb->getQuery();
+        $query = $this->em->createQuery($dql);
+        // $query->setMaxResults(1);
         $results = $query->getResult();
+
+        \EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
+        \EasyRdf_Namespace::set('gnd', 'http://d-nb.info/standards/elementset/gnd#');
+        \EasyRdf_Namespace::set('geo', 'http://www.opengis.net/ont/geosparql#');
+
+        \EasyRdf_Namespace::set('gn', 'http://www.geonames.org/ontology#');
+        \EasyRdf_Namespace::set('wgs84_pos', 'http://www.w3.org/2003/01/geo/wgs84_pos#');
+
         foreach ($results as $place) {
-            if (preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)/', $place->gnd, $matches)) {
+            if ('dnb' == $type && preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)/', $place->gnd, $matches)) {
                 $gnd_id = $matches[1];
                 if ('dnb' == $type) {
                     var_dump($place->gnd);
                     $persist = false;
                     $url = $place->gnd;
 
-                    \EasyRdf_Namespace::set('dc', 'http://purl.org/dc/elements/1.1/');
-                    \EasyRdf_Namespace::set('gnd', 'http://d-nb.info/standards/elementset/gnd#');
-                    \EasyRdf_Namespace::set('geo', 'http://www.opengis.net/ont/geosparql#');
+
                     $graph = new EasyRdf_Graph($url);
                     try {
                         $graph->load();
@@ -684,6 +840,35 @@ class FetchCommand extends BaseCommand
                             echo('WARN: handle type for ' . $url);
                         }
                         if (isset($resource)) {
+                            foreach ($resource->allResources('gnd:geographicAreaCode') as  $geographicAreaCode) {
+                                $uri = $geographicAreaCode->getUri();
+                                if (preg_match('/#X[A-E]\-([A-Z][A-Z])\b/', $uri, $matches)) {
+                                    $place->countryCode = $matches[1];
+                                    $persist = true;
+                                    break;
+                                }
+                                else if ('http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DDDE' == $uri) {
+                                    $place->countryCode = 'DE';
+                                    $persist = true;
+                                    break;
+                                }
+                                else if (in_array($uri,
+                                                  array('http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-DXDE',
+                                                        'http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-YUCS',
+                                                        'http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CSXX',
+                                                        'http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-CSHH',
+                                                        'http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-SUHH',
+                                                        'http://d-nb.info/standards/vocab/gnd/geographic-area-code#XA-AAAT',
+                                                        )))
+                                {
+                                    // no automatic mapping for no longer existing territories such as Deutsches Reich, Habsburg, Soviet Union or Yugoslavia, Czechoslovakia...
+
+                                }
+                                else {
+                                    die($uri);
+                                }
+                            }
+
                             $hasGeometry = $resource->getResource('geo:hasGeometry');
                             if (isset($hasGeometry)) {
                                 $asWKT = $hasGeometry->get('geo:asWKT');
@@ -722,23 +907,89 @@ class FetchCommand extends BaseCommand
                 }
                 else {
                     die('TODO: handle type' . $type);
-                    $url = sprintf('http://hub.culturegraph.org/entityfacts/%s',
-                                   $gnd_id);
-                    var_dump($url);
-                    $result = $this->executeJsonQuery($url,
-                                                      array('Accept' => 'application/json',
-                                                            'Accept-Language' => 'en-us,en', // date-format!
-                                                            ));
-                    if (false !== $result) {
-                        $person->entityfacts = $result;
+                }
+            }
+            else if (preg_match('/geonames\.org/', $place->geonames)) {
+                var_dump($place->geonames);
+                $persist = false;
+                $graph = new EasyRdf_Graph($place->geonames);
+                try {
+                    $graph->load();
+                    $resource = $graph->get('gn:Feature', '^rdf:type');
 
-                        $this->em->persist($person);
-                        $this->em->flush();
+                    // no result
+                    if (empty($resource)) {
+                        die('nothing found for ' . $place->geonames);
+                    }
+                    $values = array();
+                    $this->setValuesFromResource($values, $resource,
+                                                 array('name' => 'name',
+                                                       'countryCode' => 'countryCode',
+                                                       ),
+                                                 'gn');
+                    $this->setValuesFromResource($values, $resource,
+                                 array('lat' => 'latitude',
+                                       'long' => 'longitude',
+                                       ),
+                                 'wgs84_pos');
+
+                    foreach (array('parentADM1' => 'geonamesParentAdm1',
+                                   'parentADM2' => 'geonamesParentAdm2',
+                                   'parentADM3' => 'geonamesParentAdm3',
+                                   ) as $key => $target) {
+                        $related = $resource->getResource('gn:' . $key);
+                        if (isset($related)) {
+                            $values[$target] = $related->getUri();
+                        }
+                    }
+
+                    foreach ($values as $target => $new_value) {
+                        $value = $place->$target;
+                        if (($update || empty($value))) {
+                            $persist = true;
+                            $place->$target = $new_value;
+                        }
                     }
 
                 }
+                catch (Exception $e) {
+                }
+
+                if ($persist) {
+                    $this->em->persist($place);
+                    $this->em->flush();
+                }
+
+
+
             }
 
+        }
+    }
+
+    protected function fetchPersonGenderData ($update = false) {
+        // find missing
+        $qb = $this->em->createQueryBuilder();
+        $qb->select(array('P'))
+            ->from('Entities\Person', 'P')
+            ->where('P.forename IS NOT NULL'
+                    . (!$update ? ' AND P.gender IS NULL' : ''));
+        // $qb->setMaxResults(15);
+
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        $name_service = $this->getNameService();
+        foreach ($results as $person) {
+            if (preg_match('/^[A-Z]\.$/', $person->forename)) {
+                // skip initials
+                continue;
+            }
+            $gender = $name_service->genderize($person->forename, $person->surname);
+            if (!empty($gender)) {
+                $person->gender = $gender;
+                $this->em->persist($person);
+                $this->em->flush();
+            }
         }
     }
 
@@ -892,6 +1143,9 @@ class FetchCommand extends BaseCommand
             }
             $this->fetchPlaceData($type);
         }
+        else if ('person-gender' == $action) {
+            $this->fetchPersonGenderData();
+        }
         else {
             $type = $input->getOption('type');
             if (empty($type)) {
@@ -914,7 +1168,7 @@ class PopulateCommand extends BaseCommand
             ->addArgument(
                 'action',
                 InputArgument::OPTIONAL,
-                'table that you want to populate (publication / publication-person / person / person-detail)'
+                'table that you want to populate (publication / publication-person / person / person-detail / place)'
             )
             ->setDescription('Populate database tables');
     }
@@ -947,7 +1201,12 @@ class PopulateCommand extends BaseCommand
     }
 
     private function insertUpdatePlace(&$place, $update_existing = true) {
-        $entity = $this->em->getRepository('Entities\Place')->findOneByGnd($place['gnd']);
+        if (!empty($place['geonames'])) {
+            $entity = $this->em->getRepository('Entities\Place')->findOneByGeonames($place['geonames']);
+        }
+        else {
+            $entity = $this->em->getRepository('Entities\Place')->findOneByGnd($place['gnd']);
+        }
 
         if (isset($entity) && !$update_existing) {
             return true; // already done
@@ -956,7 +1215,12 @@ class PopulateCommand extends BaseCommand
         if (!isset($entity)) {
             // preset new entity
             $entity = new Entities\Place();
-            $entity->gnd = $place['gnd'];
+            if (!empty($place['geonames'])) {
+                $entity->geonames = $place['geonames'];
+            }
+            else {
+                $entity->gnd = $place['gnd'];
+            }
         }
 
         foreach (array('name',
@@ -1183,6 +1447,39 @@ class PopulateCommand extends BaseCommand
                         // exit;
                         $this->insertUpdatePlace($place_record, $update_existing);
 
+                    }
+
+                }
+            }
+        }
+        else if ('place-from-publication' == $action) {
+            $update_existing = false;
+
+            // find missing Place
+            $qb = $entityManager->createQueryBuilder();
+            $qb->select(array('Publication', 'P1'))
+                ->from('Entities\Publication', 'Publication')
+                ->leftJoin('Entities\Place', 'P1',
+                           \Doctrine\ORM\Query\Expr\Join::WITH, 'P1.geonames=Publication.geonamesPlaceOfPublication')
+                ->where('Publication.geonamesPlaceOfPublication IS NOT NULL')
+                // ->setMaxResults(5)
+                ;
+            if (!$update_existing) {
+                $qb->having('P1.id IS NULL');
+            }
+
+            $query = $qb->getQuery();
+            $results = $query->getResult();
+            foreach ($results as $result) {
+                if (!isset($result)) {
+                    continue;
+                }
+                foreach (array('placeOfPublication') as $key) {
+                    $geonames = $result->__get('geonames' . ucfirst($key));
+                    if (!is_null($geonames)) {
+                        $place_record = array('geonames' => $geonames);
+                        var_dump($place_record);
+                        $this->insertUpdatePlace($place_record, $update_existing);
                     }
 
                 }
