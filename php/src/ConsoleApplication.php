@@ -21,6 +21,7 @@ class ConsoleApplication extends BaseApplication
             new ImportCommand($container),
             new FetchCommand($container),
             new PopulateCommand($container),
+            new AnalyticsCommand($container),
         );
 
         $this->application->addCommands($commands);
@@ -147,7 +148,6 @@ abstract class BaseCommand extends Command
 
 
 }
-
 
 class CreateCommand extends BaseCommand
 {
@@ -1597,6 +1597,108 @@ class PopulateCommand extends BaseCommand
                 $publication_record = array('gnd' => $gnd, 'listRow' => $result->row);
                 $this->insertUpdatePublication($publication_record);
             }
+        }
+
+    }
+}
+
+class AnalyticsCommand extends BaseCommand
+{
+    /**
+     * {@inheritDoc}
+     */
+    protected function configure()
+    {
+        $this->setName('analytics')
+            ->setDescription('Create json-files for analytics')
+            ->addArgument(
+                'action',
+                InputArgument::OPTIONAL,
+                'report that you want to generate (flare)'
+            );
+    }
+
+    private function stripGnd ($gnd) {
+        $gnd = preg_replace('/http\:\/\/d\-nb\.info\/gnd\//', '', $gnd);
+        return preg_replace('/\-/', '_', $gnd);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $logger = $this->getLogger($output);
+
+        $this->em = $entityManager = $this->getEntityManager();
+
+        $action = $input->getArgument('action');
+        if ($action == 'flare') {
+            $dbconn = $this->em->getConnection();
+
+            $querystr = 'SELECT Place.gnd AS gnd, Place.name AS name, Country.iso2 AS country_code'
+                      . ' FROM Person JOIN Place ON Person.gnd_place_of_death=Place.gnd JOIN Country ON Place.country_code=Country.iso2'
+                      . ' WHERE Person.status >= 0'
+                      . " AND Person.complete_works <> 0"
+                      // . " AND Country.iso2 IN ('AR', 'AT')"
+                      . ' GROUP BY Country.iso3, Place.name'
+                      . ' ORDER BY country_code, Place.name'
+                      ;
+            $stmt = $dbconn->query($querystr);
+            $death_by_country = array();
+            while ($row = $stmt->fetch()) {
+                $deathplaces_by_country[$row['country_code']][$row['gnd']] = $row['name'];
+            }
+            $missingplaces_by_country = array();
+
+            $dependencies = array();
+            foreach ($deathplaces_by_country as $country_code => $places) {
+                foreach ($places as $gnd => $place) {
+                    // find all birth-places as dependencies
+                    $querystr = 'SELECT Place.gnd AS gnd, Place.name AS name, Country.iso2 AS country_code, COUNT(*) AS how_many'
+                              . ' FROM Person JOIN Place ON Person.gnd_place_of_birth=Place.gnd JOIN Country ON Place.country_code=Country.iso2'
+                              . " WHERE Person.gnd_place_of_death='" . $gnd. "' AND Person.status >= 0"
+                              . " AND Person.complete_works <> 0"
+                              . ' GROUP BY Country.iso3, Place.name';
+                    $stmt = $dbconn->query($querystr);
+                    $dependencies_by_place = array();
+                    while ($row = $stmt->fetch()) {
+                        // add to $missingplaces_by_country if not already in $death_by_country
+                        if (!isset($deathplaces_by_country[$row['country_code']])
+                            || !isset($deathplaces_by_country[$row['country_code']][$row['gnd']]))
+                        {
+                            $missingplaces_by_country[$row['country_code']][$row['gnd']] = $row['name'];
+                        }
+                        $place_key = 'place.' . $row['country_code'] . '.' . $this->stripGnd($row['gnd']);
+                        $dependencies_by_place[] = $place_key;
+                    }
+                    $place_key = 'place.' . $country_code . '.' . $this->stripGnd($gnd);
+                    $entry = array("name" => $place_key,
+                                   "label" => $place,
+                                   "size" => 1,
+                                   "imports" => array(),
+                                   );
+                    if (!empty($dependencies_by_place)) {
+                        $entry["imports"] = $dependencies_by_place;
+                    }
+
+                    $dependencies[] = $entry;
+
+                }
+            }
+
+            foreach ($missingplaces_by_country as $country_code => $places) {
+                foreach ($places as $gnd => $place) {
+                    $place_key = $country_code . '.' . $this->stripGnd($gnd);
+                    $entry = array("name" => 'place.' . $place_key,
+                                   "label" => $place,
+                                   "size" => 1,
+                                   "imports" => array(),
+                                   );
+                    $dependencies[] = $entry;
+                }
+            }
+            echo json_encode($dependencies);
         }
 
     }

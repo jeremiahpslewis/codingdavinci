@@ -512,6 +512,16 @@ EOT;
                                     );
     }
 
+    public function d3jsOrtAction(Request $request, BaseApplication $app)
+    {
+        $content = '';
+        // display the static content
+        return $app['twig']->render('static.d3js.twig',
+                                    array(
+                                          'content' => $content,
+                                          )
+                                    );
+    }
 }
 
 class TrivialStemmer

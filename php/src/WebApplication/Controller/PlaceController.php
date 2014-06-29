@@ -219,7 +219,7 @@ class PlaceController
                     $to_latitude = $places[$entry[1]]['latitude'];
                     $to_longitude = $places[$entry[1]]['longitude'];
 
-                    $color = $entity->gnd == $entry[0] ? 'red' : 'blue';
+                    $color = $entity->gnd == $entry[0] ? '#d62728' : '#2ca02c';
 
                     $polylines .= <<<EOT
                     L.geodesicPolyline([[${from_latitude}, ${from_longitude}],
