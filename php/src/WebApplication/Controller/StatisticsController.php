@@ -363,6 +363,155 @@ class StatisticsController
                                     );
 
     }
+
+    public function leafletOrtAction(Request $request, BaseApplication $app)
+    {
+        // density map of the publication-countries as described in
+        // http://leafletjs.com/examples/choropleth.html
+        $em = $app['doctrine'];
+        $dbconn = $em->getConnection();
+
+        $querystr = 'SELECT Country.iso3 AS country_code, COUNT(DISTINCT Publication.id) AS how_many FROM Publication JOIN Place ON Publication.geonames_place_of_publication=Place.geonames JOIN Country ON Place.country_code=Country.iso2 WHERE Publication.status >= 0'
+                  . ' GROUP BY Country.iso3'
+                  // . ' ORDER BY PublicationPerson.publication_ord, Publication.complete_works = 0'
+                  ;
+        $stmt = $dbconn->query($querystr);
+        $publications_by_country = array();
+        while ($row = $stmt->fetch()) {
+            $publications_by_country[$row['country_code']] = $row['how_many'];
+        }
+        $file = $app['base_path'] . '/resources/data/countries.geo.json';
+        $features = json_decode(file_get_contents($file), true);
+        $remove = array();
+        for ($i = 0; $i < count($features['features']); $i++) {
+            $feature = & $features['features'][$i];
+            if (array_key_exists($feature['id'], $publications_by_country)) {
+                $feature['properties']['density'] = intval($publications_by_country[$feature['id']]);
+            }
+            else {
+                $remove[] = $i;
+            }
+        }
+        foreach ($features['features'] as $i => $dummy) {
+            if (in_array($i, $remove)) {
+                unset($features['features'][$i]);
+            }
+        }
+        $features['features'] = array_values($features['features']); // re-index after removal
+        $features_json = json_encode($features);
+
+        $content = <<<EOT
+    <div id="map" style="width:800px; height: 450px; position: relative;"></div>
+	<script>
+		var map = L.map('map');
+
+        map.fitBounds([
+            [-45, -130],
+            [63, 150]
+        ]);
+
+        function getColor(d) {
+            return d > 10000 ? '#800026' :
+                   d > 1000  ? '#BD0026' :
+                   d > 500  ? '#E31A1C' :
+                   d > 100  ? '#FC4E2A' :
+                   d > 50   ? '#FD8D3C' :
+                   d > 10   ? '#FEB24C' :
+                   d > 5   ? '#FED976' :
+                              '#FFEDA0';
+        }
+
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.density),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+
+        function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+
+            info.update(layer.feature.properties);
+        }
+
+        var geojson;
+
+        function resetHighlight(e) {
+            geojson.resetStyle(e.target);
+            info.update();
+        }
+
+        function zoomToFeature(e) {
+            map.fitBounds(e.target.getBounds());
+        }
+
+        function onEachFeature(feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: zoomToFeature
+            });
+        }
+
+        var info = L.control();
+
+        info.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+
+        // method that we will use to update the control based on feature properties passed
+        info.update = function (props) {
+            this._div.innerHTML = '<h4>Verbotenen Publikationen nach Publikationsland</h4>'
+                +  (props
+                    ? '<b>' + props.name + '</b>: ' + props.density
+                    : 'Bewegen Sie die Maus &uuml;ber ein Land');
+        };
+
+        info.addTo(map);
+
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
+			id: 'examples.map-i86knfo3'
+		}).addTo(map);
+
+        var countriesData = ${features_json};
+
+        geojson = L.geoJson(countriesData,
+            {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+	</script>
+
+EOT;
+        // display the static content
+        return $app['twig']->render('static.leaflet.twig',
+                                    array(
+                                          'content' => $content,
+                                          )
+                                    );
+    }
+
 }
 
 class TrivialStemmer

@@ -67,6 +67,10 @@ class RouteLoader
                         array($this->app['static.controller'],
                               'tableauOrtAction'))
             ->bind('analyse-publikationsorte');
+        $this->app->get('/analyse-publikationsorte-karte',
+                        array($this->app['statistics.controller'],
+                              'leafletOrtAction'))
+            ->bind('analyse-publikationsorte-karte');
 
         // list
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))

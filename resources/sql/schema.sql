@@ -83,6 +83,7 @@ CREATE TABLE Country (
   changed_at    DATETIME NULL,                  # when it was changed
   changed_by    INT NULL                        #
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE UNIQUE INDEX idxCountryIso2 ON Country (iso2);
 
 
 CREATE TABLE Place (
@@ -109,6 +110,7 @@ CREATE TABLE Place (
   changed_at    DATETIME NULL,                  # when it was changed
   changed_by    INT NULL                        #
 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE INDEX idxPlaceGeonames ON Place (geonames);
 
 CREATE TABLE Publisher (
   id            INT AUTO_INCREMENT PRIMARY KEY, # unique id
