@@ -1,0 +1,68 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script type="text/javascript">
+	var chart;
+
+	$(document).ready(function() {
+		chart = new Highcharts.Chart({
+            chart: {
+				type: 'scatter',
+				zoomType: 'xy'
+			},
+            title: {
+                text: 'Wikipedia: Wortlänge vs Aufrufe'
+            },
+            xAxis: {
+				title: {
+					enabled: true,
+					text: 'Anzahl Wörter pro Artikel'
+				},
+				startOnTick: true,
+				endOnTick: true,
+				showLastLabel: true
+			},
+            yAxis: {
+				title: {
+					text: 'Anzahl Aufrufe (in 30 Tagen)'
+				}
+			},
+            legend: {
+                enabled: false
+            },
+			tooltip: {
+				headerFormat: '<b>{point.key}</b><br>',
+				pointFormat: '{point.x} Wörter, {point.y} Aufrufe'
+			}
+			plotOptions: {
+                scatter: {
+					marker: {
+						radius: 5,
+						states: {
+							hover: {
+								enabled: true,
+								lineColor: 'rgb(100,100,100)'
+							}
+						}
+					}
+				}
+            },
+            series: [
+                {
+                    color: 'rgba(223, 83, 83, .5)',
+                    name: {{ wiki_url }},
+                    x: {{ wiki_x }},
+					y: {{ wiki_y }}
+                }
+			]
+   });
+
+
+});
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+{% endblock %}
