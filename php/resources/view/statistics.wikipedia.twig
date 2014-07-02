@@ -13,7 +13,7 @@
 				zoomType: 'xy'
 			},
             title: {
-                text: 'Wikipedia: Wortlänge vs Aufrufe'
+                text: 'Wikipedia Personenartikel: Artikellänge vs Aufrufe'
             },
             yAxis: {
 				title: {
@@ -40,7 +40,7 @@
 			tooltip: {
 				formatter: function () {
 					return '<b>'
-					       + this.point.name + '</b><br>'
+					       + decodeURIComponent(this.point.name) + '</b><br>'
 					  + this.point.aufrufe + ' Aufrufe, ' + this.y + ' Wörter';
 				}
 				/* headerFormat: '<b>{point.name}</b><br>',
