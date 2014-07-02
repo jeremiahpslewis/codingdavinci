@@ -45,7 +45,7 @@ And then
 
     $ php composer.phar install
 
-If this doesn't work (e.g. on Debian with Suhosin-path), set suhosin.executor.include.whitelist="phar"
+If this doesn't work (e.g. on Debian with Suhosin-patch), set suhosin.executor.include.whitelist="phar"
 in /etc/php5/cli/conf.d/suhosin.ini
 
 If you installed with composer before and need to update or add the dependencies, then
@@ -54,15 +54,15 @@ If you installed with composer before and need to update or add the dependencies
 
 ### Create and populate the database
 
-Create a proper database and create the table-structure
-
-    mysql -u cdavinci -p cdavinci < data.sql
+Create a proper database and import the table-structure and data
+    $ cd ../
+    $ mysql -u cdavinci -p cdavinci < data.sql
 
 Test installation
 -------------------
 If you have PHP 5.4 or later, you can change to the web-directory and start the built-in web-server
 
-    $ cd web/
+    $ cd php/web/
     $ php -S localhost:8000
 
 Go to
@@ -72,9 +72,10 @@ Go to
 Directory Structure
 -------------------
 	# Accessed by Web-Application
-	/resources
+	/app
+    /resources
 	/src
+	/vendor
 	/web
 		/js
 		/css
-	/vendor
