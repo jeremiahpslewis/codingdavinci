@@ -512,6 +512,39 @@ EOT;
                                     );
     }
 
+    public function personenWikipediaAction(Request $request, BaseApplication $app)
+    {
+        $file = $app['base_path'] . '/resources/data/personAndWikiStats.csv';
+
+        $lines = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $first = true;
+        $data = array();
+        foreach ($lines as $line) {
+            if ($first) {
+                // skip header
+                $first = false;
+                continue;
+            }
+            $values = preg_split('/\t/', $line);
+            if (empty($values[1])) {
+                // no wiki article
+                continue;
+            }
+            $single_data = array(
+                'x' => (int)$values[4], // CHAR_COUNT (on 2014/06/28)
+                'y' => (int)$values[2], // HITS (btw 2014/05/28 and 2014/06/26)
+                'name' => $values[1], // article
+            );
+            $data[] = $single_data;
+        }
+        // display the static content
+        return $app['twig']->render('statistics.wikipedia.twig',
+                                    array(
+                                          'data' => json_encode($data),
+                                          )
+                                    );
+    }
+
     public function d3jsOrtAction(Request $request, BaseApplication $app)
     {
         $content = '';

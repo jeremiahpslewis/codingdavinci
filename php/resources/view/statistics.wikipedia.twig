@@ -9,15 +9,16 @@
 		chart = new Highcharts.Chart({
             chart: {
 				type: 'scatter',
+                renderTo: 'container',
 				zoomType: 'xy'
 			},
             title: {
-                text: 'Wikipedia: Wortlänge vs Aufrufe'
+                text: 'Wikipedia: WortlÃ¤nge vs Aufrufe'
             },
             xAxis: {
 				title: {
 					enabled: true,
-					text: 'Anzahl Wörter pro Artikel'
+					text: 'Anzahl WÃ¶rter pro Artikel'
 				},
 				startOnTick: true,
 				endOnTick: true,
@@ -32,9 +33,9 @@
                 enabled: false
             },
 			tooltip: {
-				headerFormat: '<b>{point.key}</b><br>',
-				pointFormat: '{point.x} Wörter, {point.y} Aufrufe'
-			}
+				headerFormat: '<b>{point.name}</b><br>',
+				pointFormat: '{point.x} WÃ¶rter, {point.y} Aufrufe'
+			},
 			plotOptions: {
                 scatter: {
 					marker: {
@@ -48,15 +49,27 @@
 					}
 				}
             },
-            series: [
-                {
-                    color: 'rgba(223, 83, 83, .5)',
-                    name: {{ wiki_url }},
-                    x: {{ wiki_x }},
-					y: {{ wiki_y }}
-                }
-			]
-   });
+			series: [{
+				dataLabels: {
+					enabled: false,
+					x: 40,
+					formatter:function() {
+						return this.point.name;
+					},
+					style:{color:"black"}
+				},
+				data: /*[ {
+					"x": 23,
+					"y": 22,
+					"name":"point1"
+				}, {
+					"x": 43,
+					"y": 12,
+					"name":"point2"
+				} ]*/
+				{{ data|raw }}
+			}]
+});
 
 
 });

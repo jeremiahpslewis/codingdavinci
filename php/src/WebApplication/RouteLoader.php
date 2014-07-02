@@ -75,6 +75,10 @@ class RouteLoader
                         array($this->app['statistics.controller'],
                               'd3jsOrtAction'))
             ->bind('analyse-orte-geburttod');
+        $this->app->get('/analyse-personen-wikipedia',
+                        array($this->app['statistics.controller'],
+                              'personenWikipediaAction'))
+            ->bind('analyse-personen-wikipedia');
 
         // list
         $this->app->get('/list', array($this->app['list.controller'], 'indexAction'))
