@@ -44,6 +44,17 @@ Create a proper database and create the table-structure
 
     mysql -u cdavinci -p cdavinci < data.sql
 
+Test installation
+-------------------
+If you have PHP 5.4 or later, you can change to the web-directory and start the built-in web-server
+
+    $ cd web/
+    $ php -S localhost:8000
+
+Go to
+
+    http://localhost:8000/
+
 Directory Structure
 -------------------
 	# Accessed by Web-Application
@@ -53,4 +64,3 @@ Directory Structure
 		/js
 		/css
 	/vendor
-
