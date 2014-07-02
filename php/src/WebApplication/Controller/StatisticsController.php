@@ -526,13 +526,13 @@ EOT;
                 continue;
             }
             $values = preg_split('/\t/', $line);
-            if (empty($values[1])) {
-                // no wiki article
+            if (empty($values[1]) || ($values[2] <= 1)) {
+                // no wiki article or no hits
                 continue;
             }
             $single_data = array(
-                'x' => (int)$values[4], // CHAR_COUNT (on 2014/06/28)
-                'y' => $values[2] == 0 ? 0 : log($values[2]), // HITS (btw 2014/05/28 and 2014/06/26)
+                'y' => (int)$values[5], // WORD_COUNT (on 2014/06/28)
+                'x' => $values[2] == 0 ? 0 : log($values[2]), // HITS (btw 2014/05/28 and 2014/06/26)
                 'aufrufe' => $values[2],
                 'name' => $values[1], // article
             );
