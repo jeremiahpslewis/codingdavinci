@@ -1,16 +1,9 @@
 codingdavinci
 =============
+- The code for the web-application can be found in php/
+- data.sql is a MySQL-database including the List, Publication and additional Person and Place
 
-## API ##
-- Person nach Name:
-	- Bsp: http://api.lobid.org/person?name=wolf+victoria
-- Publikation nach Titelstichwort und Autor
-	- Bsp: http://lobid.org/resource?q=Ignaz+Zadek+1907+frauenleiden&type=http://purl.org/dc/terms/BibliographicResource
-
-- Eingefügte Daten nach GND:
- 	- http://hub.culturegraph.org/entityfacts/{GND_Nummer}
-
-## Tabellenschema ##
+## Database Schema ##
 ### List ###
 Data from http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/verbannte-buecher.json
 
@@ -64,14 +57,18 @@ Norm-data identifiers
 - viaf
 
 ### PublicationPerson ###
--  publication_id
--  person_id
--  role ENUM ('aut', 'edt', 'trl'), see http://www.loc.gov/marc/relators/relaterm.html
--  ord INT NOT NULL 0, # for ordering multiple person
+- publication_id
+- person_id
+- role ENUM ('aut', 'edt', 'trl'), see http://www.loc.gov/marc/relators/relaterm.html
+- person_ord INT NOT NULL 0 # for ordering multiple Person
+- publication_ord INT NULL  # for ordeirng multiple Publication per Person by issued-date
 
 
-### Publisher ###
-- preferredName (Verlag C.H. Beck)
-- variantNames ()
-- places
-- gnd
+## Third party API ##
+- Person nach Name:
+	- Bsp: http://api.lobid.org/person?name=wolf+victoria
+- Publikation nach Titelstichwort und Autor
+	- Bsp: http://lobid.org/resource?q=Ignaz+Zadek+1907+frauenleiden&type=http://purl.org/dc/terms/BibliographicResource
+
+- Eingefügte Daten nach GND:
+ 	- http://hub.culturegraph.org/entityfacts/{GND_Nummer}

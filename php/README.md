@@ -33,7 +33,7 @@ Copy resources/config/local.yml-dist to resources/config/local.yml and adjust th
 
 ### Fetch third party dependencies
 
-Fetch the external libraries which are handled through composer.json. In the repository-root
+Fetch the external libraries which are handled through composer.json. In the php-root directory
 
     $ wget http://getcomposer.org/composer.phar
 
