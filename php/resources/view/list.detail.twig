@@ -12,8 +12,10 @@
         <dt>Vorname:</dt>
         <dd>{{ entry.__get('authorFirstname') }}</dd>
     {% endif %}
+    {% if entry.__get('title') is not empty %}
         <dt>Titel:</dt>
         <dd>{{ entry.__get('title') }}</dd>
+    {% endif %}
     {% if entry.__get('firstEditionPublicationPlace') is not empty %}
         <dt>Ort:</dt>
         <dd>{{ entry.__get('firstEditionPublicationPlace') }}</dd>

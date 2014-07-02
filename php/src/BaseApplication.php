@@ -166,5 +166,9 @@ abstract class BaseApplication
 
         return $container;
     }
+    
+    protected function getBasePath() {
+        return $this->container->getParameter('base_path');
+    }
 
 }

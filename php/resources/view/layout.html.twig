@@ -18,7 +18,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{ app.request.basepath }}/css/smoothness/jquery-ui-1.10.3.custom.min.css" />
     <script src="{{ app.request.basepath }}/js/vendor/modernizr.js"></script>
-    <script src="{{ app.request.basepath }}/js/vendor/jquery.js"></script>
+    <!--<script src="{{ app.request.basepath }}/js/vendor/jquery.js"></script>-->
+    <script src="{{ app.request.basepath }}/js/jquery-1.7.min.js"></script>
 
     <link rel="stylesheet/less" type="text/css" href="{{ app.request.basepath }}/css/site.less" />
     <script src="{{ app.request.basepath }}/js/less-1.7.0.min.js"></script>
@@ -27,47 +28,49 @@
     {% endblock %}
 </head>
 <body>
-    <header class="row full-width" style="position: fixed; z-index: 100; top: 0px; min-height: 140px;">
-      <div class="large-12 columns">
-        <h1 id="title"><a href="{{ path('home') }}">VERBRANNTE und VERBANNTE</a></h1>
-        <div style="font-size: small; font-family: 'Cousine', 'Courier', monospace; margin-bottom: 1em;">Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren.
+    <header id="banner" class="row full-width">
+        <div class="large-12 columns">
+            <h1 id="title"><a href="{{ path('home') }}">VERBRANNTE und VERBANNTE</a></h1>
+            <div style="font-size: small; font-family: 'Cousine', 'Courier', monospace; margin-bottom: 1em;">Die Liste der im Nationalsozialismus verbotenen Publikationen und Autoren.
+            </div>
         </div>
-      </div>
-    <nav id="menu" class="row full-width">
-      <ul>
-          <li class = "cat1">
-              <a href="{{ path('geschichten') }}">Geschichten</a>
-              <ul>
-                  <li><a href="{{ path('geschichten') }}#kolb">Annette&nbsp;Kolb</a></li>
-                  <li><a href="{{ path('geschichten') }}#kaestner">Erich&nbsp;Kästner</a></li>
-                  <!--<li><a href="#timeline">Achim&nbsp;Thiess</a></li>-->
-              </ul>
-          </li>
-          <li class = "cat2">
-              <a href="#Analysen">Analysen</a>
-              <ul>
-                  <li><a href="#visualization">Visualisierung</a></li>
-                  <li><a href="#Orte">Orte</a></li>
-              </ul>
-          </li>
-          <li class = "cat3">
-              <a href="{{ path('person') }}">Daten</a>
-              <ul>
-                  <li><a href="{{ path('person') }}">Personen</a></li>
-                  <li><a href="{{ path('publication') }}">Publikationen</a></li>
-                  <li><a href="{{ path('list') }}">Liste</a></li>
-              </ul>
-          </li>
-          <li class = "cat4">
-              <a href="#Hintergrund">Hintergrund</a>
-              <ul>
-                  <li><a href="#COD1NGDAV1NC1"><span>}COD1NG DA V1NC1{</span></a></li>
-                  <li><a href="#history">Historie</a></li>
-                  <li><a href="#credits">Credits/Kontakt</a></li>
-              </ul>
-          </li>
-      </ul>
-    </nav>
+        <nav id="menu" class="row full-width">
+            <ul>
+                <li class = "cat1">
+                    <a href="{{ path('geschichten') }}">Geschichten</a>
+                    <ul>
+                        <li><a href="{{ path('geschichten') }}#kolb">Annette&nbsp;Kolb</a></li>
+                        <li><a href="{{ path('geschichten') }}#kaestner">Erich&nbsp;Kästner</a></li>
+                        <!--<li><a href="#timeline">Achim&nbsp;Thiess</a></li>-->
+                    </ul>
+                </li>
+                <li class = "cat2">
+                    <a href="{{ path('analyse') }}">Analysen</a>
+                    <ul>
+                        <li><a href="{{ path('analyse') }}#Statistik">Statistik</a></li>
+                        <li><a href="{{ path('analyse') }}#Visualisierung">Visualisierung</a></li>
+                        <li><a href="{{ path('analyse') }}#Orte">Orte</a></li>
+                    </ul>
+                </li>
+                <li class = "cat3">
+                    <a href="{{ path('person') }}">Daten</a>
+                    <ul>
+                        <li><a href="{{ path('person') }}">Personen</a></li>
+                        <li><a href="{{ path('publication') }}">Publikationen</a></li>
+                        <li><a href="{{ path('place') }}">Orte</a></li>
+                        <li><a href="{{ path('list') }}">Liste</a></li>
+                    </ul>
+                </li>
+                <li class = "cat4">
+                    <a href="{{ path('about') }}">Hintergrund</a>
+                    <ul>
+                        <li><a href="{{ path('about') }}#COD1NGDAV1NC1"><span>}COD1NG DA V1NC1{</span></a></li>
+                        <li><a href="{{ path('about') }}#project">Projektbeschreibung</a></li>
+                        <li><a href="{{ path('about') }}#team">Team</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </header>
 
     <div id="main" class="row page-{{ current_route}}">
@@ -81,11 +84,28 @@
         Lizenz: <a href="http://creativecommons.org/licenses/by/3.0/de/">CC-BY</a>, Veröffentlichende Stelle: <a href="http://daten.berlin.de/datensaetze?field_publisher_tid=250">BerlinOnline Stadtportal GmbH &amp; Co KG</a>, vgl. auch <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/" target="_blank">www.berlin.de/rubrik/hauptstadt/verbannte_buecher/</a>.
       </div>
     </footer>
+    <a class="scrollup" href="#">Go to Top</a>
     <script src="{{ app.request.basepath }}/js/foundation.min.js"></script>
     <script src="{{ app.request.basepath }}/js/jquery-ui-1.10.3.custom.min.js"></script>
 
     <script>
-      $(document).foundation();
+        $(document).foundation();
+
+        // scroll-to-top button show and hide
+        jQuery(document).ready(function(){
+            jQuery(window).scroll(function(){
+                if (jQuery(this).scrollTop() > 100) {
+                    jQuery('.scrollup').fadeIn();
+                } else {
+                    jQuery('.scrollup').fadeOut();
+                }
+            });
+            // scroll-to-top animate
+            jQuery('.scrollup').click(function(){
+                jQuery("html, body").animate({ scrollTop: 0 }, 600);
+                return false;
+            });
+        });
     </script>
   </body>
 </html>

@@ -1,10 +1,35 @@
 parameters:
     dbal:
         driver: pdo_mysql
-        dbname: cdv-nsverbotsliste 
+        dbname: cdv-nsverbotsliste
         user:      root
         password:  ""
         charset:   UTF8
         driverOptions:
             1002: "SET NAMES utf8"
         # memory:    true
+
+    users:
+        # to generated an encoded password, run something like
+        # $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
+        # die($encoder->encodePassword('foo', ''));
+        admin:
+            [ ROLE_ADMIN, "5FZ2Z8QIkA7UTZ4BYkoC+GsReLf569mSKDsfods6LYQ8t+a8EW9oaircfMpmaLbPBh4FOBiiFyLfuZmTSUwzZg==" ]
+
+services:
+    namelist-gender-provider:
+        class: Service\Gender\NameListGenderProvider
+        arguments: [ %base_path%/resources/data/name_gender.txt ]
+
+    genderize-provider:
+        class: Service\Gender\GenderizeProvider
+        arguments: [ @http-client ]
+
+    # this one requires a pecl module
+    pecl-gender-provider:
+        class: Service\Gender\PeclGenderProvider
+
+    gender-provider:
+        class: Service\Gender\MergingChainProvider
+        arguments:
+            - [ @namelist-gender-provider, @pecl-gender-provider, @genderize-provider]

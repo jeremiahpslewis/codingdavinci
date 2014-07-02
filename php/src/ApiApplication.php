@@ -69,13 +69,6 @@ class ApiApplication extends BaseApplication
 
 
         $app['doctrine'] = $container->get('doctrine');
-
-        //load routes into $app
-        $routeLoader = new WebApplication\RouteLoader($app);
-        $routeLoader->bindRoutesToControllers();
-
-        $app->get('/list', array($this, 'listIndexAction'));
-        $app->get('/', array($this, 'listIndexAction'));
     }
 
 

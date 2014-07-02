@@ -3,6 +3,7 @@
         "psr/log": "~1.0",
         "monolog/monolog": "~1.10",
 
+        "symfony/icu": "1.1.*",
         "symfony/yaml": "2.5.*",
         "symfony/config": "2.5.*",
         "symfony/dependency-injection": "2.5.*",
@@ -16,13 +17,19 @@
 
         "silex/silex": "1.2.*",
         "dflydev/doctrine-orm-service-provider": "v1.0.3",
-        "symfony/yaml": "2.5.*",
         "igorw/config-service-provider": "~1.2",
         "twig/twig": ">=1.8,<2.0-dev",
         "symfony/twig-bridge": "2.5.*",
         "pagerfanta/pagerfanta": "dev-master",
         "franmomu/silex-pagerfanta-provider": "dev-master",
 
+        "symfony/form": "2.5.*",
+        "symfony/security": "2.5.*",
+        "symfony/validator": "2.5.*",
+        "symfony/translation": "2.5.*",
+
+        "erusev/parsedown": "dev-master",
+        "guzzlehttp/guzzle": "~4.0",
         "easyrdf/easyrdf": "~0.8"
     },
 
@@ -30,6 +37,5 @@
         "psr-0": {
             "": "src/"
         }
-
     }
 }

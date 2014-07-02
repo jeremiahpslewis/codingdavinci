@@ -1,0 +1,89 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script type="text/javascript">
+	var chart;
+
+	$(document).ready(function() {
+		chart = new Highcharts.Chart({
+            chart: {
+				type: 'scatter',
+                renderTo: 'container',
+				zoomType: 'xy'
+			},
+            title: {
+                text: 'Wikipedia Personenartikel: Artikellänge vs Aufrufe'
+            },
+            yAxis: {
+				title: {
+					enabled: true,
+					text: 'Anzahl Wörter pro Artikel'
+				},
+				min: 0,
+				startOnTick: true,
+				endOnTick: true,
+				showLastLabel: true
+			},
+            xAxis: {
+				title: {
+					text: 'Anzahl Aufrufe (in 30 Tagen)'
+				},
+				labels: {
+					// enabled: false
+					formatter: function() {
+						return Math.round(Math.exp(this.value));
+					}
+				}
+			},
+            legend: {
+                enabled: false
+            },
+			tooltip: {
+				formatter: function () {
+					return '<b>'
+					       + decodeURIComponent(this.point.name) + '</b><br>'
+					  + this.point.aufrufe + ' Aufrufe, ' + this.y + ' Wörter';
+				}
+				/* headerFormat: '<b>{point.name}</b><br>',
+				pointFormat: '{point.x} Wörter, {point.y} Aufrufe' */
+			},
+			plotOptions: {
+                scatter: {
+					marker: {
+						radius: 3,
+						states: {
+							hover: {
+								enabled: true,
+								lineColor: 'rgb(100,100,100)'
+							}
+						}
+					}
+				}
+            },
+			series: [{
+				dataLabels: {
+					enabled: false,
+					style: {color: "black" }
+				},
+				data: /*[ {
+					"x": 23,
+					"y": 22,
+					"name":"point1"
+				}, {
+					"x": 43,
+					"y": 12,
+					"name":"point2"
+				} ]*/
+				{{ data|raw }}
+			}]
+});
+
+
+});
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+{% endblock %}

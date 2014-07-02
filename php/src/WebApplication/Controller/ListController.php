@@ -32,7 +32,7 @@ class ListController
         if (!empty($dql_where)) {
             $dql .= ' WHERE ' . implode(' AND ', $dql_where);
         }
-        
+
         $dql .= " ORDER BY authorTitleSort, BL.authorFirstname, BL.firstEditionPublicationYear, BL.row";
         // Limit per page.
         $limit = 50;
@@ -87,4 +87,61 @@ class ListController
                                     );
     }
 
+    public function editAction(Request $request, BaseApplication $app)
+    {
+        $edit_fields = array('title', 'authorLastname');
+
+        $em = $app['doctrine'];
+
+        $row = $request->get('row');
+
+        $entity = $em->getRepository('Entities\BannedList')->findOneByRow($row);
+
+        if (!isset($entity)) {
+            $app->abort(404, "Row $row does not exist.");
+        }
+
+        $preset = array();
+        foreach ($edit_fields as $key) {
+            $preset[$key] = $entity->$key;
+        }
+
+        $form = $app['form.factory']->createBuilder('form', $preset)
+            ->add('title', 'text',
+                  array('label' => 'Titel',
+                        'required' => false,
+                        ))
+            ->add('authorLastname', 'text',
+                  array('label' => 'Nachname',
+                        'required' => false,
+                        ))
+            ->getForm();
+
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $persist = false;
+            foreach ($edit_fields as $key) {
+                $value_before =  $entity->$key;
+                if ($value_before !== $data[$key]) {
+                    $persist = true;
+                    $entity->$key = $data[$key];
+                }
+            }
+            if ($persist) {
+                $em->persist($entity);
+                $em->flush();
+                return $app->redirect($app['url_generator']->generate('list-detail', array('row' => $row)));
+            }
+        }
+
+        // var_dump($entity);
+        return $app['twig']->render('list.edit.twig',
+                                    array(
+                                          'entry' => $entity,
+                                          'form' => $form->createView(),
+                                          )
+                                    );
+    }
 }

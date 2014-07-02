@@ -1,9 +1,10 @@
 {% macro list_short(entry) %}
     {% if entry.__get('authorFirstname') is not empty or entry.__get('authorLastname') is not empty %}
-       {{ entry.__get('authorFirstname') }} {{ entry.__get('authorLastname') }}:
+       {{ entry.__get('authorFirstname') }} {{ entry.__get('authorLastname') }}{% if entry.__get('title') is not empty %}: {% endif %}
     {% endif %}
 
-    <i>{{ entry.__get('title') }}</i>.
+    {% if entry.__get('title') is not empty %}<i>{{ entry.__get('title') }}</i>.{% endif %}
+
     {% if entry.__get('firstEditionPublicationPlace') is not empty
        or entry.__get('firstEditionPublisher') is not empty
        or entry.__get('firstEditionPublicationYear') is not empty
@@ -22,6 +23,18 @@
     {% if entry.__get('surname') is not empty or entry.__get('surname') is not empty %}
        {{ entry.__get('surname') }}
     {% endif %}
+{% endmacro %}
+
+{% macro person_linked(entry) %}
+        <a href="{{ path('person-detail', {'id': entry.__get('id')}) }}">
+            {{ entry.__get('surname') }}, {{ entry.__get('forename') }}
+            {% if entry.__get('surname') is empty and entry.__get('forename') is empty %}
+            {{ entry.__get('gnd') }}
+            {% endif %}
+            {% if entry.__get('dateOfBirth') is not empty or entry.__get('dateOfDeath') is not empty %}
+                ({{ entry.__get('dateOfBirth')|dateincomplete }} - {{ entry.__get('dateOfDeath')|dateincomplete  }})
+            {% endif %}
+        </a>
 {% endmacro %}
 
 {% macro publication_short(entry) %}

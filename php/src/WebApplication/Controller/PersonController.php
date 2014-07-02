@@ -116,11 +116,28 @@ class PersonController
         $em = $app['doctrine'];
 
         $id = $request->get('id');
+        if (!isset($id)) {
+            // check if we can get by gnd
+            $gnd = $request->get('gnd');
+            if (!empty($gnd)) {
+                $qb = $em->createQueryBuilder();
+                $qb->select(array('P.id'))
+                    ->from('Entities\Person', 'P')
+                    ->where($qb->expr()->like('P.gnd', ':gnd'))
+                    ->setParameter('gnd', '%' . $gnd)
+                    ->setMaxResults(1);
+                $query = $qb->getQuery();
+                $results = $query->getResult();
+                foreach ($results as $result) {
+                    $id = $result['id'];
+                }
+            }
+        }
 
         $entity = $em->getRepository('Entities\Person')->findOneById($id);
 
         if (!isset($entity)) {
-            $app->abort(404, "Publication $id does not exist.");
+            $app->abort(404, "Person $id does not exist.");
         }
 
         // find related list entry
@@ -130,15 +147,117 @@ class PersonController
             $list = $em->getRepository('Entities\BannedList')->findOneByRow($row);
         }
 
+        // find related places
+        $gndPlaceOfBirth = $entity->gndPlaceOfBirth;
+        $placeOfBirth = !empty($gndPlaceOfBirth)
+            ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfBirth)
+            : null;
+            
+        $gndPlaceOfDeath = $entity->gndPlaceOfDeath;
+        $placeOfDeath = !empty($gndPlaceOfDeath)
+            ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfDeath)
+            : null;
+
         $render_params = array('pageTitle' => 'Person',
                                'entry' => $entity,
+                               'placeOfBirth' => $placeOfBirth,
+                               'placeOfDeath' => $placeOfDeath,
                                'list' => $list,
                                );
+
         if (preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)/', $entity->gnd, $matches)) {
             $render_params['gnd'] = $matches[1];
         }
 
         return $app['twig']->render('person.detail.twig', $render_params);
+    }
+
+    public function gndBeaconAction(Request $request, BaseApplication $app) {
+        $em = $app['doctrine'];
+
+        $ret = '#FORMAT: BEACON' . "\n" . '#PREFIX: http://d-nb.info/gnd/' . "\n";
+        $ret .= sprintf('#TARGET: %s/gnd/{ID}',
+                        $app['url_generator']->generate('person', array(), true))
+              . "\n";
+        $ret .= '#NAME: Verbrannte und Verbannte' . "\n";
+        $ret .= '#MESSAGE: Eintrag in der Liste der im Nationalsozialismus verbotenen Publikationen und Autoren' . "\n";
+
+        $dql = "SELECT DISTINCT P.id, P.gnd FROM Entities\Person P WHERE P.status >= 0 AND P.gnd IS NOT NULL ORDER BY P.gnd";
+        $query = $em->createQuery($dql);
+        // $query->setMaxResults(10);
+        foreach ($query->getResult() as $result) {
+            if (preg_match('/d\-nb\.info\/gnd\/([0-9xX]+)$/', $result['gnd'], $matches)) {
+                $gnd_id = $matches[1];
+                $ret .=  $gnd_id . "\n";
+            }
+        }
+
+        return new Response($ret,
+                            200,
+                            array('Content-Type' => 'text/plain; charset=UTF-8')
+                            );
+    }
+
+    public function editAction(Request $request, BaseApplication $app)
+    {
+        $edit_fields = array('gnd', 'forename', 'surname');
+
+        $em = $app['doctrine'];
+
+        $id = $request->get('id');
+
+        $entity = $em->getRepository('Entities\Person')->findOneById($id);
+
+        if (!isset($entity)) {
+            $app->abort(404, "Person $id does not exist.");
+        }
+
+        $preset = array();
+        foreach ($edit_fields as $key) {
+            $preset[$key] = $entity->$key;
+        }
+
+        $form = $app['form.factory']->createBuilder('form', $preset)
+            ->add('surname', 'text',
+                  array('label' => 'Nachname',
+                        'required' => true,
+                        ))
+            ->add('forename', 'text',
+                  array('label' => 'Vorname',
+                        'required' => false,
+                        ))
+            ->add('gnd', 'text',
+                  array('label' => 'GND',
+                        'required' => false,
+                        ))
+            ->getForm();
+
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $persist = false;
+            foreach ($edit_fields as $key) {
+                $value_before =  $entity->$key;
+                if ($value_before !== $data[$key]) {
+                    $persist = true;
+                    $entity->$key = $data[$key];
+                }
+            }
+            if ($persist) {
+                $em->persist($entity);
+                $em->flush();
+                return $app->redirect($app['url_generator']->generate('person-detail', array('id' => $id)));
+            }
+        }
+
+        // var_dump($entity);
+        return $app['twig']->render('person.edit.twig',
+                                    array(
+                                          'entry' => $entity,
+                                          'form' => $form->createView(),
+                                          )
+                                    );
     }
 
 }

@@ -1,0 +1,127 @@
+{% import 'helper.twig' as helper %}
+{% extends 'layout.html.twig' %}
+{% block head %}
+    <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script type="text/javascript">
+        var chart;
+
+        $(document).ready(function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    defaultSeriesType: 'column'
+                    /*, margin: [ 50, 50, 100, 80] */
+                },
+                title: {
+                    text: 'Geburts- und Todesjahr / Publikationsjahr'
+                },
+                subtitle: {
+                    text: {{ subtitle|raw }}
+                },
+                xAxis: {
+                    categories: {{categories|raw}},
+                    labels: {
+                        rotation: -45,
+                        align: 'right',
+                        style: {
+                            font: 'normal 13px Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: [
+                    {
+                        title: {
+                            text: 'Anzahl Werke'
+                        },
+                        min: 0,
+                        // max: 600
+                        opposite: true
+                    },
+                    {
+                        min: 0,
+                        // max: 25,
+                        title: {
+                            text: 'Anzahl Personen'
+                        }
+                    }
+                ],
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    // enabled: false,
+                    formatter: function() {
+                        return '<b>' + Highcharts.numberFormat(this.y, 0) + '</b>';
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        stacking: 'normal',
+                        borderWidth: 0,
+                        groupPadding: 0,
+                        pointPadding: 0
+                    }
+                },
+                series: [
+                    {
+                        yAxis: 0,
+                        name: 'Gesamtwerk',
+                        data: {{works_extended}},
+                        stack: 'works'
+                    },
+                    {
+                        yAxis: 0,
+                        name: 'Individuelle Werke',
+                        data: {{works_base}},
+                        stack: 'works'
+                    },
+                    {#
+
+                    {
+                        yAxis: 0,
+                        name: 'F',
+                        data: {{Person_F}},
+                        color: '#e6550d'
+                    },
+                    {
+                        yAxis: 0,
+                        name: 'M',
+                        data: {{Person_M}}
+                    }, #}
+                    {
+                        type: 'line',
+                        dashStyle: 'solid', // 'shortdot',
+                        marker: {
+                            enabled: false
+                        },
+                        yAxis: 1,
+                        name: 'Geburtsjahr',
+                        data: {{ person_birth }},
+                        stack: 'birth',
+                        color: '#e6550d'
+                    },
+                    {
+                        type: 'line',
+                        dashStyle: 'solid',
+                        marker: {
+                            enabled: false
+                        },
+                        yAxis: 1,
+                        name: 'Todesjahr',
+                        data: {{ person_death }},
+                        stack: 'death',
+                        color: '#303030'
+                    }
+                ]
+       });
+
+
+    });
+
+    </script>
+{% endblock %}
+
+{% block content %}
+    <h2>Geburtsjahr / Todesjahr der Autor/innen<br />Werke nach Publikationsjahr (explizit verbotene Werke / als Teil des Gesamtwerks)</h2>
+    <div id="container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+{% endblock %}

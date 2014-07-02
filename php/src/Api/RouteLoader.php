@@ -25,6 +25,10 @@ class RouteLoader
         $this->app['publication.controller'] = $this->app->share(function () {
             return new Controller\PublicationController();
         });
+
+        $this->app['place.controller'] = $this->app->share(function () {
+            return new Controller\PlaceController();
+        });
     }
 
     public function bindRoutesToControllers()
@@ -44,6 +48,8 @@ class RouteLoader
         // $api->get('/persons/{id}', array($this->app['person.controller'], 'getOne'));
 
         $api->get('/publications', array($this->app['publication.controller'], 'getAll'));
+
+        $api->get('/places', array($this->app['place.controller'], 'getAll'));
 
         /*
         $api->post('/notes', "notes.controller:save");

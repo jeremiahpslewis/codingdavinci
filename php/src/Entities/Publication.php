@@ -52,6 +52,11 @@ class Publication extends Base
     protected $placeOfPublication;
 
     /**
+    * @ORM\Column(name="geonames_place_of_publication", type="string", nullable=true)
+    */
+    protected $geonamesPlaceOfPublication;
+
+    /**
     * @ORM\Column(type="string", nullable=true)
     */
     protected $publisher;

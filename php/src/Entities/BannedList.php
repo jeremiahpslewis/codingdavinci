@@ -130,7 +130,7 @@ class BannedList extends Base
     protected $createdAt;
 
     /**
-     * @Gedmo\Timestampable(on="change", field={"title", "ssFlag", "entity"})
+     * @Gedmo\Timestampable(on="change", field={"title", "authorLastname", "authorFirstname", "ssFlag", "entity"})
      * @ORM\Column(name="changed_at", type="datetime")
      */
     protected $changedAt;

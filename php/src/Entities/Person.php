@@ -2,7 +2,7 @@
 namespace Entities;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo; // this will be like an alias for Gedmo extensions annotations
+use Gedmo\Mapping\Annotation as Gedmo; // for Gedmo extensions annotations
 
 /**
 * The Person on the NS-Verbotsliste
@@ -135,7 +135,7 @@ class Person extends Base
     protected $createdAt;
 
     /**
-     * @Gedmo\Timestampable(on="change", field={"title", "place", "gnd"})
+     * @Gedmo\Timestampable(on="change", field={"surname", "forename", "gnd"})
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="changed_at", type="datetime")
      */

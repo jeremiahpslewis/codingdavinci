@@ -6,10 +6,21 @@ class WebApplication extends BaseApplication
     protected $application;
 
     public function __construct() {
-        $container = $this->setupContainer();
+        $this->container = $container = $this->setupContainer();
 
         $this->application = $app = new \Silex\Application();
         $app['debug'] = true;
+
+        // form
+        $app->register(new \Silex\Provider\FormServiceProvider());
+
+        // validation
+        $app->register(new \Silex\Provider\ValidatorServiceProvider());
+        $app->register(new \Silex\Provider\TranslationServiceProvider(), array(
+            'locale' => 'en_US',
+            // 'translation.class_path' => __DIR__ . '/../vendor/symfony/src',
+            'translator.messages' => array()
+        ));
 
         // twig
         $app->register(new \Silex\Provider\TwigServiceProvider(), array(
@@ -42,7 +53,7 @@ class WebApplication extends BaseApplication
         $app['twig']->addFilter($filter);
 
         $app->before(function ($request) use ($app) {
-            $app['twig']->addGlobal('current_route', $request->get("_route"));
+            $app['twig']->addGlobal('current_route', $request->get('_route'));
         });
 
         // pagerfanta
@@ -54,20 +65,31 @@ class WebApplication extends BaseApplication
         // session
         $app->register(new Silex\Provider\SessionServiceProvider());
 
+        // secure edit forms
+        $users = $container->hasParameter('users')
+            ? $container->getParameter('users') : array();
+
+        // must come after twig
+        $app['security.firewalls'] = array(
+            'admin' => array(
+                'pattern' => '/edit',
+                'http' => true,
+                'users' => $users,
+            ),
+        );
+
+        $app->register(new Silex\Provider\SecurityServiceProvider(), array(
+            'security.firewalls' => $app['security.firewalls']
+        ));
+
+        // doctrine
         $app['doctrine'] = $container->get('doctrine');
+
+        $app['base_path'] = $this->getBasePath();
 
         //load routes into $app
         $routeLoader = new WebApplication\RouteLoader($app);
         $routeLoader->bindRoutesToControllers();
-
-        $app->get('/list', array($this, 'listIndexAction'));
-        $app->get('/', array($this, 'listIndexAction'));
-    }
-
-    public function listIndexAction () {
-        $output = 'TODO: build the list';
-
-        return $output;
     }
 
     public function run() {
