@@ -1,19 +1,33 @@
-skeleton web-application
-========================
+Web-site verbrannte-und-verbannte.de
+====================================
+
+License
+-------
+    Web-site displaying the List of authors banned during the Third Reich
+    Copyright (C) 2014 Daniel Burckhardt
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Installation
 ------------
-Create a fitting directory and change to it
+Clone the repository
 
-    git init
+    git clone https://github.com/jlewis91/codingdavinci.git
 
-Add the remote repository
+And change into to php-subdirectory
 
-    git remote add origin git@github.com:username/skeleton.git
-
-Get the code from remote
-
-    git pull origin master
+    $ cd codingdavinci/php
 
 Copy resources/config/local.yml-dist to resources/config/local.yml and adjust the settings to your setup.
 
