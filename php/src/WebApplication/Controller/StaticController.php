@@ -44,10 +44,36 @@ EOT;
                                     );
     }
 
-    public function tableauOrtAction(Request $request, BaseApplication $app)
+    public function tableauPublikationsOrteAction(Request $request, BaseApplication $app)
     {
         $content = <<<EOT
-<script type='text/javascript' src='https://public.tableausoftware.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1204px; height: 657px;'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;ba&#47;banned-books-v02&#47;Dashboard-Map-black&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='1204' height='657' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableausoftware.com%2F' /> <param name='site_root' value='' /><param name='name' value='banned-books-v02&#47;Dashboard-Map-black' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;ba&#47;banned-books-v02&#47;Dashboard-Map-black&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div><div style='width:1204px;height:22px;padding:0px 10px 0px 0px;color:black;font:normal 8pt verdana,helvetica,arial,sans-serif;'><div style='float:right; padding-right:8px;'><a href='http://www.tableausoftware.com/public/about-tableau-products?ref=https://public.tableausoftware.com/views/banned-books-v02/Dashboard-Map-black' target='_blank'>Learn About Tableau</a></div></div>
+<script type='text/javascript' src='https://public.tableausoftware.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 804px; height: 656px;'><noscript><a href='#'><img alt='Dashboard Map ' src='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardMap&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='804' height='656' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableausoftware.com%2F' /> <param name='site_root' value='' /><param name='name' value='Book2banned-books-final&#47;DashboardMap' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardMap&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div><div style='width:804px;height:22px;padding:0px 10px 0px 0px;color:black;font:normal 8pt verdana,helvetica,arial,sans-serif;'><div style='float:right; padding-right:8px;'><a href='http://www.tableausoftware.com/public/about-tableau-products?ref=https://public.tableausoftware.com/views/Book2banned-books-final/DashboardMap' target='_blank'>Learn About Tableau</a></div></div>
+EOT;
+        // display the static content
+        return $app['twig']->render('static.twig',
+                                    array(
+                                          'content' => $content,
+                                          )
+                                    );
+    }
+
+    public function tableauDotAction(Request $request, BaseApplication $app)
+    {
+        $content = <<<EOT
+<script type='text/javascript' src='https://public.tableausoftware.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 804px; height: 656px;'><noscript><a href='#'><img alt='Dashboard Points ' src='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardPoints&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='804' height='656' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableausoftware.com%2F' /> <param name='site_root' value='' /><param name='name' value='Book2banned-books-final&#47;DashboardPoints' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardPoints&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div><div style='width:804px;height:22px;padding:0px 10px 0px 0px;color:black;font:normal 8pt verdana,helvetica,arial,sans-serif;'><div style='float:right; padding-right:8px;'><a href='http://www.tableausoftware.com/public/about-tableau-products?ref=https://public.tableausoftware.com/views/Book2banned-books-final/DashboardPoints' target='_blank'>Learn About Tableau</a></div></div>
+EOT;
+        // display the static content
+        return $app['twig']->render('static.twig',
+                                    array(
+                                          'content' => $content,
+                                          )
+                                    );
+    }
+
+    public function tableauBubbleAction(Request $request, BaseApplication $app)
+    {
+        $content = <<<EOT
+<script type='text/javascript' src='https://public.tableausoftware.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 804px; height: 656px;'><noscript><a href='#'><img alt='Dashboard Bubble ' src='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardBubble&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='804' height='656' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableausoftware.com%2F' /> <param name='site_root' value='' /><param name='name' value='Book2banned-books-final&#47;DashboardBubble' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;Bo&#47;Book2banned-books-final&#47;DashboardBubble&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div><div style='width:804px;height:22px;padding:0px 10px 0px 0px;color:black;font:normal 8pt verdana,helvetica,arial,sans-serif;'><div style='float:right; padding-right:8px;'><a href='http://www.tableausoftware.com/public/about-tableau-products?ref=https://public.tableausoftware.com/views/Book2banned-books-final/DashboardBubble' target='_blank'>Learn About Tableau</a></div></div>
 EOT;
         // display the static content
         return $app['twig']->render('static.twig',
