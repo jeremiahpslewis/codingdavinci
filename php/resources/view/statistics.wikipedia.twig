@@ -20,6 +20,7 @@
 					enabled: true,
 					text: 'Anzahl Wörter pro Artikel'
 				},
+				min: 0,
 				startOnTick: true,
 				endOnTick: true,
 				showLastLabel: true
@@ -27,14 +28,20 @@
             yAxis: {
 				title: {
 					text: 'Anzahl Aufrufe (in 30 Tagen)'
-				}
+				},
+				min: 0
 			},
             legend: {
                 enabled: false
             },
 			tooltip: {
-				headerFormat: '<b>{point.name}</b><br>',
-				pointFormat: '{point.x} Wörter, {point.y} Aufrufe'
+				formatter: function () {
+					return '<b>'
+					       + this.point.name + '</b><br>'
+					  + this.y + ' Aufrufe, ' + this.x + ' Wörter';
+				}
+				/* headerFormat: '<b>{point.name}</b><br>',
+				pointFormat: '{point.x} Wörter, {point.y} Aufrufe' */
 			},
 			plotOptions: {
                 scatter: {
@@ -52,11 +59,7 @@
 			series: [{
 				dataLabels: {
 					enabled: false,
-					x: 40,
-					formatter:function() {
-						return this.point.name;
-					},
-					style:{color:"black"}
+					style: {color: "black" }
 				},
 				data: /*[ {
 					"x": 23,
