@@ -29,6 +29,9 @@
 				title: {
 					text: 'Anzahl Aufrufe (in 30 Tagen)'
 				},
+				labels: {
+					enabled: false
+				},
 				min: 0
 			},
             legend: {
@@ -38,7 +41,7 @@
 				formatter: function () {
 					return '<b>'
 					       + this.point.name + '</b><br>'
-					  + this.y + ' Aufrufe, ' + this.x + ' Wörter';
+					  + this.point.aufrufe + ' Aufrufe, ' + this.x + ' Wörter';
 				}
 				/* headerFormat: '<b>{point.name}</b><br>',
 				pointFormat: '{point.x} Wörter, {point.y} Aufrufe' */
@@ -46,7 +49,7 @@
 			plotOptions: {
                 scatter: {
 					marker: {
-						radius: 5,
+						radius: 3,
 						states: {
 							hover: {
 								enabled: true,

@@ -532,7 +532,8 @@ EOT;
             }
             $single_data = array(
                 'x' => (int)$values[4], // CHAR_COUNT (on 2014/06/28)
-                'y' => (int)$values[2], // HITS (btw 2014/05/28 and 2014/06/26)
+                'y' => $values[2] == 0 ? 0 : log($values[2]), // HITS (btw 2014/05/28 and 2014/06/26)
+                'aufrufe' => $values[2],
                 'name' => $values[1], // article
             );
             $data[] = $single_data;
