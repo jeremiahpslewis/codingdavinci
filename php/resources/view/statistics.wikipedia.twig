@@ -30,9 +30,11 @@
 					text: 'Anzahl Aufrufe (in 30 Tagen)'
 				},
 				labels: {
-					enabled: false
-				},
-				// min: 0
+					// enabled: false
+					formatter: function() {
+						return Math.round(Math.exp(this.value));
+					}
+				}
 			},
             legend: {
                 enabled: false
