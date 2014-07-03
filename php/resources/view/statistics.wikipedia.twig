@@ -2,6 +2,7 @@
 {% extends 'layout.html.twig' %}
 {% block head %}
     <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script src="{{ app.request.basepath }}/js/highchart-js/themes/sand-signika.js"></script>
     <script type="text/javascript">
 	var chart;
 
@@ -32,9 +33,10 @@
 				labels: {
 					// enabled: false
 					formatter: function() {
-						return Math.round(Math.exp(this.value));
+						return this.value;
 					}
-				}
+				},
+				type: 'logarithmic'
 			},
             legend: {
                 enabled: false
@@ -43,10 +45,8 @@
 				formatter: function () {
 					return '<b>'
 					       + decodeURIComponent(this.point.name) + '</b><br>'
-					  + this.point.aufrufe + ' Aufrufe, ' + this.y + ' Wörter';
+					  + this.x + ' Aufrufe, ' + this.y + ' Wörter';
 				}
-				/* headerFormat: '<b>{point.name}</b><br>',
-				pointFormat: '{point.x} Wörter, {point.y} Aufrufe' */
 			},
 			plotOptions: {
                 scatter: {
@@ -66,17 +66,10 @@
 					enabled: false,
 					style: {color: "black" }
 				},
-				data: /*[ {
-					"x": 23,
-					"y": 22,
-					"name":"point1"
-				}, {
-					"x": 43,
-					"y": 12,
-					"name":"point2"
-				} ]*/
-				{{ data|raw }}
+				turboThreshold: 5000,
+				data: {{ data|raw }}
 			}]
+				
 });
 
 

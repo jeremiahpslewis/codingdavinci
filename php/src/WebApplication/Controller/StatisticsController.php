@@ -537,10 +537,9 @@ EOT;
                 continue;
             }
             $single_data = array(
-                'y' => (int)$values[5], // WORD_COUNT (on 2014/06/28)
-                'x' => $values[2] == 0 ? 0 : log($values[2]), // HITS (btw 2014/05/28 and 2014/06/26)
-                'aufrufe' => $values[2],
                 'name' => $values[1], // article
+                'x' => (int)$values[2], // HITS (btw 2014/05/28 and 2014/06/26)
+                'y' => (int)$values[5], // WORD_COUNT (on 2014/06/28)
             );
             $data[] = $single_data;
         }
