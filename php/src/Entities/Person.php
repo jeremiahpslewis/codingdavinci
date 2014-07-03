@@ -141,4 +141,19 @@ class Person extends Base
      */
     protected $changedAt;
 
+
+    public function getFullname($forename_first = false) {
+        $parts = array();
+        foreach (array('surname', 'forename') as $key) {
+            if (!empty($this->$key)) {
+                $parts[] = $this->$key;
+            }
+        }
+        if (empty($parts)) {
+            return '';
+        }
+        return $forename_first
+            ? implode(' ', array_reverse($parts))
+            : implode(', ', $parts);
+    }
 }
