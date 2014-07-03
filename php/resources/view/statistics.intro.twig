@@ -3,26 +3,86 @@
 
 {% block content %}
 <h2><a name="Karten" class="anchor-offset"></a>Karten</h2>
-<ul>
-    <li><a href="{{ path('analyse-karte-publikationslaender') }}">Publikationsländer</a></li>
-    <li><a href="{{ path('analyse-karte-publikationsorte') }}">Publikationsorte</a></li>
+<ul class="listing-large">
+    <li>
+        <a href="{{ path('analyse-karte-publikationslaender') }}"></a>
+    </li>
+    <li><a href="{{ path('analyse-karte-publikationslaender') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/karte-publikationslaender.png" />
+        </div></a>
+        <a href="{{ path('analyse-karte-publikationslaender') }}"><b>Verbotene Publikationen nach Publikationsland</b></a><br />
+        Bis 1933 publizierten die meisten Autor/innen in Deutschland und Österreich. Danach bildeten sich in den Niederlanden, der Schweiz und Skandinavien aber auch in Nord- und Südamerika sowie der Sowjetunion neue Zentren der Exilliteratur.
+    </li>
+    <li><a href="{{ path('analyse-karte-publikationsorte') }}">
+        <div style="float: left">
+            <img src="{{ app.request.basepath }}/img/analyse/karte-publikationsorte.png" />
+        </div></a>
+        <a href="{{ path('analyse-karte-publikationsorte') }}"><b>Publikationsorte</b></a><br />
+        Jeder Publikationsort wird als ein farbiger Punkt auf einer Weltkarte dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr gefiltert werden.
+    </li>
 </ul>
 
 
 
 <h2><a name="Visualisierungen" class="anchor-offset"></a>Visualisierungen</h2>
-<ul>
-    <li><a href="{{ path('analyse-orte-geburttod') }}">Lebenswege</a></li>
-    <li><a href="{{ path('analyse-visualisierung-dot') }}">Werke als Punkte</a></li>
-    <li><a href="{{ path('analyse-visualisierung-bubble') }}">Zahl der Werke nach Autor/innen</a></li>
+<ul class="listing-large">
+    <li><a href="{{ path('analyse-orte-geburttod') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/orte-geburttod.png" />
+        </div></a>
+        <a href="{{ path('analyse-visualisierung-dot') }}"><b>Lebenswege</b><br />
+            Publikationsverbot und Verfolgung prägten die Lebenswege vieler Autor/innen. Eine schematischen Visualisierung verknüpft die Ziele der Immigration mit den Geburtsorten der jeweiligen Autor/innen.
+        </a>
+    </li>
+    <li><a href="{{ path('analyse-visualisierung-dot') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/visualisierung-dot.png" />
+        </div></a>
+        <a href="{{ path('analyse-visualisierung-dot') }}"><b>Werke als Punkte</b><br />
+            Jede Publikation wird als ein farbiger Punkt dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr gefiltert werden.
+        </a>
+    </li>
+    <li><a href="{{ path('analyse-visualisierung-bubble') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/visualisierung-bubble.png" />
+        </div></a>
+        <a href="{{ path('analyse-visualisierung-bubble') }}"><b>Zahl der Werke nach Autor/innen</b>
+        <br />
+            Jede/r Autor/in wird durch einen Kreis dargestellt, dessen Größe der Zahl der verbotenen Werke entspricht. Die betroffenen Autor/innen und Werke können nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr gefiltert werden.
+        </a>
+    </li>
 </ul>
 
 <h2><a name="Diagramme" class="anchor-offset"></a>Diagramme</h2>
-<ul>
-    <li><a href="{{ path('analyse-jahr') }}">Autor/innen und Werke nach Jahr</a></li>
-    <li><a href="{{ path('analyse-worte') }}">Titelstichworte</a></li>
-    <li><a href="{{ path('analyse-orte') }}">Geburts- und Sterbeorte (Häufigkeit)</a></li>
-	<li><a href="{{ path('analyse-personen-wikipedia') }}">Wikipedia-Aufrufe und Artikellänge</a></li>
+<ul class="listing-large">
+    <li><a href="{{ path('analyse-jahr') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/jahr.png" />
+        </div></a>
+        <a href="{{ path('analyse-jahr') }}"><b>Autor/innen und Werke nach Jahr</b>
+        <br />
+            Im Zentrum der Liste der verbotenen Bücher steht die Generation der um 1890 geborenen Autor/innen mit ihren zwischen 1920 und 1938 veröffentlichten Werken. Viele davon starben zwischen 1933 und 1945 an den direkten und indirekten Folgen der Verfolgung ihrer Arbeit und Person.
+        </a>
+    </li>
+    <li><a href="{{ path('analyse-orte') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/orte.png" />
+        </div></a>
+        <a href="{{ path('analyse-orte') }}"><b>Geburts- und Sterbeorte</b>
+        <br />
+            Wien, Hamburg, München, Prag und Leipzig war der Geburtsort vieler Autor/innen. Aus ihrer Heimat vertrieben starben sie in Moskau, Paris, New York und Zürich.
+        </a>
+    </li>
+    <li><a href="{{ path('analyse-personen-wikipedia') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/personen-wikipedia.png" />
+        </div></a>
+        <a href="{{ path('analyse-personen-wikipedia') }}"><b>Wikipedia-Aufrufe und Artikellänge</b>
+        <br />
+            Auf der Liste der verbotenen Autor/innen stehen bekannte Namen wie Albert Einstein, Franz Kafka, Sigmund Freund oder Rosa Luxemburg. Die überwiegende Mehrheit der Autor/innen ist jedoch in Vergessenheit geraten. Die Häufigkeit der Wikipedia-Aufrufe sowie der Umfang des Artikels bieten erste Anhaltspunkte für die Bekanntheit einer Person heute.
+        </a>
+    </li>
 </ul>
 
 
