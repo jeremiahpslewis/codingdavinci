@@ -34,7 +34,7 @@ Weitere Informationen zur Liste verbotener Publikationen und Autoren während de
 
 ## <a name="team"></a>Namen aller Teammitglieder
 * Daniel Burckhardt ([github](https://github.com/burki))
-* Dierk Eichel
+* Dierk Eichel ([github](https://github.com/deichel))
 * Michael Hintersonnleitner ([github](https://github.com/mhinters/))
 * Frederike Kaltheuner ([github](https://github.com/fre8de8rike))
 * Jeremy Lewis ([github](https://github.com/jlewis91))
