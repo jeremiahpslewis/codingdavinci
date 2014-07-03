@@ -15,7 +15,7 @@ class StaticController
         // display the static content
         return $app['twig']->render('static.twig',
                                     array(
-                                          'content' => '',
+                                          'content' => '<div style="position: absolute; bottom: 2px; right: 15px; font-size: smaller; color: gray;"> Bildquelle: <a style="color: #ddd" href="http://commons.wikimedia.org/wiki/File:Berlin_DenkmalBuecherverbrennung_BookBurningMemorial_Bebelplatz.jpg" target="_blank">Wikimedia Commons, Daniel Neugebauer</a>, CC-BY-SA-2.5</div>',
                                           )
                                     );
     }

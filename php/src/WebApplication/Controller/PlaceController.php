@@ -57,6 +57,9 @@ class PlaceController
                 $dql_where[] = "P.gnd IS NOT NULL"; // currently only places connected to Person
             }
         }
+        else {
+            $dql_where[] = "P.gnd IS NOT NULL"; // currently only places connected to Person
+        }
 
         if (!empty($dql_where)) {
             $dql .= ' WHERE ' . implode(' AND ', $dql_where);
