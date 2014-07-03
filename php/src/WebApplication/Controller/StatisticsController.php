@@ -37,6 +37,12 @@ class StatisticsController
         return $app['twig']->render('statistics.intro.twig');
     }
 
+    public function tableauAction(Request $request, BaseApplication $app)
+    {
+        // display the intro
+        return $app['twig']->render('statistics.tableau.twig');
+    }
+
     public function yearAction(Request $request, BaseApplication $app)
     {
         // display the authors by birth-year, the publications by issued-year

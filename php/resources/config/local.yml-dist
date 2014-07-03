@@ -1,7 +1,7 @@
 parameters:
     dbal:
         driver: pdo_mysql
-        dbname: cdv-nsverbotsliste
+        dbname: cdavinci
         user:      root
         password:  ""
         charset:   UTF8

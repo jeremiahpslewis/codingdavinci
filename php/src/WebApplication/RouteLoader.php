@@ -63,14 +63,22 @@ class RouteLoader
         $this->app->get('/analyse-orte', array($this->app['statistics.controller'],
                                                'placeCountAction'))
             ->bind('analyse-orte');
-        $this->app->get('/analyse-publikationsorte',
+        $this->app->get('/analyse-karte-publikationsorte',
                         array($this->app['static.controller'],
-                              'tableauOrtAction'))
-            ->bind('analyse-publikationsorte');
-        $this->app->get('/analyse-publikationsorte-karte',
+                              'tableauPublikationsOrteAction'))
+            ->bind('analyse-karte-publikationsorte');
+        $this->app->get('/analyse-visualisierung-dot',
+                        array($this->app['static.controller'],
+                              'tableauDotAction'))
+            ->bind('analyse-visualisierung-dot');
+        $this->app->get('/analyse-visualisierung-bubble',
+                        array($this->app['static.controller'],
+                              'tableauBubbleAction'))
+            ->bind('analyse-visualisierung-bubble');
+        $this->app->get('/analyse-karte-publikationslaender',
                         array($this->app['statistics.controller'],
                               'leafletOrtAction'))
-            ->bind('analyse-publikationsorte-karte');
+            ->bind('analyse-karte-publikationslaender');
         $this->app->get('/analyse-orte-geburttod',
                         array($this->app['statistics.controller'],
                               'd3jsOrtAction'))
