@@ -85,8 +85,8 @@ EOT;
 
     public function aboutAction(Request $request, BaseApplication $app)
     {
-        $file = $app['base_path'] . '/resources/view/about.md';
-         $markdown = file_get_contents($file);
+        /* $file = $app['base_path'] . '/resources/view/about.md';
+        $markdown = file_get_contents($file);
 
         $parsedown = new \Parsedown();
         $content = $parsedown->parse($markdown);
@@ -94,6 +94,13 @@ EOT;
         return $app['twig']->render('static.twig',
                                     array(
                                           'content' => $content,
+                                          )
+                                    );
+        */
+        // display the static content
+        return $app['twig']->render('about.twig',
+                                    array(
+                                          'content' => '', 
                                           )
                                     );
     }
