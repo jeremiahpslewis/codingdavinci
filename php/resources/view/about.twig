@@ -29,9 +29,15 @@
         </div>
         <b>Datenaufbereitung</b><br />
         In einem zweiten Schritt erfolgte ein automatisierter Abgleich der Listeneinträge mit den <a href="http://www.dnb.de/lds" target="_blank">Katalogdaten der Deutschen Nationalbibliothek</a>.<br />
-        Dieser Abgleich ermöglichte eine eindeutige Identifikation der Autor/innen und Herausgeber über die sogenannte <a href="http://de.wikipedia.org/wiki/Hilfe:GND" target="_blank">GND-Nummer</a>.<br />
-        Über die GND-Nummer konnten die Lebensdaten der Personen (Geburts- und Sterbedatum sowie Geburts- und Sterbeort) eingelesen werden sowie eine Verknüpfung mit weiteren Web-Angeboten wie etwa dem entsprechenden Wikipedia-Artikel erfolgen.<br />
-        Bei Autor/innen, deren Gesamtwerk verboten war, wurden der Datenbestand um alle bis 1945 entstandenen und im Katalog der Deutschen Nationalbibliothek erfassten Publikation ergänzt</li>
+        Dieser Abgleich ermöglichte eine eindeutige Identifikation der Autor/innen und Herausgeber über die sogenannte <a href="http://de.wikipedia.org/wiki/Hilfe:GND" target="_blank">GND-Nummer</a>.</li>
+    </li>
+    <li>
+        <div>
+            <img src="{{ app.request.basepath }}/img/about/wikidata.png" />
+        </div>
+        <div style="display: table-cell"><b>Datenergänzung</b><br />
+        Über die GND-Nummer konnten aus verschiedenen Web-Services (Wikidata, Entity Facts) Lebensdaten der Personen (Geburts- und Sterbedatum sowie Geburts- und Sterbeort) eingelesen werden. Zudem ermöglicht die GND-Nummer die Verknüpfung mit weiteren Web-Angeboten wie etwa dem entsprechenden Wikipedia-Artikel.<br />
+        Bei Autor/innen, deren Gesamtwerk verboten war, wurde der Datenbestand um alle bis 1945 entstandenen und im Katalog der Deutschen Nationalbibliothek verzeichneten Publikation ergänzt.</div></li>
     </li>
     <li>
         <div>
@@ -49,7 +55,7 @@
         </div>
         <b>Geschichten</b>
         <br />
-            Neben den Daten präsentiert die Web-Site exemplarisch die Lebensläufe zweier betroffener Autoren (<a href="{{ path('geschichten') }}#kolb">Annette Kolb</a>, <a href="{{ path('geschichten') }}#kaestner">Erich Kästner</a>) mit Hilfe frei nutzbarer, webaffiner Storytelling-Formate (hier: <a href="http://timeline.knightlab.com" target="_blank">timeline js</a>, <a href="http://storymap.knightlab.com" target="_blank">storymap js</a> des Northwestern University Knight Lab)</li>
+            Neben den Daten präsentiert die Web-Site exemplarisch die Lebensläufe zweier betroffener Autoren (<a href="{{ path('geschichten') }}#kolb">Annette Kolb</a>, <a href="{{ path('geschichten') }}#kaestner">Erich Kästner</a>) mit Hilfe zweier Storytelling-Formate (<a href="http://timeline.knightlab.com" target="_blank">timeline js</a>, <a href="http://storymap.knightlab.com" target="_blank">storymap js</a> des Northwestern University Knight Lab)</li>
 
         </a>
     </li>
@@ -60,7 +66,7 @@
         </div>
         <b>Analysen</b>
         <br />
-            Über eine Reihe von Karten, Visualisierung sowie statistische Auswertungen soll sowohl die Gesamtheit der Daten besser erfassbar und Besonderheiten erkennbar werden.</li>
+            Über eine Reihe von Karten, Datenvisualisierungen und ersten statistischen Auswertungen soll sowohl die Gesamtheit der Daten besser erfassbar, als auch Besonderheiten erkennbar werden.</li>
 
         </a>
     </li>
@@ -69,13 +75,15 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/beacon.png" />
         </div>
-        <b>Datenbasis und Web-Services</b>
+        <div style="display: table-cell"><b>Datenbasis, Web-Services und Schrift</b>
         <br />
             <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/">"Liste des schädlichen und unerwünschten Schrifttums"</a>, Lizenz: CC-BY<br />
             <a href="http://www.dnb.de/lds">Linked Data Service der Deutsche Nationalbibliothek</a>: DNB-Titeldaten und GND-Normdaten, Lizenz: CC0<br />
             <a href="http://beacon.findbuch.de/">SeeAlso-Dienst zu allen bekannten Beacon-Dateien zu Personen</a> ("aks" für all known services)<br />
-            Entity Facts: Ein leichtgewichtiger Normdatendienst auf Basis der GND
-        </a>
+            Entity Facts: Ein leichtgewichtiger Normdatendienst auf Basis der GND<br />
+            <a href="http://wdq.wmflabs.org/api_documentation.html">WikidataQuery API</a><br />
+            Schrift: Archive von <a href="http://fontfabric.com/archive-free-font/" target="_blank">Svetoslav Simov/Fontfabric</a>
+        </div>
     </li>
 
     <li>
@@ -86,8 +94,8 @@
         <br />
             Der Programm-Code und die Datenbank zu dieser Web-Site sowie die Import-Tools sind auf Github verfügbar:<br />
             <a href="https://github.com/jlewis91/codingdavinci">Github: Web-Seite und Daten</a><br />
-            <a href="https://github.com/mhinters/BannedBookUtils">Github: Import-Tools</a>
-        </a>
+            <a href="https://github.com/mhinters/BannedBookUtils">Github: Import-Tools</a><br />
+            Font "Archive" von Svetoslav Simov/Fontfabric
     </li>
 
     <li>
@@ -108,7 +116,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/team.png" />
         </div>
-            <b>Namen aller Teammitglieder</b><br />
+            <div style="display: table-cell"><b>Namen aller Teammitglieder</b><br />
             Daniel Burckhardt (<a href="https://github.com/burki">github</a>)<br />
             Dierk Eichel (<a href="https://github.com/deichel">github</a>)<br />
             Michael Hintersonnleitner (<a href="https://github.com/mhinters/">github</a>)<br />
@@ -116,8 +124,8 @@
             Jeremy Lewis (<a href="https://github.com/jlewis91">github</a>)<br />
             Jonas Parnow (<a href="https://github.com/z3to">github</a>)<br />
             Kristin Sprechert (<a href="https://github.com/kaeseoehrchen">github</a>)<br />
-            Kai Teuber (<a href="https://twitter.com/teuberkai">twitter</a> / <a href="https://github.com/teuberkai">github</a>)
-            Clemens Wilding (<a href="https://github.com/wigginus">github</a>)<br />
+            Kai Teuber (<a href="https://twitter.com/teuberkai">twitter</a> / <a href="https://github.com/teuberkai">github</a>)<br />
+            Clemens Wilding (<a href="https://github.com/wigginus">github</a>)</div>
     </li>
 </ul>
 
