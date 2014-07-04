@@ -7,7 +7,7 @@
     <li><div>
             <a href="http://codingdavinci.de/" target="_blank"><img src="{{ app.request.basepath }}/img/about/codingdavinci.png" /></a>
         </div>
-        Diese Web-Site entstand im Rahmen von <a href="http://codingdavinci.de/" target="_blank">{COD1NG DA V1NC1}</a>, dem ersten "Kultur-Hackathon" in Berlin, zwischen dem 26./27. April und 5./6. Juli 2014.</p>
+        Diese Web-Site entstand im Rahmen von <a href="http://codingdavinci.de/" target="_blank">{COD1NG DA V1NC1}</a>, dem ersten „Kultur-Hackathon“ in Berlin, der zwischen dem 26./27. April und dem 5./6. Juli 2014 stattfand.</p>
     </li>
 </ul>
 
@@ -19,70 +19,69 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/liste.png" />
         </div></a>
-        <b>Datengrundlage</b><br />
+        <div style="display: table-cell">
+            <strong>Datengrundlage</strong><br />
             Als Datengrundlage dient die vom Land Berlin als offene Daten veröffentlichte <a href="http://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher" target="_blank">Liste der verbannten Bücher</a>. Diese zwischen 1938 und 1941 von der „Reichsschriftkammer“ erstellten Verbotslisten umfassen knapp 5'000 unerwünschte Einzelpublikationen sowie fast 1'000 Autorinnen und Autoren sowie eine Reihe von Verlagen, deren Gesamtwerk im „Dritten Reich“ verboten wurde.
-        </a>
+        </div>
     </li>
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/dnb.png" />
         </div>
-        <b>Datenaufbereitung</b><br />
-        In einem zweiten Schritt erfolgte ein automatisierter Abgleich der Listeneinträge mit den <a href="http://www.dnb.de/lds" target="_blank">Katalogdaten der Deutschen Nationalbibliothek</a>.<br />
-        Dieser Abgleich ermöglichte eine eindeutige Identifikation der Autor/innen und Herausgeber über die sogenannte <a href="http://de.wikipedia.org/wiki/Hilfe:GND" target="_blank">GND-Nummer</a>.</li>
+        <div style="display: table-cell">
+            <strong>Datenaufbereitung</strong><br />
+            In einem zweiten Schritt erfolgte ein automatisierter Abgleich der Listeneinträge mit den <a href="http://www.dnb.de/lds" target="_blank">Katalogdaten der Deutschen Nationalbibliothek</a>.<br />
+            Dieser Abgleich ermöglichte eine eindeutige Identifikation der Autor/innen und Herausgeber über die sogenannte <a href="http://de.wikipedia.org/wiki/Hilfe:GND" target="_blank">GND-Nummer</a>.
+        </div>
     </li>
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/wikidata.png" />
         </div>
-        <div style="display: table-cell"><b>Datenergänzung</b><br />
-        Über die GND-Nummer konnten aus verschiedenen Web-Services (Wikidata, Entity Facts) Lebensdaten der Personen (Geburts- und Sterbedatum sowie Geburts- und Sterbeort) eingelesen werden. Zudem ermöglicht die GND-Nummer die Verknüpfung mit weiteren Web-Angeboten wie etwa dem entsprechenden Wikipedia-Artikel.<br />
-        Bei Autor/innen, deren Gesamtwerk verboten war, wurde der Datenbestand um alle bis 1945 entstandenen und im Katalog der Deutschen Nationalbibliothek verzeichneten Publikation ergänzt.</div></li>
+        <div style="display: table-cell">
+            <strong>Datenergänzung</strong><br />
+            Über die GND-Nummer konnten aus verschiedenen Web-Services (Wikidata, Entity Facts) Lebensdaten der Personen (Geburts- und Sterbedatum sowie Geburts- und Sterbeort) eingelesen werden. Zudem ermöglicht die GND-Nummer die Verknüpfung mit weiteren Web-Angeboten wie etwa dem entsprechenden Wikipedia-Artikel.<br />
+            Bei Autor/innen, deren Gesamtwerk verboten war, wurde der Datenbestand um alle bis 1945 entstandenen und im Katalog der Deutschen Nationalbibliothek verzeichneten Publikation ergänzt.
+        </div>
     </li>
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/v-v.png" />
         </div>
-        <b>Webpräsentation</b>
-        <br />
+        <div style="display: table-cell">
+            <strong>Webpräsentation</strong><br />
             Zur Präsentation der Daten wurde diese Web-Site mit Such- und Sortiermöglichkeiten,  umfangreichen Verlinkungen zwischen den Personen-, Publikations- und Ortsdaten sowie automatisiert generierten Verweisen auf externe Angebote erstellt.
-        </a>
+        </div>
     </li>
-
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/kolb.png" />
         </div>
-        <b>Geschichten</b>
-        <br />
-            Neben den Daten präsentiert die Web-Site exemplarisch die Lebensläufe zweier betroffener Autoren (<a href="{{ path('geschichten') }}#kolb">Annette Kolb</a>, <a href="{{ path('geschichten') }}#kaestner">Erich Kästner</a>) mit Hilfe zweier Storytelling-Formate (<a href="http://timeline.knightlab.com" target="_blank">timeline js</a>, <a href="http://storymap.knightlab.com" target="_blank">storymap js</a> des Northwestern University Knight Lab)</li>
-
-        </a>
+        <div style="display: table-cell">
+            <strong>Geschichten</strong><br />
+            Neben den Daten präsentiert die Web-Site exemplarisch die Lebensläufe zweier betroffener Autoren (<a href="{{ path('geschichten') }}#kolb">Annette Kolb</a>, <a href="{{ path('geschichten') }}#kaestner">Erich Kästner</a>) mit Hilfe zweier Storytelling-Formate (<a href="http://timeline.knightlab.com" target="_blank">timeline js</a>, <a href="http://storymap.knightlab.com" target="_blank">storymap js</a> des Northwestern University Knight Lab)
+        </div>
     </li>
-
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/analyse.png" />
         </div>
-        <b>Analysen</b>
-        <br />
-            Über eine Reihe von Karten, Datenvisualisierungen und ersten statistischen Auswertungen soll sowohl die Gesamtheit der Daten besser erfassbar, als auch Besonderheiten erkennbar werden.</li>
-
-        </a>
+        <div style="display: table-cell">
+            <strong>Analysen</strong><br />
+            Über eine Reihe von Karten, Datenvisualisierungen und ersten statistischen Auswertungen soll sowohl die Gesamtheit der Daten besser erfassbar, als auch Besonderheiten erkennbar werden.
+        </div>
     </li>
-
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/beacon.png" />
         </div>
-        <div style="display: table-cell"><b>Datenbasis, Web-Services und Schrift</b>
-        <br />
-            <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/">"Liste des schädlichen und unerwünschten Schrifttums"</a>, Lizenz: CC-BY<br />
+        <div style="display: table-cell"><strong>Datenbasis, Web-Services und Schrift</strong><br />
+            <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/">„Liste des schädlichen und unerwünschten Schrifttums“</a>, Lizenz: CC-BY<br />
             <a href="http://www.dnb.de/lds">Linked Data Service der Deutsche Nationalbibliothek</a>: DNB-Titeldaten und GND-Normdaten, Lizenz: CC0<br />
-            <a href="http://beacon.findbuch.de/">SeeAlso-Dienst zu allen bekannten Beacon-Dateien zu Personen</a> ("aks" für all known services)<br />
+            <a href="http://beacon.findbuch.de/">SeeAlso-Dienst zu allen bekannten Beacon-Dateien zu Personen</a> („aks“ für all known services)<br />
             Entity Facts: Ein leichtgewichtiger Normdatendienst auf Basis der GND<br />
             <a href="http://wdq.wmflabs.org/api_documentation.html">WikidataQuery API</a><br />
-            Schrift: Archive von <a href="http://fontfabric.com/archive-free-font/" target="_blank">Svetoslav Simov/Fontfabric</a>
+            Schrift: „Archive“ von <a href="http://fontfabric.com/archive-free-font/" target="_blank">Svetoslav Simov/Fontfabric</a>
         </div>
     </li>
 
@@ -90,32 +89,33 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/github.png" />
         </div>
-        <b>Programm-Code</b>
-        <br />
+        <div style="display: table-cell">
+            <strong>Programm-Code</strong><br />
             Der Programm-Code und die Datenbank zu dieser Web-Site sowie die Import-Tools sind auf Github verfügbar:<br />
             <a href="https://github.com/jlewis91/codingdavinci">Github: Web-Seite und Daten</a><br />
             <a href="https://github.com/mhinters/BannedBookUtils">Github: Import-Tools</a><br />
-            Font "Archive" von Svetoslav Simov/Fontfabric
+            Font: „Archive“ von <a href="http://fontfabric.com/archive-free-font/" target="_blank">Svetoslav Simov/Fontfabric</a>
+        </div>
     </li>
-
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/lebendigeliste-twitter.png" />
         </div>
-        <b>Weitere Projekte zu diesem Datensatz bei {COD1NG DA V1NC1}</b>
-        <br />
+        <div style="display: table-cell">
+            <strong>Weitere Projekte zu diesem Datensatz im Rahmen von {COD1NG DA V1NC1}</strong><br />
             <a href="http://lebendigeliste.de/">@LebendigeListe</a><br />
-            <a href="http://cdvinci.hackdash.org/projects/53a703ff9bfef6693e000007">App "Verbotene Autoren"</a>
+            <a href="http://cdvinci.hackdash.org/projects/53a703ff9bfef6693e000007">App „Verbotene Autoren“</a>
+        </div>
     </li>
-
     <li>
         <div>
             <img src="{{ app.request.basepath }}/img/about/links.png" />
         </div>
-        <b>Weitere Informationen zu den NS-Buchverbotslisten</b>
-        <br />
+        <div style="display: table-cell">
+            <strong>Weitere Informationen zu den NS-Buchverbotslisten</strong><br />
             <a href="http://www.3sat.de/page/?source=/kulturzeit/themen/171528/index.html">3sat Kulturzeit: Vergessene Geschichte</a><br />
             <a href="http://djgd.hypotheses.org/296">Harald Lordick: Datenbank der in der NS-Zeit verbannten und verbotenen Autoren und Bücher</a>
+        </div>
     </li>
 </ul>
 
@@ -125,7 +125,8 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/team.png" />
         </div>
-            <div style="display: table-cell"><b>Namen aller Teammitglieder</b><br />
+        <div style="display: table-cell">
+            <strong>Namen aller Teammitglieder</strong><br />
             Daniel Burckhardt (<a href="https://github.com/burki">github</a>)<br />
             Dierk Eichel (<a href="https://github.com/deichel">github</a>)<br />
             Michael Hintersonnleitner (<a href="https://github.com/mhinters/">github</a>)<br />
@@ -134,7 +135,8 @@
             Jonas Parnow (<a href="https://github.com/z3to">github</a>)<br />
             Kristin Sprechert (<a href="https://github.com/kaeseoehrchen">github</a>)<br />
             Kai Teuber (<a href="https://twitter.com/teuberkai">twitter</a> / <a href="https://github.com/teuberkai">github</a>)<br />
-            Clemens Wilding (<a href="https://github.com/wigginus">github</a>)</div>
+            Clemens Wilding (<a href="https://github.com/wigginus">github</a>)
+        </div>
     </li>
 </ul>
 
