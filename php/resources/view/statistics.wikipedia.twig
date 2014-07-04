@@ -40,13 +40,14 @@
 			},
             legend: {
                 enabled: false
-            },
+            },	
 			tooltip: {
 				formatter: function () {
-					return '<b>'
-					       + decodeURIComponent(this.point.name) + '</b><br>'
+					return '<a target="_blank" href="' + decodeURIComponent(this.point.name) + '"><b>' 
+					  + decodeURIComponent(this.point.name) + '</b></a><br>'
 					  + this.x + ' Aufrufe, ' + this.y + ' Wörter';
-				}
+				},
+				useHTML: true
 			},
 			plotOptions: {
                 scatter: {
