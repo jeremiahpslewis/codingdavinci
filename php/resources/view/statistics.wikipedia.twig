@@ -40,13 +40,14 @@
 			},
             legend: {
                 enabled: false
-            },	
+            },
 			tooltip: {
 				formatter: function () {
-					return '<a target="_blank" href="' + decodeURIComponent(this.point.name) + '"><b>' 
+					return '<a target="_blank" href="' + decodeURIComponent(this.point.name) + '"><b>'
 					  + decodeURIComponent(this.point.name) + '</b></a><br>'
 					  + this.x + ' Aufrufe, ' + this.y + ' Wörter';
 				},
+				hideDelay: 1500, // default is 500
 				useHTML: true
 			},
 			plotOptions: {
@@ -70,7 +71,7 @@
 				turboThreshold: 5000,
 				data: {{ data|raw }}
 			}]
-				
+
 });
 
 
