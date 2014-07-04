@@ -485,6 +485,18 @@ class StatisticsController
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
             this._div.innerHTML = '<h4>Verbotene Publikationen nach Publikationsland</h4>'
+                + '<table id="legend">'
+                +        '<tr>'
+                +            '<td bgcolor="#800026" ></td><td>&gt; 10000&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#BD0026" ></td><td>&gt; 1000&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#E31A1C" ></td><td>&gt; 500&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#FC4E2A" ></td><td>&gt; 100&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#FD8D3C" ></td><td>&gt; 50&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#FEB24C" ></td><td>&gt; 10&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#FED976" ></td><td>&gt; 5&nbsp;&nbsp;</td>'
+                +            '<td bgcolor="#FFEDA0" ></td><td>&le; 5</td>'
+                +        '</tr>'
+                +    '</table>'
                 +  (props
                     ? '<b>' + props.name + '</b>: ' + props.density
                     : 'Bewegen Sie die Maus &uuml;ber ein Land');
