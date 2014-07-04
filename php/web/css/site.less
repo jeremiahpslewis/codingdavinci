@@ -5,6 +5,7 @@
 @color-green-light: #AEE2CF;
 
 @font-sans-serif: 'Arial', Helvetica, sans-serif;
+@font-monosapce: 'Cousine', 'Courier', monospace;
 
 @header-height: 0; /* 140px; if position fixed */
 
@@ -282,19 +283,26 @@ body {
             }
 
             input {
-                font-family: @font-sans-serif;
+                font-family: @font-monosapce;
                 border: 1px solid #CCCCCC;
-                border-radius: 4px;
-                padding: 2px 10px;
+                border-radius: 2px;
+                padding: 4px 10px 2px;
+                margin-bottom: 4px;
+            }
+
+            input[type="submit"] {
+                font-weight: bold;
             }
 
             .btn, .sort {
-                font-family: @font-sans-serif;
-                border: 2px solid @color-bg-dark;
-                border-radius: 4px;
+                font-family: @font-monosapce;
+                border: 1px solid @color-bg-dark;
+                border-radius: 2px;
                 color: @color-bg-dark;
                 display: inline-block;
-                padding: 1px 10px;
+                padding: 2px 10px 1px;
+                margin: 0 0 5px 0;
+                line-height: 1.4;
                 text-decoration: none;
             }
 
@@ -332,7 +340,7 @@ body {
                 height: 0;
                 position: relative;
                 right: -5px;
-                top: -10px;
+                top: -12px;
                 width: 0;
             }
 
@@ -344,7 +352,7 @@ body {
                 height: 0;
                 position: relative;
                 right: -5px;
-                top: 13px;
+                top: 15px;
                 width: 0;
             }
 
