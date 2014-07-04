@@ -73,7 +73,11 @@
 
     {% if gnd is defined %}
     <h2>Externe Angebote</h2>
-    Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a>
+    <p>Gemeinsame Normdatei: <a href="{{ entry.__get('gnd') }}" target="_blank">{{ gnd }}</a>.
+    {% if entityfacts is not empty %}
+    <br />    <a href="https://www.deutsche-digitale-bibliothek.de/entity/{{ gnd }}" target="_blank">Personenseite in der Deutschen Digitalen Bibliothek</a>
+    {% endif %}
+    </p>
     <div title="{{ gnd }}" class="pndaks seealso-ul"></div>
     {% endif %}
 
