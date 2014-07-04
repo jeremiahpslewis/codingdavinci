@@ -11,12 +11,15 @@ class StatisticsController
 {
     private function addWordCount (&$words, $text, $stemmer = NULL, $split = TRUE) {
       // see http://stackoverflow.com/questions/790596/split-a-text-into-single-words
-        $tokens = $split ? preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/u', $text, -1, PREG_SPLIT_NO_EMPTY) : array($text);
+        $tokens = $split
+            ? preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/u', $text, -1, PREG_SPLIT_NO_EMPTY)
+            : array($text);
 
         foreach ($tokens as $match) {
             $match = mb_strtolower($match, 'UTF-8');
-            if (isset($stemmer))
+            if (isset($stemmer)) {
                 $match = $stemmer->apply($match);
+            }
             if (!isset($words[$match])) {
                 $words[$match] = 0;
             }
@@ -186,16 +189,21 @@ class StatisticsController
                     if ($group_by_date) {
                         $cat = 'rest';
                         if (isset($row['issued'])) {
-                            if ($row['issued'] >= 1900 && $row['issued'] < 1910)
+                            if ($row['issued'] >= 1900 && $row['issued'] < 1910) {
                                 $cat = '00er';
-                            else if ($row['issued'] >= 1910 && $row['issued'] < 1920)
+                            }
+                            else if ($row['issued'] >= 1910 && $row['issued'] < 1920) {
                                 $cat = '10er';
-                            else if ($row['issued'] >= 1920 && $row['issued'] < 1930)
+                            }
+                            else if ($row['issued'] >= 1920 && $row['issued'] < 1930) {
                                 $cat = '20er';
-                            else if ($row['issued'] >= 1930 && $row['issued'] < 1940)
+                            }
+                            else if ($row['issued'] >= 1930 && $row['issued'] < 1940) {
                                 $cat = '30er';
-                            else if ($row['issued'] >= 1940 && $row['issued'] <= 1945)
+                            }
+                            else if ($row['issued'] >= 1940 && $row['issued'] <= 1945) {
                                 $cat = '40er';
+                            }
                         }
                         $this->addWordCount($words[$cat], $row[$field], $stemmer);
                     }
@@ -243,8 +251,7 @@ class StatisticsController
                 if ('total' == $type) {
                     continue;
                 }
-                $render_values['word_' . $type] =
-                    json_encode(array_values($total[$type]));
+                $render_values['word_' . $type] = json_encode(array_values($total[$type]));
             }
         }
         else {
@@ -255,7 +262,6 @@ class StatisticsController
         return $app['twig']->render('statistics.wordcount.twig',
                                     $render_values
                                     );
-
     }
 
     public function placeCountAction(Request $request, BaseApplication $app)
@@ -356,8 +362,7 @@ class StatisticsController
                 if ('total' == $type) {
                     continue;
                 }
-                $render_values[$type] =
-                    json_encode(array_values($total[$type]));
+                $render_values[$type] = json_encode(array_values($total[$type]));
             }
         }
         else {
@@ -377,14 +382,21 @@ class StatisticsController
         $em = $app['doctrine'];
         $dbconn = $em->getConnection();
 
-        $querystr = 'SELECT Country.iso3 AS country_code, COUNT(DISTINCT Publication.id) AS how_many FROM Publication JOIN Place ON Publication.geonames_place_of_publication=Place.geonames JOIN Country ON Place.country_code=Country.iso2 WHERE Publication.status >= 0'
+        $querystr = 'SELECT Country.iso3 AS country_code, Country.name_de AS name_de'
+                  . ', COUNT(DISTINCT Publication.id) AS how_many'
+                  . ' FROM Publication'
+                  . ' JOIN Place ON Publication.geonames_place_of_publication=Place.geonames'
+                  . ' JOIN Country ON Place.country_code=Country.iso2'
+                  . ' WHERE Publication.status >= 0'
                   . ' GROUP BY Country.iso3'
                   // . ' ORDER BY PublicationPerson.publication_ord, Publication.complete_works = 0'
                   ;
         $stmt = $dbconn->query($querystr);
         $publications_by_country = array();
+        $country_names_de = array();
         while ($row = $stmt->fetch()) {
             $publications_by_country[$row['country_code']] = $row['how_many'];
+            $country_names_de[$row['country_code']] = $row['name_de'];
         }
         $file = $app['base_path'] . '/resources/data/countries.geo.json';
         $features = json_decode(file_get_contents($file), true);
@@ -393,6 +405,10 @@ class StatisticsController
             $feature = & $features['features'][$i];
             if (array_key_exists($feature['id'], $publications_by_country)) {
                 $feature['properties']['density'] = intval($publications_by_country[$feature['id']]);
+                if (!empty($country_names_de[$feature['id']])) {
+                    // set german instead of english name
+                    $feature['properties']['name'] = $country_names_de[$feature['id']];
+                }
             }
             else {
                 $remove[] = $i;
