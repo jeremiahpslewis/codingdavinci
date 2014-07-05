@@ -94,7 +94,28 @@
 
         // scroll-to-top button show and hide
         jQuery(document).ready(function(){
+          $('#header_nav').data('size','big');
             jQuery(window).scroll(function(){
+              if($(document).scrollTop() > 140)
+                {
+                    if($('#header_nav').data('size') == 'big')
+                    {
+                        $('#header_nav').data('size','small');
+                        $('#header_nav').stop().animate({
+                            top:'-90px'
+                        },600);
+                    }
+                }
+                else
+                {
+                    if($('#header_nav').data('size') == 'small')
+                    {
+                        $('#header_nav').data('size','big');
+                        $('#header_nav').stop().animate({
+                            top:'0px'
+                        },600);
+                    }  
+                }
                 if (jQuery(this).scrollTop() > 100) {
                     jQuery('.scrollup').fadeIn();
                 } else {
