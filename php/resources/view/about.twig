@@ -16,19 +16,19 @@
 
 <ul class="listing-large">
     <li><a href="http://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher" target="_blank">
-        <div>
+        <div class="listing-image">
             <img src="{{ app.request.basepath }}/img/about/liste.png" />
         </div></a>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Datengrundlage</strong><br />
             Als Datengrundlage dient die vom Land Berlin als offene Daten veröffentlichte <a href="http://daten.berlin.de/datensaetze/liste-der-verbannten-b%C3%BCcher" target="_blank">Liste der verbannten Bücher</a>. Diese zwischen 1938 und 1941 von der „Reichsschriftkammer“ erstellten Verbotslisten umfassen knapp 5'000 unerwünschte Einzelpublikationen sowie fast 1'000 Autorinnen und Autoren sowie eine Reihe von Verlagen, deren Gesamtwerk im „Dritten Reich“ verboten wurde.
         </div>
     </li>
-    <li>
+    <li><a href="http://www.dnb.de/lds" target="_blank">
         <div>
             <img src="{{ app.request.basepath }}/img/about/dnb.png" />
-        </div>
-        <div style="display: table-cell">
+        </div></a>
+        <div class="listing-text">
             <strong>Datenaufbereitung</strong><br />
             In einem zweiten Schritt erfolgte ein automatisierter Abgleich der Listeneinträge mit den <a href="http://www.dnb.de/lds" target="_blank">Katalogdaten der Deutschen Nationalbibliothek</a>.<br />
             Dieser Abgleich ermöglichte eine eindeutige Identifikation der Autor/innen und Herausgeber über die sogenannte <a href="http://de.wikipedia.org/wiki/Hilfe:GND" target="_blank">GND-Nummer</a>.
@@ -38,7 +38,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/wikidata.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Datenergänzung</strong><br />
             Über die GND-Nummer konnten aus verschiedenen Web-Services (Wikidata, Entity Facts) Lebensdaten der Personen (Geburts- und Sterbedatum sowie Geburts- und Sterbeort) eingelesen werden. Zudem ermöglicht die GND-Nummer die Verknüpfung mit weiteren Web-Angeboten wie etwa dem entsprechenden Wikipedia-Artikel.<br />
             Bei Autor/innen, deren Gesamtwerk verboten war, wurde der Datenbestand um alle bis 1945 entstandenen und im Katalog der Deutschen Nationalbibliothek verzeichneten Publikation ergänzt.
@@ -48,7 +48,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/v-v.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Webpräsentation</strong><br />
             Zur Präsentation der Daten wurde diese Web-Site mit Such- und Sortiermöglichkeiten,  umfangreichen Verlinkungen zwischen den Personen-, Publikations- und Ortsdaten sowie automatisiert generierten Verweisen auf externe Angebote erstellt.
         </div>
@@ -57,7 +57,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/kolb.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Geschichten</strong><br />
             Neben den Daten präsentiert die Web-Site exemplarisch die Lebensläufe zweier betroffener Autoren (<a href="{{ path('geschichten') }}#kolb">Annette Kolb</a>, <a href="{{ path('geschichten') }}#kaestner">Erich Kästner</a>) mit Hilfe zweier Storytelling-Formate (<a href="http://timeline.knightlab.com" target="_blank">timeline js</a>, <a href="http://storymap.knightlab.com" target="_blank">storymap js</a> des Northwestern University Knight Lab)
         </div>
@@ -66,7 +66,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/analyse.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Analysen</strong><br />
             Über eine Reihe von Karten, Datenvisualisierungen und ersten statistischen Auswertungen soll sowohl die Gesamtheit der Daten besser erfassbar, als auch Besonderheiten erkennbar werden.
         </div>
@@ -75,7 +75,8 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/beacon.png" />
         </div>
-        <div style="display: table-cell"><strong>Datenbasis, Web-Services und Schrift</strong><br />
+        <div class="listing-text">
+            <strong>Datenbasis, Web-Services und Schrift</strong><br />
             <a href="http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/" target="_blank">„Liste des schädlichen und unerwünschten Schrifttums“</a>, Lizenz: CC-BY<br />
             <a href="http://www.dnb.de/lds" target="_blank">Linked Data Service der Deutsche Nationalbibliothek</a>: DNB-Titeldaten und GND-Normdaten, Lizenz: CC0<br />
             <a href="http://beacon.findbuch.de/" target="_blank">SeeAlso-Dienst zu allen bekannten Beacon-Dateien zu Personen</a> („aks“ für all known services)<br />
@@ -88,7 +89,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/github.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Programm-Code</strong><br />
             Der Programm-Code und die Datenbank zu dieser Web-Site sowie die Import-Tools sind auf Github verfügbar:<br />
             <a href="https://github.com/jlewis91/codingdavinci" target="_blank">Github: Web-Seite und Daten</a><br />
@@ -100,7 +101,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/lebendigeliste-twitter.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Weitere Projekte zu diesem Datensatz im Rahmen von {COD1NG DA V1NC1}</strong><br />
             <a href="http://lebendigeliste.de/">@LebendigeListe</a><br />
             <a href="http://cdvinci.hackdash.org/projects/53a703ff9bfef6693e000007">App „Verbotene Autoren“</a>
@@ -110,7 +111,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/links.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             <strong>Weitere Informationen zu den NS-Buchverbotslisten</strong><br />
             <a href="http://www.3sat.de/page/?source=/kulturzeit/themen/171528/index.html">3sat Kulturzeit: Vergessene Geschichte</a><br />
             <a href="http://djgd.hypotheses.org/296">Harald Lordick: Datenbank der in der NS-Zeit verbannten und verbotenen Autoren und Bücher</a>
@@ -124,7 +125,7 @@
         <div>
             <img src="{{ app.request.basepath }}/img/about/team.png" />
         </div>
-        <div style="display: table-cell">
+        <div class="listing-text">
             Daniel Burckhardt (<a href="https://github.com/burki">github</a>)<br />
             Dierk Eichel (<a href="https://github.com/deichel">github</a>)<br />
             Michael Hintersonnleitner (<a href="https://github.com/mhinters/">github</a>)<br />

@@ -500,7 +500,7 @@ class StatisticsController
 
         // method that we will use to update the control based on feature properties passed
         info.update = function (props) {
-            this._div.innerHTML = '<h4>Verbotene Publikationen nach Publikationsland</h4>'
+            this._div.innerHTML = '<!--<h4>Verbotene Publikationen nach Publikationsland</h4>-->'
                 + '<table id="legend">'
                 +        '<tr>'
                 +            '<td bgcolor="#800026" ></td><td>&gt; 10000&nbsp;&nbsp;</td>'

@@ -8,15 +8,19 @@
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/karte-publikationslaender.png" />
         </div></a>
-        <a href="{{ path('analyse-karte-publikationslaender') }}"><b>Verbotene Publikationen nach Publikationsland</b><br />
-        Bis 1933 publizierten die meisten Autor/innen in Deutschland und Österreich. Danach bildeten sich in den Niederlanden, der Schweiz und Skandinavien, aber auch in Nord- und Südamerika sowie der Sowjetunion neue Zentren der Exilliteratur.</a>
+        <div class="listing-text">
+            <a href="{{ path('analyse-karte-publikationslaender') }}"><b>Verbotene Publikationen nach Publikationsland</b><br />
+            Bis 1933 publizierten die meisten Autor/innen in Deutschland und Österreich. Danach bildeten sich in den Niederlanden, der Schweiz und Skandinavien, aber auch in Nord- und Südamerika sowie der Sowjetunion neue Zentren der Exilliteratur.</a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-karte-publikationsorte') }}">
         <div style="float: left">
             <img src="{{ app.request.basepath }}/img/analyse/karte-publikationsorte.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-karte-publikationsorte') }}"><b>Publikationsorte</b><br />
         Jeder Publikationsort wird als ein farbiger Punkt auf einer Weltkarte dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen unterschiedliche Länder dar. Die Größen entsprechen der Anzahl der in dem Ort veröffentlichten Publikationen.</a>
+        </div>
     </li>
 </ul>
 
@@ -28,26 +32,32 @@
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/orte-geburttod.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-orte-geburttod') }}"><b>Lebenswege</b><br />
             Publikationsverbot und Verfolgung prägten die Lebenswege vieler Autor/innen. Eine schematische Visualisierung verknüpft die Ziele der Immigration mit den Geburtsorten der jeweiligen Autor/innen.
         </a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-visualisierung-dot') }}">
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/visualisierung-dot.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-visualisierung-dot') }}"><b>Werke als Punkte</b><br />
             Jede Publikation wird als ein farbiger Punkt dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen grundsätzlich unterschiedliche Titel dar. In Ermangelung einer hinreichenden Farbpalette kommt es zu Farbgleichheiten.
         </a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-visualisierung-bubble') }}">
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/visualisierung-bubble.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-visualisierung-bubble') }}"><b>Zahl der Werke nach Autor/innen</b>
         <br />
             Jede/r Autor/in wird durch einen Kreis dargestellt, dessen Größe der Zahl der verbotenen Werke entspricht. Die betroffenen Autor/innen und Werke können nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen grundsätzlich unterschiedliche Autoren dar. In Ermangelung einer hinreichenden Farbpalette kommt es zu Farbgleichheiten.
         </a>
+        </div>
     </li>
 </ul>
 
@@ -57,37 +67,45 @@
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/worte.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-worte') }}"><b>Titelstichworte nach Epochen</b>
         <br />
             Sexual- und Eheratgeber, pazifistische Werke, Schriften zur Sozialdemokratie, zur Rolle der Kirchen im Nationalsozialsmus sowie Bücher zu Marx, zur Sowjetunion und zum Judentum wurden systematisch unterdrückt. Diese Verbotspraxis spiegelt sich auch in der Auswertung der häufigsten Begriffe aus den Titeln der verbotenen Publikationen wider.
         </a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-jahr') }}">
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/jahr.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-jahr') }}"><b>Autor/innen und Werke nach Jahr</b>
         <br />
             Verboten wurde vor allem die Generation der um 1890 geborenen Autor/innen mit ihren zwischen 1920 und 1938 veröffentlichten Werken. Viele davon starben zwischen 1933 und 1945 an den direkten und indirekten Folgen der Verfolgung ihrer Arbeit und Person.
         </a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-orte') }}">
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/orte.png" />
         </div></a>
+        <div class="listing-text">
         <a href="{{ path('analyse-orte') }}"><b>Geburts- und Sterbeorte</b>
         <br />
             Wien, Hamburg, München, Prag und Leipzig sind Geburtsorte vieler Autor/innen. Aus ihrer Heimat vertrieben, starben sie in Moskau, Paris, New York und Zürich.
         </a>
+        </div>
     </li>
     <li><a href="{{ path('analyse-personen-wikipedia') }}">
         <div>
             <img src="{{ app.request.basepath }}/img/analyse/personen-wikipedia.png" />
         </div></a>
-        <a href="{{ path('analyse-personen-wikipedia') }}"><b>Wikipedia-Aufrufe und Artikellänge</b>
+        <div class="listing-text">
+        <a href="{{ path('analyse-personen-wikipedia') }}"><b>Wikipedia-Aufrufe und -Artikellänge</b>
         <br />
             Auf der Liste der verbotenen Autor/innen stehen bekannte Namen wie Albert Einstein, Franz Kafka, Sigmund Freund oder Rosa Luxemburg. Die überwiegende Mehrheit der Autor/innen ist jedoch in Vergessenheit geraten. Die Häufigkeit der Wikipedia-Aufrufe sowie der Umfang des entsprechenden Artikels bieten erste Anhaltspunkte für die Bekanntheit einer Person heute.
         </a>
+        </div>
     </li>
 </ul>
 
