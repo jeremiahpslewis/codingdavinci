@@ -2,11 +2,12 @@
 {% extends 'layout.html.twig' %}
 {% block head %}
     <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script src="{{ app.request.basepath }}/js/highchart-js/themes/sand-signika.js"></script>
     <script type="text/javascript">
-	var chart;
+    var chart;
 
-	$(document).ready(function() {
-		chart = new Highcharts.Chart({
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'container',
                 defaultSeriesType: 'column',
@@ -15,9 +16,9 @@
             title: {
                 text: 'Titelstichworte'
             },
-			subtitle: {
-				text: {{subtitle|raw}}
-			},
+            subtitle: {
+                text: {{subtitle|raw}}
+            },
             xAxis: {
                 categories: {{categories|raw}},
                 labels: {
@@ -46,17 +47,22 @@
                 }
             ],
             legend: {
-                enabled: false
+                enabled: true,
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -100,
+                y: 50
             },
             tooltip: {
-				// enabled: false,
+                // enabled: false,
                 formatter: function() {
                    return '<b>' + this.x + '</b>: '
                         + this.series.name + ' '
                         + Highcharts.numberFormat(this.y, 0);
                 }
              },
-			plotOptions: {
+            plotOptions: {
                 series: {
                    stacking: 'normal',
                                borderWidth: 0,
@@ -96,7 +102,7 @@
                     data: {{ word_rest }},
                     color: '#e6550d'
                 },
-			]
+            ]
    });
 
 
@@ -105,5 +111,7 @@
 {% endblock %}
 
 {% block content %}
+    <h1>Titelstichworte nach Epochen</h1>
     <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+    <p class="intro">Sexual- und Eheratgeber, pazifistische Werke, Schriften zur Sozialdemokratie, zur Rolle der Kirchen im Nationalsozialsmus sowie Bücher zu Marx, zur Sowjetunion und zum Judentum wurden systematisch unterdrückt. Diese Verbotspraxis spiegelt sich auch in der Auswertung der häufigsten Begriffe aus den Titeln der verbotenen Publikationen wider. </p>
 {% endblock %}

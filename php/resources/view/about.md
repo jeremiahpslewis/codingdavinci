@@ -17,12 +17,12 @@ Diese Web-Site ist im Rahmen von [{COD1NG DA V1NC1}](http://codingdavinci.de/), 
 [http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/](http://www.berlin.de/rubrik/hauptstadt/verbannte_buecher/), Lizenz: CC-BY
 * Linked Data Service der Deutsche Nationalbibliothek: DNB-Titeldaten und GND-Normdaten [http://www.dnb.de/lds](http://www.dnb.de/lds), Lizenz: CC0
 * SeeAlso-Dienst zu allen bekannten Beacon-Dateien zu Personen ("aks" für all known services) [http://beacon.findbuch.de/](http://beacon.findbuch.de/)
-* Entity Facts: Ein leichtgewichtiger Normdatendienst auf Basis der GND
+* Entity Facts: Ein leichtgewichtiger Normdatendienst auf Basis der GND [http://hub.culturegraph.org/](http://hub.culturegraph.org/)
 
 ## Links
 Der Code dieser Web-Site sowie der Import-Tools ist auf Github verfügbar
-* [Github](https://github.com/jlewis91/codingdavinci)
-* [Github](https://github.com/mhinters/BannedBookUtils)
+* [Github: Web-Seite und Daten](https://github.com/jlewis91/codingdavinci)
+* [Github: Import-Tools](https://github.com/mhinters/BannedBookUtils)
 
 Im Rahmen von haben weitere Teams mit diesem Datensatz gearbeitet
 * [@LebendigeListe](http://lebendigeliste.de/)
@@ -34,7 +34,7 @@ Weitere Informationen zur Liste verbotener Publikationen und Autoren während de
 
 ## <a name="team"></a>Namen aller Teammitglieder
 * Daniel Burckhardt ([github](https://github.com/burki))
-* Dierk Eichel
+* Dierk Eichel ([github](https://github.com/deichel))
 * Michael Hintersonnleitner ([github](https://github.com/mhinters/))
 * Frederike Kaltheuner ([github](https://github.com/fre8de8rike))
 * Jeremy Lewis ([github](https://github.com/jlewis91))

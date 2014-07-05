@@ -2,6 +2,7 @@
 {% extends 'layout.html.twig' %}
 {% block head %}
     <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script src="{{ app.request.basepath }}/js/highchart-js/themes/sand-signika.js"></script>
     <script type="text/javascript">
 	var chart;
 
@@ -32,21 +33,22 @@
 				labels: {
 					// enabled: false
 					formatter: function() {
-						return Math.round(Math.exp(this.value));
+						return this.value;
 					}
-				}
+				},
+				type: 'logarithmic'
 			},
             legend: {
                 enabled: false
             },
 			tooltip: {
 				formatter: function () {
-					return '<b>'
-					       + decodeURIComponent(this.point.name) + '</b><br>'
-					  + this.point.aufrufe + ' Aufrufe, ' + this.y + ' Wörter';
-				}
-				/* headerFormat: '<b>{point.name}</b><br>',
-				pointFormat: '{point.x} Wörter, {point.y} Aufrufe' */
+					return '<a target="_blank" href="' + decodeURIComponent(this.point.name) + '"><b>'
+					  + decodeURIComponent(this.point.name) + '</b></a><br>'
+					  + this.x + ' Aufrufe, ' + this.y + ' Wörter';
+				},
+				hideDelay: 1500, // default is 500
+				useHTML: true
 			},
 			plotOptions: {
                 scatter: {
@@ -66,17 +68,11 @@
 					enabled: false,
 					style: {color: "black" }
 				},
-				data: /*[ {
-					"x": 23,
-					"y": 22,
-					"name":"point1"
-				}, {
-					"x": 43,
-					"y": 12,
-					"name":"point2"
-				} ]*/
-				{{ data|raw }}
+				turboThreshold: 5000,
+				data: {{ data|raw }},
+				color: 'rgba(128, 133, 233, .7)'
 			}]
+
 });
 
 
@@ -85,5 +81,7 @@
 {% endblock %}
 
 {% block content %}
+	<h1>Wikipedia-Aufrufe und -Artikellänge </h1>
     <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto;"></div>
+	<p class="intro">Auf der Liste der verbotenen Autor/innen stehen bekannte Namen wie Albert Einstein, Franz Kafka, Sigmund Freund oder Rosa Luxemburg. Die überwiegende Mehrheit der Autor/innen ist jedoch in Vergessenheit geraten. Die Häufigkeit der Wikipedia-Aufrufe sowie der Umfang des entsprechenden Artikels bieten erste Anhaltspunkte für die Bekanntheit einer Person heute.</p>
 {% endblock %}

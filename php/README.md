@@ -44,6 +44,11 @@ or
 And then
 
     $ php composer.phar install
+	
+If there is an error with lib-icu and you don't need translation capabilities 
+(see http://stackoverflow.com/q/16753105)
+	
+	$ php bin/composer.phar require symfony/icu ~1.0
 
 If this doesn't work (e.g. on Debian with Suhosin-patch), set suhosin.executor.include.whitelist="phar"
 in /etc/php5/cli/conf.d/suhosin.ini

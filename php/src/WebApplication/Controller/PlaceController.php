@@ -57,6 +57,9 @@ class PlaceController
                 $dql_where[] = "P.gnd IS NOT NULL"; // currently only places connected to Person
             }
         }
+        else {
+            $dql_where[] = "P.gnd IS NOT NULL"; // currently only places connected to Person
+        }
 
         if (!empty($dql_where)) {
             $dql .= ' WHERE ' . implode(' AND ', $dql_where);
@@ -139,6 +142,7 @@ class PlaceController
         $placesOfBirth = $placesOfDeath = null;
         $lifePaths = array();
         $placesGnds = array();
+        $personsByPlace = array();
         if (preg_match('/d\-nb\.info\/gnd\/([0-9xX\-]+)/', $entity->gnd, $matches)) {
             $placesGnds[$entity->gnd] = true;
             $render_params['gnd'] = $matches[1];
@@ -152,20 +156,34 @@ class PlaceController
                 array('gndPlaceOfDeath' => $entity->gnd),
                 array('surname' => 'ASC', 'forename' => 'ASC')
             );
-            if (isset($placesOfBirth)) {
-                foreach ($placesOfBirth as $person) {
-                    $gndPlaceOfDeath = $person->gndPlaceOfDeath;
-                    if (!empty($gndPlaceOfDeath)) {
-                        $placesGnds[$gndPlaceOfDeath] = true;
-                        $lifePaths[$person->id] = array($entity->gnd, $gndPlaceOfDeath);
-                    }
+            foreach ($placesOfBirth as $person) {
+                if (!array_key_exists($entity->gnd, $personsByPlace)) {
+                    $personsByPlace[$entity->gnd] = array();
                 }
-                foreach ($placesOfDeath as $person) {
-                    $gndPlaceOfBirth = $person->gndPlaceOfBirth;
-                    if (!empty($gndPlaceOfBirth)) {
-                        $placesGnds[$gndPlaceOfBirth] = true;
-                        $lifePaths[$person->id] = array($gndPlaceOfBirth, $entity->gnd);
+                $personsByPlace[$entity->gnd][$person->id] = $person;
+                $gndPlaceOfDeath = $person->gndPlaceOfDeath;
+                if (!empty($gndPlaceOfDeath)) {
+                    if (!array_key_exists($gndPlaceOfDeath, $personsByPlace)) {
+                        $personsByPlace[$gndPlaceOfDeath] = array();
                     }
+                    $personsByPlace[$gndPlaceOfDeath][$person->id] = $person;
+                    $placesGnds[$gndPlaceOfDeath] = true;
+                    $lifePaths[$person->id] = array($entity->gnd, $gndPlaceOfDeath);
+                }
+            }
+            foreach ($placesOfDeath as $person) {
+                if (!array_key_exists($entity->gnd, $personsByPlace)) {
+                    $personsByPlace[$entity->gnd] = array();
+                }
+                $personsByPlace[$entity->gnd][$person->id] = $person;
+                $gndPlaceOfBirth = $person->gndPlaceOfBirth;
+                if (!empty($gndPlaceOfBirth)) {
+                    if (!array_key_exists($gndPlaceOfBirth, $personsByPlace)) {
+                        $personsByPlace[$gndPlaceOfBirth] = array();
+                    }
+                    $personsByPlace[$gndPlaceOfBirth][$person->id] = $person;
+                    $placesGnds[$gndPlaceOfBirth] = true;
+                    $lifePaths[$person->id] = array($gndPlaceOfBirth, $entity->gnd);
                 }
             }
         }
@@ -189,13 +207,24 @@ class PlaceController
             $markers = $polylines = '';
             foreach ($results as $place) {
                 $places[$place['gnd']] = $place;
+                $persons = array();
+                foreach ($personsByPlace[$place['gnd']] as $person) {
+                    $persons[] = sprintf('<a href="%s">%s</a>',
+                                         htmlspecialchars($app['url_generator']->generate('person-detail', array('id' => $person->id))),
+                                         htmlspecialchars($person->getFullname(true), ENT_COMPAT, 'utf-8'));
+                }
                 $markers .= 'L.marker(['
                           . $place['latitude']
                           . ', '
-                          . $place['longitude'] . ']).addTo(map)'
+                          . $place['longitude'] . ']'
+                          . ($entity->gnd == $place['gnd'] ? ', {icon: iconSelf}' : '')
+                          . ').addTo(map)'
                           . '.bindPopup('
                           . json_encode('<b><a href="' . $app['url_generator']->generate('place-detail', array('id' => $place['id'])) . '">'
-                                        . $place['name'] . '</a></b>')
+                                        . htmlspecialchars($place['name'], ENT_COMPAT, 'utf-8')
+                                        . '</a></b>'
+                                        . (!empty($persons) ? '<br />' . implode('<br />', $persons) : '')
+                                       )
                           . ');';
                 if ($place['latitude'] > $max_latitude) {
                     $max_latitude = $place['latitude'];
@@ -245,6 +274,7 @@ EOT;
 				'Imagery &copy; <a href="http://mapbox.com">Mapbox</a>',
 			id: 'examples.map-i86knfo3'
 		}).addTo(map);
+        var iconSelf = L.MakiMarkers.icon({icon: "circle", color: "#00be7b", size: "m"});
 
         ${markers}
         ${polylines}

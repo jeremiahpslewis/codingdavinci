@@ -2,6 +2,7 @@
 {% extends 'layout.html.twig' %}
 {% block head %}
     <script src="{{ app.request.basepath }}/js/highchart-js/highcharts.js"></script>
+    <script src="{{ app.request.basepath }}/js/highchart-js/themes/sand-signika.js"></script>
     <script type="text/javascript">
         var chart;
 
@@ -45,9 +46,6 @@
                         }
                     }
                 ],
-                legend: {
-                    enabled: false
-                },
                 tooltip: {
                     // enabled: false,
                     formatter: function() {
@@ -57,7 +55,7 @@
                 plotOptions: {
                     series: {
                         stacking: 'normal',
-                        borderWidth: 0,
+                        borderWidth: 1,
                         groupPadding: 0,
                         pointPadding: 0
                     }
@@ -75,22 +73,9 @@
                         data: {{works_base}},
                         stack: 'works'
                     },
-                    {#
-
-                    {
-                        yAxis: 0,
-                        name: 'F',
-                        data: {{Person_F}},
-                        color: '#e6550d'
-                    },
-                    {
-                        yAxis: 0,
-                        name: 'M',
-                        data: {{Person_M}}
-                    }, #}
                     {
                         type: 'line',
-                        dashStyle: 'solid', // 'shortdot',
+                        //dashStyle: 'Solid', // 'shortdot',
                         marker: {
                             enabled: false
                         },
@@ -102,7 +87,7 @@
                     },
                     {
                         type: 'line',
-                        dashStyle: 'solid',
+                        //dashStyle: 'Solid',
                         marker: {
                             enabled: false
                         },
@@ -122,6 +107,7 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Geburtsjahr / Todesjahr der Autor/innen<br />Werke nach Publikationsjahr (explizit verbotene Werke / als Teil des Gesamtwerks)</h2>
-    <div id="container" style="width: 1000px; height: 400px; margin: 0 auto"></div>
+    <h1>Autor/innen und Werke nach Jahr</h1>
+    <div id="container" style="min-width: 800px; height: 400px; margin: 0 auto"></div>
+    <p class="intro">Verboten wurde vor allem die Generation der um 1890 geborenen Autor/innen mit ihren zwischen 1920 und 1938 veröffentlichten Werken. Viele davon starben zwischen 1933 und 1945 an den direkten und indirekten Folgen der Verfolgung ihrer Arbeit und Person. </p>
 {% endblock %}

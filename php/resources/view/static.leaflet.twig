@@ -15,15 +15,20 @@
         border-radius: 5px;
     }
     .leaflet-top .leaflet-control.info {
-        margin-top: 360px;
+        margin-top: 380px;
     }
     .info h4 {
-        margin: 0 0 5px;
+        margin: 0 0 0 0;
         color: #777;
+    }
+    #legend td {
+        min-width: 15px;
     }
     </style>
 {% endblock %}
 
 {% block content %}
-{{ content|raw }}
+    <h1>Verbotene Publikationen nach Publikationsland</h1>
+    {{ content|raw }}
+    <p class="intro">Bis 1933 publizierten die meisten Autor/innen in Deutschland und Österreich. Danach bildeten sich in den Niederlanden, der Schweiz und Skandinavien, aber auch in Nord- und Südamerika sowie der Sowjetunion neue Zentren der Exilliteratur.</p>
 {% endblock %}

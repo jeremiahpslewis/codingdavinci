@@ -25,26 +25,26 @@
 {% endblock %}
 
 {% block content %}
-<div class="search-widget">
-    {{ searchwidget(searchwidget) }}
-</div>
+	<h1>Orte</h1>
+	<div class="search-widget">
+		{{ searchwidget(searchwidget) }}
+	</div>
 
-<ul class="listing">
-    {% for entry in entries %}
-    <li>
-        <a href="{{ path('place-detail', {'id': entry.__get('id')}) }}">
-            {{ entry.__get('name') }}
-            {% if entry.__get('country') is not empty  %}
-                ({{ entry.__get('country').__get('iso2') }})
-            {% endif %}
-        </a>
-    </li>
+	<ul class="listing">
+		{% for entry in entries %}
+		<li>
+			<a href="{{ path('place-detail', {'id': entry.__get('id')}) }}">
+				{{ entry.__get('name') }}
+				{% if entry.__get('country') is not empty  %}
+					({{ entry.__get('country').__get('iso2') }})
+				{% endif %}
+			</a>
+		</li>
 
-    {% endfor %}
-</ul>
+		{% endfor %}
+	</ul>
 
-{% if pager.haveToPaginate %}
-  {{ pagerfanta(pager) }}
-{% endif %}
-
+	{% if pager.haveToPaginate %}
+	  {{ pagerfanta(pager) }}
+	{% endif %}
 {% endblock %}

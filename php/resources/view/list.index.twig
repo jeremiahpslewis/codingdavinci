@@ -2,21 +2,22 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-<div class="search-widget">
-    {{ searchwidget(searchwidget) }}
-</div>
+    <h1>Liste</h1>
+    <div class="search-widget">
+        {{ searchwidget(searchwidget) }}
+    </div>
 
-<ul class="listing">
-    {% for entry in entries %}
+    <ul class="listing">
+        {% for entry in entries %}
 
-    <li {% if entry.__get('ssFlag') %}class="plus"{% endif %}>
-        <a href="{{ path('list-detail', {'row': entry.__get('row')}) }}">
-            {{ helper.list_short(entry) }}
-        </a>
-    </li>
+        <li {% if entry.__get('ssFlag') %}class="plus"{% endif %}>
+            <a href="{{ path('list-detail', {'row': entry.__get('row')}) }}">
+                {{ helper.list_short(entry) }}
+            </a>
+        </li>
 
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 
-{{ pagerfanta(pager) }}
+    {{ pagerfanta(pager) }}
 {% endblock %}

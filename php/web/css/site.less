@@ -5,8 +5,9 @@
 @color-green-light: #AEE2CF;
 
 @font-sans-serif: 'Arial', Helvetica, sans-serif;
+@font-monospace: 'Cousine', 'Courier', monospace;
 
-@header-height: 0; /* 140px; if position fixed */
+@header-height: 140px; /* if position fixed */
 
 /* Micro ClearFix Mixin */
 .clearfix {
@@ -53,6 +54,9 @@ body {
             z-index: 100;
             top: 0px;
             min-height: @header-height;
+            position: fixed;
+            height: 140px;
+            z-index: 5;
         }
 
         width: 100%;
@@ -79,7 +83,10 @@ body {
 
         ul {
             margin: 0;
-            padding: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 15px;
+            padding-right: 15px;
             font-family: 'Archive';
             /* padding: 0% 15% 0% 15%; */
             /* box-shadow: 2px 2px 2px #dfdfdf;
@@ -185,16 +192,36 @@ body {
 
 
     #main {
+        h1 {
+            font-size: 1.6rem;
+        }
         margin-top: @header-height + 30px;
         margin-bottom: 30px;
+        padding-left: 15px;
+        padding-right: 15px;
+
+        p.intro {
+            margin-top: 2em;
+        }
 
         &.page-home {
+            position: relative;
+            background-color: black;
             background-image: url('../img/bebelplatz.jpg');
-            background-size: 100% 100%;
+            /* background-size: 100% 100%; */
+            background-repeat:no-repeat;
+            background-position:center;
 
             margin-top: @header-height;
             margin-bottom: 0;
-            min-height: 400px;
+            min-height: 450px;
+        }
+
+        &.page-geschichten, &.page-analyse, &.page-about {
+            h2 {
+                font-size: 120%;
+                text-align: center;
+            }
         }
 
         form.edit {
@@ -248,25 +275,55 @@ body {
             }
         }
 
+        ul.listing-large {
+            list-style: none;
+            padding: 0;
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 1em;
+            li {
+                .clearfix;
+                margin-bottom: 2em;
+
+                img {
+                    float: left;
+                    margin-right: 2em;
+                    width: 200px;
+                }
+                .listing-text {
+                    display: table-cell;
+                }
+            }
+        }
+
+
+
         .search-widget {
             div {
                 margin-top: 0.2em;
             }
 
             input {
-                font-family: @font-sans-serif;
+                font-family: @font-monospace;
                 border: 1px solid #CCCCCC;
-                border-radius: 4px;
-                padding: 2px 10px;
+                border-radius: 2px;
+                padding: 4px 10px 2px;
+                margin-bottom: 4px;
+            }
+
+            input[type="submit"] {
+                font-weight: bold;
             }
 
             .btn, .sort {
-                font-family: @font-sans-serif;
-                border: 2px solid @color-bg-dark;
-                border-radius: 4px;
+                font-family: @font-monospace;
+                border: 1px solid @color-bg-dark;
+                border-radius: 2px;
                 color: @color-bg-dark;
                 display: inline-block;
-                padding: 1px 10px;
+                padding: 2px 10px 1px;
+                margin: 0 0 5px 0;
+                line-height: 1.4;
                 text-decoration: none;
             }
 
@@ -304,7 +361,7 @@ body {
                 height: 0;
                 position: relative;
                 right: -5px;
-                top: -10px;
+                top: -12px;
                 width: 0;
             }
 
@@ -316,7 +373,7 @@ body {
                 height: 0;
                 position: relative;
                 right: -5px;
-                top: 13px;
+                top: 15px;
                 width: 0;
             }
 

@@ -3,30 +3,110 @@
 
 {% block content %}
 <h2><a name="Karten" class="anchor-offset"></a>Karten</h2>
-<ul>
-    <li><a href="{{ path('analyse-karte-publikationslaender') }}">Publikationsländer</a></li>
-    <li><a href="{{ path('analyse-karte-publikationsorte') }}">Publikationsorte</a></li>
+<ul class="listing-large">
+    <li><a href="{{ path('analyse-karte-publikationslaender') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/karte-publikationslaender.png" />
+        </div></a>
+        <div class="listing-text">
+            <a href="{{ path('analyse-karte-publikationslaender') }}"><b>Verbotene Publikationen nach Publikationsland</b><br />
+            Bis 1933 publizierten die meisten Autor/innen in Deutschland und Österreich. Danach bildeten sich in den Niederlanden, der Schweiz und Skandinavien, aber auch in Nord- und Südamerika sowie der Sowjetunion neue Zentren der Exilliteratur.</a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-karte-publikationsorte') }}">
+        <div style="float: left">
+            <img src="{{ app.request.basepath }}/img/analyse/karte-publikationsorte.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-karte-publikationsorte') }}"><b>Publikationsorte</b><br />
+        Jeder Publikationsort wird als ein farbiger Punkt auf einer Weltkarte dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen unterschiedliche Länder dar. Die Größen entsprechen der Anzahl der in dem Ort veröffentlichten Publikationen.</a>
+        </div>
+    </li>
 </ul>
 
 
 
 <h2><a name="Visualisierungen" class="anchor-offset"></a>Visualisierungen</h2>
-<ul>
-    <li><a href="{{ path('analyse-orte-geburttod') }}">Lebenswege</a></li>
-    <li><a href="{{ path('analyse-visualisierung-dot') }}">Werke als Punkte</a></li>
-    <li><a href="{{ path('analyse-visualisierung-bubble') }}">Zahl der Werke nach Autor/innen</a></li>
+<ul class="listing-large">
+    <li><a href="{{ path('analyse-orte-geburttod') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/orte-geburttod.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-orte-geburttod') }}"><b>Lebenswege</b><br />
+            Publikationsverbot und Verfolgung prägten die Lebenswege vieler Autor/innen. Eine schematische Visualisierung verknüpft die Ziele der Immigration mit den Geburtsorten der jeweiligen Autor/innen.
+        </a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-visualisierung-dot') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/visualisierung-dot.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-visualisierung-dot') }}"><b>Werke als Punkte</b><br />
+            Jede Publikation wird als ein farbiger Punkt dargestellt. Die Punktmenge kann nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen grundsätzlich unterschiedliche Titel dar. In Ermangelung einer hinreichenden Farbpalette kommt es zu Farbgleichheiten.
+        </a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-visualisierung-bubble') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/visualisierung-bubble.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-visualisierung-bubble') }}"><b>Zahl der Werke nach Autor/innen</b>
+        <br />
+            Jede/r Autor/in wird durch einen Kreis dargestellt, dessen Größe der Zahl der verbotenen Werke entspricht. Die betroffenen Autor/innen und Werke können nach geografischen Kriterien (Land, Ort) und nach Veröffentlichungsjahr und Autor gefiltert werden. Unterschiedliche Farben stellen grundsätzlich unterschiedliche Autoren dar. In Ermangelung einer hinreichenden Farbpalette kommt es zu Farbgleichheiten.
+        </a>
+        </div>
+    </li>
 </ul>
 
 <h2><a name="Diagramme" class="anchor-offset"></a>Diagramme</h2>
-<ul>
-    <li><a href="{{ path('analyse-jahr') }}">Autor/innen und Werke nach Jahr</a></li>
-    <li><a href="{{ path('analyse-worte') }}">Titelstichworte</a></li>
-    <li><a href="{{ path('analyse-orte') }}">Geburts- und Sterbeorte (Häufigkeit)</a></li>
-	<li><a href="{{ path('analyse-personen-wikipedia') }}">Wikipedia-Aufrufe und Artikellänge</a></li>
+<ul class="listing-large">
+    <li><a href="{{ path('analyse-worte') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/worte.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-worte') }}"><b>Titelstichworte nach Epochen</b>
+        <br />
+            Sexual- und Eheratgeber, pazifistische Werke, Schriften zur Sozialdemokratie, zur Rolle der Kirchen im Nationalsozialsmus sowie Bücher zu Marx, zur Sowjetunion und zum Judentum wurden systematisch unterdrückt. Diese Verbotspraxis spiegelt sich auch in der Auswertung der häufigsten Begriffe aus den Titeln der verbotenen Publikationen wider.
+        </a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-jahr') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/jahr.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-jahr') }}"><b>Autor/innen und Werke nach Jahr</b>
+        <br />
+            Verboten wurde vor allem die Generation der um 1890 geborenen Autor/innen mit ihren zwischen 1920 und 1938 veröffentlichten Werken. Viele davon starben zwischen 1933 und 1945 an den direkten und indirekten Folgen der Verfolgung ihrer Arbeit und Person.
+        </a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-orte') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/orte.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-orte') }}"><b>Geburts- und Sterbeorte</b>
+        <br />
+            Wien, Hamburg, München, Prag und Leipzig sind Geburtsorte vieler Autor/innen. Aus ihrer Heimat vertrieben, starben sie in Moskau, Paris, New York und Zürich.
+        </a>
+        </div>
+    </li>
+    <li><a href="{{ path('analyse-personen-wikipedia') }}">
+        <div>
+            <img src="{{ app.request.basepath }}/img/analyse/personen-wikipedia.png" />
+        </div></a>
+        <div class="listing-text">
+        <a href="{{ path('analyse-personen-wikipedia') }}"><b>Wikipedia-Aufrufe und -Artikellänge</b>
+        <br />
+            Auf der Liste der verbotenen Autor/innen stehen bekannte Namen wie Albert Einstein, Franz Kafka, Sigmund Freund oder Rosa Luxemburg. Die überwiegende Mehrheit der Autor/innen ist jedoch in Vergessenheit geraten. Die Häufigkeit der Wikipedia-Aufrufe sowie der Umfang des entsprechenden Artikels bieten erste Anhaltspunkte für die Bekanntheit einer Person heute.
+        </a>
+        </div>
+    </li>
 </ul>
-
-
-<!--
-<script type='text/javascript' src='https://public.tableausoftware.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1255px; height: 657px;'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;ba&#47;banned-books-v02&#47;Dashboard-Points&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='1255' height='657' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableausoftware.com%2F' /> <param name='site_root' value='' /><param name='name' value='banned-books-v02&#47;Dashboard-Points' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableausoftware.com&#47;static&#47;images&#47;ba&#47;banned-books-v02&#47;Dashboard-Points&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div><div style='width:1255px;height:22px;padding:0px 10px 0px 0px;color:black;font:normal 8pt verdana,helvetica,arial,sans-serif;'><div style='float:right; padding-right:8px;'><a href='http://www.tableausoftware.com/public/about-tableau-products?ref=https://public.tableausoftware.com/views/banned-books-v02/Dashboard-Points' target='_blank'>Learn About Tableau</a></div></div>-->
 
 {% endblock %}
