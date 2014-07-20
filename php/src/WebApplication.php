@@ -52,6 +52,14 @@ class WebApplication extends BaseApplication
                                         });
         $app['twig']->addFilter($filter);
 
+        // less
+        $app['twig'] = $app->extend('twig', function (\Twig_Environment $twig, Silex\Application $app) {
+            $twig->addExtension(new Helper\LessExtension($app));
+
+            return $twig;
+        });
+
+
         $app->before(function ($request) use ($app) {
             $app['twig']->addGlobal('current_route', $request->get('_route'));
         });

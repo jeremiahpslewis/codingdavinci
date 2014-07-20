@@ -636,13 +636,39 @@ class FetchCommand extends BaseCommand
         else if ('oclc' == $type) {
             $qb->where("P.oclc IS NOT NULL AND (P.title IS NULL OR P.title='')");
         }
+        else if ('openlibrary' == $type) {
+            $qb->where("P.oclc IS NOT NULL");
+        }
         // $qb->setMaxResults(1);
 
         $query = $qb->getQuery();
         $results = $query->getResult();
         foreach ($results as $publication) {
             $persist = false;
-            if ('oclc' == $type) {
+            if ('openlibrary' == $type) {
+                /* TODO: Probably needs an editions-crosswalk as follows to find results
+                 * http://www.worldcat.org/oclc/719211663
+                 * -> http://xisbn.worldcat.org/webservices/xid/oclcnum/719211663?method=getEditions&format=json&fl=lccn,isbn
+                 * -> https://openlibrary.org/api/books?bibkeys=LCCN:29022204&jscmd=data&format=json
+                 * -> https://openlibrary.org/books/OL6733681M/The_Maurizius_case
+                var_dump($publication->oclc);
+                $bibkey = 'OCLC:' . $publication->oclc;
+                $url = sprintf('https://openlibrary.org/api/books?bibkeys=%s&jscmd=data&format=json',
+                               $bibkey);
+                $result = $this->executeJsonQuery($url,
+                                                  array('Accept' => 'application/json'));
+                if (false !== $result) {
+                    if (!empty($result)) {
+                        var_dump($result[$bibkey]);
+                        exit;
+                    }
+                }
+                else {
+                    echo('Problem calling ' . $url . "\n");
+                }
+                */
+            }
+            else if ('oclc' == $type) {
                 var_dump($publication->id);
                 $url = sprintf('http://www.worldcat.org/oclc/%s',
                                $publication->oclc);

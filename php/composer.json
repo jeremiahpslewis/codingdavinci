@@ -28,6 +28,7 @@
         "symfony/validator": "2.5.*",
         "symfony/translation": "2.5.*",
 
+        "leafo/lessphp": "0.4.*",
         "erusev/parsedown": "dev-master",
         "guzzlehttp/guzzle": "~4.0",
         "easyrdf/easyrdf": "~0.8"
