@@ -49,7 +49,7 @@ class ListController
         $pagerfanta->setMaxPerPage($limit);
         $pagerfanta->setCurrentPage($page);
 
-                // display the list
+        // display the list
         return $app['twig']->render('list.index.twig',
                                     array(
                                           'pageTitle' => 'Liste',
@@ -78,8 +78,18 @@ class ListController
         // find related publications
         $publications = $em->getRepository('Entities\Publication')->findByListRow($entity->row);
 
+        // pageTitle
+        $pageTitle_prepend = $entity->title;
+        if (!empty($pageTitle_prepend)) {
+            $pageTitle_prepend .= ' - ';
+        }
+        else {
+            $pageTitle_prepend = '';
+        }
+
         return $app['twig']->render('list.detail.twig',
                                     array(
+                                          'pageTitle' => $pageTitle_prepend . 'Liste',
                                           'entry' => $entity,
                                           'persons' => $persons,
                                           'publications' => $publications,

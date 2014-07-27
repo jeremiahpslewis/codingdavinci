@@ -122,6 +122,7 @@ class PublicationController
 
         return $app['twig']->render('publication.detail.twig',
                                     array(
+                                          'pageTitle' => $entity->getShortTitle() . ' - Publikation',
                                           'entry' => $entity,
                                           'list' => $list,
                                           )

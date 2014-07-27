@@ -134,4 +134,18 @@ class Publication extends Base
         $this->personRefs[] = $personRef;
     }
 
+    public function getShortTitle() {
+        $title = $this->title;
+        if (!empty($this->publicationStatement)) {
+            $title .= '. ' . $this->publicationStatement;
+        }
+        if (!empty($this->author)) {
+            $title = $this->author . ': ' . $title;
+        }
+        else if (!empty($this->editor)) {
+            $title = $this->editor . ' (Hrsg.): ' . $title;
+        }
+        return $title;
+    }
+
 }

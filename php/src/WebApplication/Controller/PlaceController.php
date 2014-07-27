@@ -135,7 +135,7 @@ class PlaceController
             $app->abort(404, "Place $id does not exist.");
         }
 
-        $render_params = array('pageTitle' => 'Ort',
+        $render_params = array('pageTitle' => $entity->name . ' - Ort',
                                'entry' => $entity,
                                );
 

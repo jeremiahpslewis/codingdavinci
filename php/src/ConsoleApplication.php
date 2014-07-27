@@ -1636,11 +1636,11 @@ class AnalyticsCommand extends BaseCommand
     protected function configure()
     {
         $this->setName('analytics')
-            ->setDescription('Create json-files for analytics')
+            ->setDescription('Create json/kml-files for analytics')
             ->addArgument(
                 'action',
                 InputArgument::OPTIONAL,
-                'report that you want to generate (flare)'
+                'report that you want to generate (flare|kml)'
             );
     }
 
@@ -1725,6 +1725,66 @@ class AnalyticsCommand extends BaseCommand
                 }
             }
             echo json_encode($dependencies);
+        }
+        else if ($action == 'kml') {
+            $dbconn = $this->em->getConnection();
+
+            $union_parts = array();
+            foreach (array('birth', 'death') as $type) {
+                $template = "SELECT '%s' AS type, Person.forename, Person.surname, Person.date_of_%s AS person_date, Place.name AS name, Place.latitude, Place.longitude"
+                          . ' FROM Person JOIN Place ON Person.gnd_place_of_%s=Place.gnd'
+                          . ' WHERE Person.status >= 0 AND Place.latitude IS NOT NULL AND Person.date_of_%s IS NOT NULL'
+                          // . " AND Person.complete_works <> 0"
+                          ;
+
+                $union_parts[] = sprintf($template,
+                                         $type, $type, $type, $type);
+            }
+            $querystr = implode(' UNION ALL ', $union_parts)
+                      . ' HAVING person_date IS NOT NULL'
+                      . ' ORDER BY type, person_date'
+                      // . ' LIMIT 10'
+                      ;
+            $stmt = $dbconn->query($querystr);
+            $death_by_country = array();
+            $last_type = '';
+            $ret = <<<EOT
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:xal="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0">
+EOT;
+            while ($row = $stmt->fetch()) {
+                if ($row['type'] != $last_type) {
+                    if (!empty($last_type)) {
+                        $ret .= '</Document>';
+                    }
+                    $ret .= '<Document id="' . $row['type'] . '">';
+                    $last_type = $row['type'];
+                }
+                $fullname = (!empty($row['forename']) ? $row['forename'] . ' ' : '')
+                          . $row['surname'];
+                $ret .= '<Placemark>';
+                $ret .= sprintf('<name>%s (%s)</name>',
+                                htmlspecialchars($fullname, ENT_COMPAT, 'utf-8'),
+                                'birth' == $row['type'] ? '*' : '+');
+                $ret .= sprintf('<address>%s</address>',
+                                htmlspecialchars($row['name'], ENT_COMPAT, 'utf-8'));
+
+                $ret .= sprintf('<TimeStamp><when>%s</when></TimeStamp>',
+                                $row['person_date']);
+
+                $ret .= sprintf('<Point><coordinates>%s,%s</coordinates></Point>',
+                                $row['longitude'], $row['latitude']);
+
+                $ret .= '</Placemark>'
+                      . "\n";
+            }
+            if (!empty($last_type)) {
+                $ret .= '</Document>';
+            }
+            $ret .= <<<EOT
+</kml>
+EOT;
+            echo $ret;
         }
 
     }

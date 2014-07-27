@@ -152,13 +152,13 @@ class PersonController
         $placeOfBirth = !empty($gndPlaceOfBirth)
             ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfBirth)
             : null;
-            
+
         $gndPlaceOfDeath = $entity->gndPlaceOfDeath;
         $placeOfDeath = !empty($gndPlaceOfDeath)
             ? $em->getRepository('Entities\Place')->findOneByGnd($gndPlaceOfDeath)
             : null;
 
-        $render_params = array('pageTitle' => 'Person',
+        $render_params = array('pageTitle' => $entity->getFullname(true) . ' - Person',
                                'entry' => $entity,
                                'placeOfBirth' => $placeOfBirth,
                                'placeOfDeath' => $placeOfDeath,
